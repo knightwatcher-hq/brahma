@@ -721,7 +721,7 @@
             <span>💰 rich.html</span>
             <span style="color:var(--text-muted)">· FINANCIAL COMMAND CENTER</span>
         </div>
-        <a href="launcher.html" class="home-btn">🏠</a>
+        <a href="index.html" class="home-btn">🏠</a>
     </div>
 
     <div class="declaration">
@@ -1064,7 +1064,7 @@ async function fetchData(force = false) {
         statusDot.className = 'status-dot offline';
         statusText.textContent = `Offline — AppScript not connected`;
         statusAct.textContent = 'Connect AppScript ↗';
-        statusAct.onclick = () => window.location.href = 'launcher.html';
+        statusAct.onclick = () => window.location.href = 'index.html';
         
         // Try fallback cache
         let cached = localStorage.getItem('by_cache_finance');
