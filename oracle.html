@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brahma Yantra — Oracle</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,900&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#08080a;--surface:#111116;--card:#16161e;--card2:#1c1c26;
+  --border:#252530;--border2:#3a3a4d;
+  --text1:#fdf6ee;--text2:#b8b4cc;--text3:#6e6a88;
+  --disc:#ff6b2b;--strong:#10b981;--smart:#3b82f6;
+  --gold:#f59e0b;--purple:#8b5cf6;--red:#f87171;--amber:#fbbf24;
+}
+body{background:var(--bg);color:var(--text1);font-family:'DM Sans',sans-serif;min-height:100vh;padding-bottom:80px;font-size:15px;line-height:1.6;}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#080810,#120820 40%,#080c18);border-bottom:1px solid rgba(139,92,246,0.35);padding:22px 28px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.hdr-title{font-family:'Playfair Display',serif;font-style:italic;font-weight:900;font-size:2rem;color:var(--text1);line-height:1;}
+.hdr-title em{color:var(--purple);font-style:normal;}
+.hdr-sub{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text3);margin-top:6px;text-transform:uppercase;letter-spacing:0.12em;}
+.oracle-badge{display:inline-flex;align-items:center;gap:7px;font-family:'DM Mono',monospace;font-size:0.7rem;background:rgba(139,92,246,0.18);border:1px solid rgba(139,92,246,0.4);color:#c4b5fd;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px;}
+.oracle-dot{width:7px;height:7px;border-radius:50%;background:var(--purple);box-shadow:0 0 10px var(--purple);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.75);}}
+.hdr-right{display:flex;gap:8px;align-items:flex-start;}
+.btn{padding:8px 16px;border-radius:10px;border:1px solid var(--border2);background:var(--surface);color:var(--text2);font-family:'DM Mono',monospace;font-size:0.78rem;cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+.btn:hover{border-color:var(--purple);color:var(--text1);}
+.btn.pb{background:rgba(139,92,246,0.18);border-color:rgba(139,92,246,0.5);color:#c4b5fd;}
+.btn.pb:hover{background:rgba(139,92,246,0.3);}
+
+/* STATUS */
+.status-bar{padding:8px 28px;background:var(--surface);border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text2);display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:var(--strong);box-shadow:0 0 8px var(--strong);}
+
+/* READINESS */
+.readiness-bar{padding:12px 28px;background:rgba(139,92,246,0.05);border-bottom:1px solid rgba(139,92,246,0.15);display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.rd-item{display:flex;align-items:center;gap:9px;font-family:'DM Mono',monospace;font-size:0.74rem;}
+.rd-label{color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;}
+.rd-track{width:90px;height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.rd-fill{height:100%;border-radius:3px;background:var(--purple);transition:width 0.8s ease;}
+.rd-val{color:var(--text1);font-weight:600;}
+
+/* MAIN */
+.main{padding:28px 32px;max-width:1300px;margin:0 auto;}
+.engine-section{margin-bottom:48px;}
+.divider{height:1px;background:var(--border);margin:36px 0;}
+
+/* SECTION HEADER */
+.sec-hdr{display:flex;align-items:flex-start;gap:16px;margin-bottom:22px;}
+.sec-num{font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--purple);background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:4px;font-weight:700;}
+.sec-title{font-family:'Playfair Display',serif;font-style:italic;font-weight:900;font-size:1.7rem;color:var(--text1);}
+.sec-title em{color:var(--purple);font-style:normal;}
+.sec-sub{font-family:'DM Sans',monospace;font-size:0.88rem;color:var(--text2);margin-top:6px;line-height:1.7;max-width:640px;}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:16px;}
+.card.alert-card{border-color:rgba(248,113,113,0.45);background:linear-gradient(145deg,#160808,#16161e);}
+.card.warn-card{border-color:rgba(251,191,36,0.4);background:linear-gradient(145deg,#160f02,#16161e);}
+.card.good-card{border-color:rgba(16,185,129,0.4);background:linear-gradient(145deg,#021609,#16161e);}
+.card.locked-card{border-color:var(--border);background:var(--surface);opacity:0.75;}
+.card-title{font-family:'DM Mono',monospace;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text2);margin-bottom:18px;display:flex;align-items:center;gap:9px;font-weight:600;}
+.cdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+
+/* LOCKED STATE */
+.lock-body{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.lock-icon{font-size:2rem;flex-shrink:0;}
+.lock-title{font-size:1rem;font-weight:700;color:var(--text1);margin-bottom:4px;}
+.lock-sub{font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--text2);margin-bottom:12px;line-height:1.6;}
+.lock-track{width:240px;height:7px;background:var(--border);border-radius:4px;overflow:hidden;}
+.lock-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--purple),var(--disc));transition:width 0.8s ease;}
+.lock-label{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text2);margin-top:5px;}
+
+/* KPI ROW */
+.kpi-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:20px;}
+.kpi{background:var(--card2);border:1px solid var(--border2);border-radius:16px;padding:18px 20px;flex:1;min-width:130px;}
+.kpi-val{font-family:'DM Mono',monospace;font-size:1.8rem;font-weight:600;color:var(--text1);line-height:1;}
+.kpi-lbl{font-size:0.72rem;color:var(--text2);text-transform:uppercase;letter-spacing:0.07em;margin-top:5px;font-weight:600;}
+.kpi-explain{font-size:0.82rem;color:var(--text2);margin-top:6px;line-height:1.5;}
+
+/* INSIGHTS */
+.insight{display:flex;gap:14px;padding:16px 18px;border-radius:14px;background:var(--card2);border:1px solid var(--border2);margin-bottom:10px;align-items:flex-start;}
+.insight.alert{border-color:rgba(248,113,113,0.4);background:rgba(248,113,113,0.06);}
+.insight.warn{border-color:rgba(251,191,36,0.35);background:rgba(251,191,36,0.05);}
+.insight.good{border-color:rgba(16,185,129,0.35);background:rgba(16,185,129,0.05);}
+.insight-icon{font-size:1.3rem;flex-shrink:0;margin-top:1px;}
+.ib{font-size:0.9rem;line-height:1.65;color:var(--text1);flex:1;}
+.ib strong{font-weight:700;color:#fff;}
+.ib .g{color:var(--strong);font-weight:600;}
+.ib .r{color:var(--red);font-weight:600;}
+.ib .p{color:var(--purple);font-weight:600;}
+.ib .au{color:var(--gold);font-weight:600;}
+.plain{display:block;margin-top:7px;font-size:0.82rem;color:var(--text2);font-style:italic;line-height:1.5;}
+.action{display:block;margin-top:10px;font-family:'DM Mono',monospace;font-size:0.78rem;color:var(--gold);background:rgba(245,158,11,0.1);padding:8px 12px;border-radius:8px;border-left:3px solid var(--gold);line-height:1.5;}
+.al{display:block;margin-top:10px;font-family:'DM Mono',monospace;font-size:0.78rem;color:var(--red);background:rgba(248,113,113,0.1);padding:8px 12px;border-radius:8px;border-left:3px solid var(--red);line-height:1.5;}
+
+/* BARS */
+.bar-chart{display:flex;flex-direction:column;gap:10px;}
+.bar-row{display:flex;align-items:center;gap:12px;}
+.bar-lbl{font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text2);width:120px;flex-shrink:0;text-align:right;}
+.bar-track{flex:1;height:10px;background:var(--border);border-radius:5px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:5px;transition:width 0.8s ease;}
+.bar-val{font-family:'DM Mono',monospace;font-size:0.78rem;color:var(--text1);width:42px;flex-shrink:0;font-weight:600;}
+
+/* DRIFT ITEMS */
+.drift-item{display:flex;align-items:center;gap:14px;padding:15px 18px;border-radius:14px;background:var(--card2);border:1px solid var(--border2);margin-bottom:10px;}
+.drift-item.alert{border-color:rgba(248,113,113,0.4);background:rgba(248,113,113,0.05);}
+.drift-item.warn{border-color:rgba(251,191,36,0.35);background:rgba(251,191,36,0.04);}
+.drift-name{font-size:0.9rem;font-weight:700;color:var(--text1);min-width:115px;}
+.drift-body{flex:1;}
+.drift-val{font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--text1);margin-bottom:4px;font-weight:500;}
+.drift-plain{font-size:0.8rem;color:var(--text2);line-height:1.5;}
+
+/* STRENGTH CARDS */
+.strength-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;}
+.sc{background:var(--card2);border:1px solid var(--border2);border-radius:16px;padding:18px;}
+.sc-name{font-size:0.9rem;font-weight:700;color:var(--text1);margin-bottom:4px;}
+.sc-level{font-family:'DM Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;margin-bottom:10px;}
+.sc-score{font-family:'DM Mono',monospace;font-size:1.6rem;font-weight:600;line-height:1;margin-bottom:8px;}
+.sc-bar-track{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:9px;}
+.sc-bar-fill{height:100%;border-radius:3px;transition:width 0.8s ease;}
+.sc-meta{display:flex;gap:12px;margin-bottom:9px;flex-wrap:wrap;}
+.sc-meta-item{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text3);}
+.sc-meta-item span{color:var(--text1);font-weight:600;}
+.sc-explain{font-size:0.78rem;color:var(--text2);line-height:1.55;}
+
+/* FRAGILITY */
+.frag-item{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.frag-name{font-family:'DM Mono',monospace;font-size:0.78rem;color:var(--text2);width:115px;flex-shrink:0;text-align:right;font-weight:500;}
+.frag-track{flex:1;height:12px;background:var(--border);border-radius:6px;overflow:hidden;}
+.frag-fill{height:100%;border-radius:6px;transition:width 0.8s ease;}
+.frag-val{font-family:'DM Mono',monospace;font-size:0.82rem;width:44px;flex-shrink:0;font-weight:700;}
+.frag-badge{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;width:58px;flex-shrink:0;}
+
+/* SURVIVAL TIMELINE */
+.tl-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.tl-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.tl-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.tl-body{flex:1;}
+.tl-title{font-size:0.92rem;font-weight:700;color:var(--text1);}
+.tl-date{font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--text3);margin-top:3px;}
+.tl-note{font-size:0.8rem;color:var(--text2);margin-top:4px;}
+
+/* VOLATILITY */
+.vol-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;}
+.vol-card{border-radius:16px;padding:18px;}
+.vol-q{font-family:'DM Mono',monospace;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;}
+.vol-nums{display:flex;gap:16px;margin-bottom:9px;}
+.vol-num-val{font-family:'DM Mono',monospace;font-size:1.15rem;font-weight:600;color:var(--text1);}
+.vol-num-lbl{font-size:0.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-top:1px;}
+.vol-desc{font-size:0.8rem;color:var(--text2);line-height:1.55;}
+
+/* MISC */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+canvas{display:block;width:100%;}
+.test-fab{position:fixed;bottom:22px;right:22px;z-index:200;background:rgba(139,92,246,0.92);color:#fff;border:none;border-radius:50px;padding:11px 20px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(139,92,246,0.5);transition:transform 0.1s;}
+.test-fab:active{transform:scale(0.95);}
+@keyframes spin{to{transform:rotate(360deg);}}
+.spinner{display:inline-block;width:11px;height:11px;border:2px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px;}
+@media(max-width:700px){.main{padding:16px;}.g2{grid-template-columns:1fr;}.vol-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="hdr-title"><em>Oracle</em> — Brahma Yantra</div>
+    <div class="hdr-sub">Predictive Behavioural Intelligence · Built from your own data</div>
+    <div class="oracle-badge"><div class="oracle-dot"></div>Pattern Recognition Active</div>
+  </div>
+  <div class="hdr-right">
+    <button class="btn" onclick="location.href='godmode.html'">← God Mode</button>
+    <button class="btn" onclick="location.href='habits.html'">Habits</button>
+    <button class="btn pb" onclick="loadTestData()">🧪 Test Data</button>
+  </div>
+</div>
+
+<!-- STATUS -->
+<div class="status-bar">
+  <span class="sdot" id="sdot"></span>
+  <span id="status-text"><span class="spinner"></span>Initialising…</span>
+  <span id="status-meta" style="margin-left:auto;"></span>
+</div>
+
+<!-- READINESS BAR -->
+<div class="readiness-bar">
+  <div class="rd-item">
+    <div class="rd-label">Check-in Days</div>
+    <div class="rd-track"><div class="rd-fill" id="rd-fill" style="width:0%"></div></div>
+    <div class="rd-val" id="rd-val">0 / 60</div>
+  </div>
+  <div class="rd-item">
+    <div class="rd-label">NoFap History</div>
+    <div class="rd-track"><div class="rd-fill" style="width:100%;background:var(--strong)"></div></div>
+    <div class="rd-val">6 yrs ✓</div>
+  </div>
+  <div class="rd-item" style="margin-left:auto;">
+    <div class="rd-label" style="font-size:0.56rem;">Engines unlock automatically as data accumulates</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- ENGINE A -->
+  <div class="engine-section">
+    <div class="sec-hdr">
+      <div class="sec-num">A</div>
+      <div>
+        <div class="sec-title">NoFap <em>Survival</em> Curve</div>
+        <div class="sec-sub">Built entirely from your 6-year Discipline CSV. Shows the historical probability that a streak survives past each milestone — based on what actually happened, not theory. Also detects your personal vulnerable window: the stretch where your streaks most often ended.</div>
+      </div>
+    </div>
+    <div class="kpi-row" id="surv-kpis"></div>
+    <div id="surv-alert-card"></div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--disc)"></span>Survival Probability at Each Milestone</div>
+      <canvas id="surv-canvas" width="800" height="250"></canvas>
+      <div style="margin-top:9px;font-family:'DM Mono',monospace;font-size:0.58rem;color:var(--text3);">Each bar = % of your historical streaks that survived past that day. Red zone = your vulnerable window. Purple line = where you are now.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--gold)"></span>Streak History</div>
+      <div id="surv-timeline"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--purple)"></span>What the data says</div>
+      <div id="surv-insights"></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ENGINE B -->
+  <div class="engine-section">
+    <div class="sec-hdr">
+      <div class="sec-num">B</div>
+      <div>
+        <div class="sec-title"><em>Drift</em> Detection</div>
+        <div class="sec-sub">Most apps wait for a miss. This catches the drift before the miss happens. Tracks the 7-day direction of travel for numeric habits. Think of it like a flight instrument — a small heading change today means you'll be far off course next week.</div>
+      </div>
+    </div>
+    <div id="drift-body"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ENGINE C -->
+  <div class="engine-section">
+    <div class="sec-hdr">
+      <div class="sec-num">C</div>
+      <div>
+        <div class="sec-title">Volatility & <em>Anti-Fragility</em></div>
+        <div class="sec-sub">A high score with high volatility is more dangerous than a moderate score with low volatility. Measures how wildly each pillar swings day-to-day. Classifies each as ROBUST, FRAGILE, STUCK, or CHAOTIC.</div>
+      </div>
+    </div>
+    <div id="vol-body"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ENGINE D -->
+  <div class="engine-section">
+    <div class="sec-hdr">
+      <div class="sec-num">D</div>
+      <div>
+        <div class="sec-title">Habit <em>Strength</em> & Automaticity</div>
+        <div class="sec-sub">Scores how automatic each habit has become — combining consistency, how fast you recover after missing, and current streak depth. The goal is to move habits from EFFORTFUL to AUTOMATIC. An automatic habit costs zero willpower.</div>
+      </div>
+    </div>
+    <div id="strength-body"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ENGINE E -->
+  <div class="engine-section">
+    <div class="sec-hdr">
+      <div class="sec-num">E</div>
+      <div>
+        <div class="sec-title"><em>Fragility</em> Score</div>
+        <div class="sec-sub">P(Miss₂ | Miss₁) — if you miss a habit today, what is the probability you miss it tomorrow too? High fragility means one bad day cascades into many. Also shows Stickiness: P(Done₂ | Done₁) — doing it today makes tomorrow more likely.</div>
+      </div>
+    </div>
+    <div id="fragility-body"></div>
+  </div>
+
+</div>
+
+<button class="test-fab" onclick="loadTestData()">🧪 Test Data</button>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════════════
+const SCRIPT_URL = 'YOUR_APPS_SCRIPT_DEPLOYMENT_URL_HERE';
+const THRESHOLDS = { drift: 7, vol: 30, strength: 30, frag: 60 };
+
+const DRIFT_HABITS = [
+  { col:'Bed Time',        label:'Bed Time',   unit:'min', type:'time', direction:'up_is_bad',   warn:25, alert:50 },
+  { col:'Wake Time',       label:'Wake Time',  unit:'min', type:'time', direction:'up_is_bad',   warn:20, alert:40 },
+  { col:'SKY Mins',        label:'SKY',        unit:'min', type:'num',  direction:'down_is_bad', warn:4,  alert:8  },
+  { col:'Meditation Mins', label:'Meditation', unit:'min', type:'num',  direction:'down_is_bad', warn:3,  alert:6  },
+  { col:'Reading Mins',    label:'Reading',    unit:'min', type:'num',  direction:'down_is_bad', warn:8,  alert:15 },
+  { col:'Plank Secs',      label:'Plank',      unit:'sec', type:'num',  direction:'down_is_bad', warn:15, alert:30 },
+];
+
+const HABITS = [
+  { col:'NoFap',           label:'NoFap',      check:'yn',   pillar:'disc'   },
+  { col:'SKY Mins',        label:'SKY',        check:'num',  target:15,  pillar:'disc'   },
+  { col:'Meditation Mins', label:'Meditation', check:'num',  target:10,  pillar:'disc'   },
+  { col:'Pranayama',       label:'Pranayama',  check:'yn',   pillar:'disc'   },
+  { col:'Hand Exercise',   label:'Hand Ex.',   check:'yn',   pillar:'disc'   },
+  { col:'Bed Time',        label:'Sleep 11PM', check:'time', target:'23:00', tol:20, pillar:'disc' },
+  { col:'Wake Time',       label:'Wake 5AM',   check:'time', target:'05:00', tol:20, pillar:'disc' },
+  { col:'Push Ups',        label:'Push Ups',   check:'sets', pillar:'strong' },
+  { col:'Pull Ups',        label:'Pull Ups',   check:'sets', pillar:'strong' },
+  { col:'Plank Secs',      label:'Plank',      check:'num',  target:30,  pillar:'strong' },
+  { col:'Workout',         label:'Workout',    check:'yn',   pillar:'strong' },
+  { col:'Reading Mins',    label:'Reading',    check:'num',  target:30,  pillar:'smart'  },
+];
+
+const PC = { disc:'#ff6b2b', strong:'#059669', smart:'#2563eb' };
+const PN = { disc:'Discipline', strong:'Strong', smart:'Smart' };
+
+// ═══════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════
+let dailyRows = [];
+let discRows  = [];
+
+// ═══════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', fetchData);
+
+async function fetchData() {
+  if (!SCRIPT_URL || SCRIPT_URL.includes('YOUR_APPS')) {
+    setStatus('⚠ SCRIPT_URL not set — tap Test Data to preview', false);
+    renderLocked(0);
+    return;
+  }
+  try {
+    const [dr, discR] = await Promise.all([
+      fetch(`${SCRIPT_URL}?tab=daily`),
+      fetch(`${SCRIPT_URL}?tab=discipline`)
+    ]);
+    const [dj, discJ] = await Promise.all([dr.json(), discR.json()]);
+    if (dj.status === 'ok')    dailyRows = dj.data || [];
+    if (discJ.status === 'ok') discRows  = (discJ.data || []).filter(r => r['Sl. No.'] !== 0 && r['Sl. No.'] !== '0' && r['Date']);
+    runAll();
+    setStatus(`✓ ${dailyRows.length} daily · ${discRows.length} discipline rows`, true);
+  } catch(e) {
+    setStatus('✗ ' + e.message, false);
+    renderLocked(0);
+  }
+}
+
+function setStatus(msg, ok) {
+  document.getElementById('status-text').innerHTML = msg;
+  const d = document.getElementById('sdot');
+  d.style.background = ok ? '#059669' : '#dc2626';
+  d.style.boxShadow  = ok ? '0 0 6px #059669' : '0 0 6px #dc2626';
+  if (dailyRows.length) {
+    const sorted = [...dailyRows].filter(r=>r['Date']).sort((a,b)=>pD(a['Date'])-pD(b['Date']));
+    if (sorted.length) document.getElementById('status-meta').textContent = sorted[0]['Date'] + ' → ' + sorted[sorted.length-1]['Date'];
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  PARSERS
+// ═══════════════════════════════════════════════════════
+function pD(s) {
+  if (!s) return null;
+  const str = String(s).trim();
+  if (str.includes('/')) { const [d,m,y]=str.split('/').map(Number); if(y&&m&&d) return new Date(y,m-1,d); }
+  if (str.includes('-')) { const [y,m,d]=str.split('-').map(Number); return new Date(y,m-1,d); }
+  const ms={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+  const p=str.split(' ');
+  if(p.length>=3){const m=ms[p[1]?.toLowerCase().slice(0,3)];if(m!==undefined)return new Date(parseInt(p[2]),m,parseInt(p[0]));}
+  return null;
+}
+function fD(d) { const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return `${String(d.getDate()).padStart(2,'0')} ${m[d.getMonth()]} ${d.getFullYear()}`; }
+function tM(s) { if(!s)return null; const[h,m]=String(s).split(':').map(Number); return h*60+m; }
+function cTime(a,t,tol=20) {
+  if(!a||!t)return false;
+  let am=tM(a); const[th,tm]=String(t).split(':').map(Number); let tm2=th*60+tm;
+  if(am!==null&&am<12*60) am+=24*60; if(tm2<12*60) tm2+=24*60;
+  return am!==null && am<=tm2+tol;
+}
+function pSets(s) { if(!s)return 0; return String(s).split('+').map(x=>parseInt(x.trim())).filter(n=>!isNaN(n)&&n>0).reduce((a,b)=>a+b,0); }
+function isDone(row,h) {
+  if(!row)return false; const v=row[h.col];
+  if(h.check==='time') return cTime(v,h.target,h.tol);
+  if(h.check==='num')  return(parseFloat(v)||0)>=h.target;
+  if(h.check==='sets') return pSets(v)>0;
+  return v==='Yes'||v===true||v===1;
+}
+function avg(arr) { const v=arr.filter(x=>x!==null&&!isNaN(x)); return v.length?v.reduce((a,b)=>a+b,0)/v.length:0; }
+function sdev(arr) { const v=arr.filter(x=>x!==null&&!isNaN(x)); if(v.length<2)return 0; const m=avg(v); return Math.sqrt(v.reduce((s,x)=>s+(x-m)**2,0)/v.length); }
+function lrSlope(arr) {
+  const v=arr.filter(x=>x!==null&&!isNaN(x));
+  if(v.length<3)return 0;
+  const xm=(v.length-1)/2, ym=avg(v);
+  let n=0,d=0; v.forEach((y,x)=>{n+=(x-xm)*(y-ym);d+=(x-xm)**2;});
+  return d?n/d:0;
+}
+function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
+
+// ═══════════════════════════════════════════════════════
+//  LOCKED STATE
+// ═══════════════════════════════════════════════════════
+function lockedCard(needed, cur, title, sub) {
+  const pct = Math.min(100, cur/needed*100);
+  const rem = Math.max(0, needed-cur);
+  return `<div class="card locked-card"><div class="lock-body"><div class="lock-icon">🔒</div><div>
+    <div class="lock-title">${title}</div>
+    <div class="lock-sub">${sub}</div>
+    <div class="lock-track"><div class="lock-fill" style="width:${pct}%"></div></div>
+    <div class="lock-label">${cur} / ${needed} days · ${rem} more to unlock</div>
+  </div></div></div>`;
+}
+
+function renderLocked(n) {
+  document.getElementById('rd-fill').style.width = Math.min(100,n/60*100)+'%';
+  document.getElementById('rd-val').textContent = n+' / 60';
+  if(n<THRESHOLDS.drift) document.getElementById('drift-body').innerHTML = lockedCard(7,n,'Drift Detection — needs 7 days','After 7 check-ins, the oracle starts tracking the direction of your habits. It catches drift before the miss happens.');
+  if(n<THRESHOLDS.vol)   document.getElementById('vol-body').innerHTML   = lockedCard(30,n,'Volatility Analysis — needs 30 days','Standard deviation becomes meaningful at 30 days. Until then, the signal is too noisy to classify your pillars reliably.');
+  if(n<THRESHOLDS.strength) document.getElementById('strength-body').innerHTML = lockedCard(30,n,'Habit Strength — needs 30 days','Automaticity takes time to emerge in the data. At 30 days the oracle can start scoring how effortless each habit has become.');
+  if(n<THRESHOLDS.frag)  document.getElementById('fragility-body').innerHTML = lockedCard(60,n,'Fragility Score — needs 60 days','To calculate P(Miss₂|Miss₁) reliably we need enough miss events. 60 days gives the minimum sample for a meaningful result.');
+}
+
+// ═══════════════════════════════════════════════════════
+//  RUN ALL
+// ═══════════════════════════════════════════════════════
+function runAll() {
+  const sorted = [...dailyRows].filter(r=>r['Date']&&pD(r['Date'])).sort((a,b)=>pD(a['Date'])-pD(b['Date']));
+  const n = sorted.length;
+  renderLocked(n);
+  buildSurvival();
+  if(n >= THRESHOLDS.drift)    buildDrift(sorted);
+  if(n >= THRESHOLDS.vol)      buildVol(sorted);
+  if(n >= THRESHOLDS.strength) buildStrength(sorted);
+  if(n >= THRESHOLDS.frag)     buildFrag(sorted);
+}
+
+// ═══════════════════════════════════════════════════════
+//  ENGINE A — SURVIVAL CURVE
+// ═══════════════════════════════════════════════════════
+function buildSurvival() {
+  const rows = [...discRows].filter(r=>r['Date']&&r['Whole Streak']!==undefined).sort((a,b)=>pD(a['Date'])-pD(b['Date']));
+  if(!rows.length) {
+    document.getElementById('surv-kpis').innerHTML = `<div class="kpi"><div class="kpi-val">–</div><div class="kpi-lbl">No Discipline Data</div><div class="kpi-explain">Paste your Discipline CSV into the "Discipline" tab in Google Sheets. The oracle reads Whole Streak and Date columns.</div></div>`;
+    return;
+  }
+
+  // Rebuild streaks from Whole Streak column
+  const streaks = [];
+  let cur = { days:0, start:null };
+  rows.forEach((r,i) => {
+    const ws  = parseInt(r['Whole Streak']) || 0;
+    const pw  = i>0 ? (parseInt(rows[i-1]['Whole Streak'])||0) : 0;
+    if (ws===0 || (ws < pw && pw > 0)) {
+      if (cur.days > 0) streaks.push({ ...cur, relapseDate: r['Date'] });
+      cur = { days: ws, start: r['Date'] };
+    } else {
+      if (!cur.start) cur.start = r['Date'];
+      cur.days = ws;
+    }
+  });
+  if (cur.days > 0) streaks.push({ ...cur, relapseDate: null });
+
+  const valid     = streaks.filter(s => s.days > 0);
+  const completed = valid.filter(s => s.relapseDate);
+  const ongoing   = valid.find(s => !s.relapseDate);
+  const pb        = Math.max(...valid.map(s=>s.days), 1);
+  const curDays   = ongoing ? ongoing.days : 0;
+  const avgLen    = completed.length ? Math.round(avg(completed.map(s=>s.days))) : 0;
+
+  // Survival at each milestone
+  const ms = [7,14,21,30,45,60,90,120,180,270,365,502];
+  const surv = ms.map(m => ({ m, pct: valid.length ? Math.round(valid.filter(s=>s.days>=m).length/valid.length*100) : 0 }));
+
+  // Find vulnerable window (biggest survival drop)
+  let bigDrop=0, vS=0, vE=0;
+  for(let i=1;i<surv.length;i++){
+    const dr = surv[i-1].pct - surv[i].pct;
+    if(dr > bigDrop){ bigDrop=dr; vS=surv[i-1].m; vE=surv[i].m; }
+  }
+  const inVuln = curDays >= vS && curDays <= vE;
+
+  // KPIs
+  document.getElementById('surv-kpis').innerHTML = `
+    <div class="kpi"><div class="kpi-val" style="color:var(--strong)">${curDays}d</div><div class="kpi-lbl">Current Streak</div>
+      <div class="kpi-explain">You are ${curDays} days into your current streak. ${curDays > avgLen ? `Above your personal average of ${avgLen}d.` : `Building toward your average of ${avgLen}d.`}</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--gold)">${pb}d</div><div class="kpi-lbl">Personal Best</div>
+      <div class="kpi-explain">The longest streak you have ever maintained. This is your proven ceiling. It can be exceeded.</div></div>
+    <div class="kpi"><div class="kpi-val">${completed.length}</div><div class="kpi-lbl">Total Relapses</div>
+      <div class="kpi-explain">Not failures — data points. Each one taught you something about your personal patterns.</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--purple)">${avgLen || '–'}d</div><div class="kpi-lbl">Avg Streak</div>
+      <div class="kpi-explain">Average length of your completed streaks. This is your baseline to beat.</div></div>`;
+
+  // Vulnerable window alert card
+  const ac = document.getElementById('surv-alert-card');
+  if (inVuln && curDays > 0) {
+    ac.innerHTML = `<div class="card alert-card">
+      <div class="card-title"><span class="cdot" style="background:var(--red)"></span>⚠ Vulnerable Window Active</div>
+      <div class="insight alert"><div class="insight-icon">🚨</div><div class="ib">
+        You are on Day <strong>${curDays}</strong>. Historically, the stretch between Day <strong>${vS}</strong> and Day <strong>${vE}</strong> is where your streaks most often ended — a <strong class="r">${bigDrop}% survival drop</strong> at this window.
+        <span class="plain">In simple terms: this is statistically your most dangerous stretch. Your own data has seen it before.</span>
+        <span class="al">→ For the next ${vE-curDays} days: hard reset. Treat Sleep and SKY as non-negotiable. Do not make decisions that compromise them.</span>
+      </div></div></div>`;
+  } else if (curDays > 0) {
+    const nxt  = ms.find(m => m > curDays);
+    const nxtS = surv.find(s => s.m === nxt);
+    ac.innerHTML = `<div class="card good-card">
+      <div class="card-title"><span class="cdot" style="background:var(--strong)"></span>Current Position</div>
+      <div class="insight good"><div class="insight-icon">📍</div><div class="ib">
+        Day <strong>${curDays}</strong>. You are not in a vulnerable window.
+        ${nxt ? `Next milestone: Day <strong>${nxt}</strong>. Historically <strong class="g">${nxtS?.pct||0}%</strong> of your streaks reached this point.` : 'You have passed all recorded milestones.'}
+        <span class="plain">Keep the conditions that got you here. Don't change what's working.</span>
+        <span class="action">→ ${nxt ? `${nxt-curDays} more days to Day ${nxt}.` : 'Every day now is a personal record.'}</span>
+      </div></div></div>`;
+  }
+
+  drawSurvCanvas(surv, vS, vE, curDays);
+
+  // Timeline
+  document.getElementById('surv-timeline').innerHTML = valid.slice().reverse().slice(0,8).map(s => {
+    const isCur  = !s.relapseDate;
+    const isBest = s.days === pb;
+    const col    = isCur ? 'var(--strong)' : isBest ? 'var(--gold)' : 'var(--red)';
+    return `<div class="tl-item">
+      <div class="tl-dot" style="background:${col};box-shadow:0 0 6px ${col}"></div>
+      <div class="tl-body">
+        <div class="tl-title">${isCur?'🔥 Current':isBest?'🏆 Personal Best':'Streak'} — <span style="color:${col}">${s.days} days</span></div>
+        <div class="tl-date">${s.start||'–'} → ${isCur?'ongoing':(s.relapseDate||'–')}</div>
+        <div class="tl-note">${isCur ? (curDays>avgLen?'Above your average streak length.':'Still building toward your average.') : `Ended at ${s.days} days.`}</div>
+      </div></div>`;
+  }).join('');
+
+  // Insights
+  const improving = completed.length >= 3 && avg(completed.slice(-2).map(s=>s.days)) > avg(completed.slice(0,2).map(s=>s.days));
+  document.getElementById('surv-insights').innerHTML = `
+    <div class="insight ${improving?'good':''}">
+      <div class="insight-icon">${improving?'📈':'📊'}</div>
+      <div class="ib">${completed.length>=3 ? `Your streak lengths are <strong class="${improving?'g':'o'}">${improving?'getting longer over time — resilience is building':'variable — no clear trend yet'}</strong>.` : 'Not enough completed streaks to determine trend direction yet.'}
+      <span class="plain">${improving?'Each recovery is stronger than the last. This is what anti-fragility looks like in practice.':'The pattern will emerge with more data. Every streak adds to the picture.'}</span></div>
+    </div>
+    <div class="insight">
+      <div class="insight-icon">📐</div>
+      <div class="ib">Your historically most dangerous stretch is <strong>Day ${vS} → Day ${vE}</strong>. A <strong class="r">${bigDrop}-point survival drop</strong> happens here.
+      <span class="plain">In simple terms: if you survive past Day ${vE}, you have cleared your own historically hardest stretch.</span>
+      <span class="action">→ Mark Day ${vE} on your calendar as a milestone. Getting past it is statistically significant for you personally.</span></div>
+    </div>
+    ${curDays > pb*0.9 ? `<div class="insight good"><div class="insight-icon">🌟</div>
+      <div class="ib">You are at <strong class="g">${Math.round(curDays/pb*100)}%</strong> of your all-time personal best (${pb} days).
+      <span class="plain">You are approaching territory you have rarely been in. Every day here is rare.</span></div></div>` : ''}`;
+}
+
+function drawSurvCanvas(surv, vS, vE, curDays) {
+  const canvas = document.getElementById('surv-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W=800, H=250;
+  canvas.width=W; canvas.height=H; ctx.clearRect(0,0,W,H);
+  const PAD={top:34,right:20,bottom:44,left:42};
+  const CW=W-PAD.left-PAD.right, CH=H-PAD.top-PAD.bottom;
+  const n=surv.length, bW=CW/n*0.65, gap=CW/n;
+
+  // Grid
+  ctx.strokeStyle='#252530'; ctx.lineWidth=1;
+  [0,25,50,75,100].forEach(p=>{
+    const y=PAD.top+CH-(p/100)*CH;
+    ctx.beginPath(); ctx.moveTo(PAD.left,y); ctx.lineTo(W-PAD.right,y); ctx.stroke();
+    ctx.fillStyle='#3a3a4d'; ctx.font='10px DM Mono'; ctx.textAlign='right';
+    ctx.fillText(p+'%',PAD.left-5,y+4);
+  });
+
+  // Vulnerable zone
+  const vSI=surv.findIndex(s=>s.m>=vS), vEI=surv.findIndex(s=>s.m>=vE);
+  if(vSI>=0&&vEI>=0){
+    const vx1=PAD.left+vSI*gap, vx2=PAD.left+(vEI+1)*gap;
+    ctx.fillStyle='rgba(220,38,38,0.07)'; ctx.fillRect(vx1,PAD.top,vx2-vx1,CH);
+    ctx.strokeStyle='rgba(220,38,38,0.2)'; ctx.lineWidth=1;
+    ctx.strokeRect(vx1,PAD.top,vx2-vx1,CH);
+    ctx.fillStyle='rgba(220,38,38,0.5)'; ctx.font='9px DM Mono'; ctx.textAlign='center';
+    ctx.fillText('⚠ VULNERABLE',(vx1+vx2)/2,PAD.top+13);
+  }
+
+  // Bars
+  surv.forEach((s,i) => {
+    const x   = PAD.left + i*gap + (gap-bW)/2;
+    const bH  = (s.pct/100)*CH;
+    const y   = PAD.top + CH - bH;
+    const isCur = curDays>=s.m && (i===surv.length-1 || curDays<surv[i+1].m);
+    const isV   = s.m>=vS && s.m<=vE;
+    const color = isCur ? '#7c3aed' : isV ? '#dc2626' : '#ff6b2b';
+    const alpha = 0.45 + (s.pct/100)*0.55;
+    ctx.fillStyle = color + Math.round(alpha*255).toString(16).padStart(2,'0');
+    ctx.beginPath();
+    if(ctx.roundRect) ctx.roundRect(x,y,bW,bH,[4,4,0,0]); else ctx.rect(x,y,bW,bH);
+    ctx.fill();
+    if(isCur){ ctx.strokeStyle='#7c3aed'; ctx.lineWidth=2.5; ctx.strokeRect(x-1,y-1,bW+2,bH+2); }
+    // % label
+    ctx.fillStyle=s.pct>18?'#fdf6ee':'#8e89a0';
+    ctx.font=`bold 10px DM Mono`; ctx.textAlign='center';
+    ctx.fillText(s.pct+'%',x+bW/2,Math.max(y-4,PAD.top+11));
+    // Day label
+    ctx.fillStyle=isV?'#dc2626':'#3a3a4d';
+    ctx.font='9px DM Mono';
+    ctx.fillText('d'+s.m,x+bW/2,H-PAD.bottom+15);
+  });
+
+  // Current position marker
+  if(curDays>0){
+    const ni = surv.reduce((b,s,i)=>Math.abs(s.m-curDays)<Math.abs(surv[b].m-curDays)?i:b,0);
+    const mx = PAD.left + ni*gap + gap/2;
+    ctx.strokeStyle='rgba(124,58,237,0.7)'; ctx.lineWidth=2; ctx.setLineDash([5,4]);
+    ctx.beginPath(); ctx.moveTo(mx,PAD.top); ctx.lineTo(mx,H-PAD.bottom); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#7c3aed'; ctx.font='bold 9px DM Mono'; ctx.textAlign='center';
+    ctx.fillText('YOU →',mx,PAD.top-8);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  ENGINE B — DRIFT DETECTION
+// ═══════════════════════════════════════════════════════
+function buildDrift(rows) {
+  const last14 = rows.slice(-14);
+  const results = [];
+
+  DRIFT_HABITS.forEach(h => {
+    const vals = last14.map(r => {
+      const v = r[h.col]; if(!v) return null;
+      if(h.type==='time'){ let m=tM(v); if(m!==null&&m<12*60) m+=24*60; return m; }
+      return parseFloat(v)||null;
+    }).filter(x=>x!==null);
+
+    if(vals.length < 5) return;
+
+    const sl     = lrSlope(vals);
+    const rec7   = vals.slice(-7);
+    const prev7  = vals.slice(0, Math.max(1,vals.length-7));
+    const delta  = avg(rec7) - avg(prev7);
+    const isBad  = h.direction==='up_is_bad' ? sl>0 : sl<0;
+    const absDelta = Math.abs(delta);
+
+    let sev = 'ok';
+    if(isBad && absDelta >= h.alert) sev = 'alert';
+    else if(isBad && absDelta >= h.warn) sev = 'warn';
+
+    let valStr = '', plain = '';
+    if(h.type==='time'){
+      const am = Math.round(absDelta);
+      const dir = delta>0 ? 'later':'earlier';
+      valStr = `Shifting ${am} min ${dir} over 7 days`;
+      plain  = delta>0&&h.direction==='up_is_bad'
+        ? `Your ${h.label} is creeping later every day. At this rate you will miss the target in about ${Math.round(h.alert/Math.abs(sl||1))} days.`
+        : `${h.label} is holding steady or improving.`;
+    } else {
+      const dr  = Math.round(absDelta);
+      const dir = delta<0 ? '↓ dropping':'↑ rising';
+      valStr = `${dir} ${dr} ${h.unit} vs last week avg`;
+      plain  = delta<0&&h.direction==='down_is_bad'
+        ? `Your ${h.label} has been quietly dropping. It hasn't become a miss yet — but the direction is wrong.`
+        : `${h.label} is stable or improving.`;
+    }
+    results.push({ h, sev, valStr, plain, delta });
+  });
+
+  results.sort((a,b)=>({alert:0,warn:1,ok:2})[a.sev]-({alert:0,warn:1,ok:2})[b.sev]);
+  const alerts = results.filter(d=>d.sev==='alert');
+  const warns  = results.filter(d=>d.sev==='warn');
+
+  let html = `<div class="kpi-row">
+    <div class="kpi"><div class="kpi-val" style="color:${alerts.length?'var(--red)':'var(--strong)'}">${alerts.length||'✓'}</div>
+      <div class="kpi-lbl">Active Alerts</div>
+      <div class="kpi-explain">${alerts.length?`${alerts.length} habit${alerts.length>1?'s are':' is'} drifting into danger territory.`:'No critical drift. All habits holding their direction.'}</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:${warns.length?'var(--amber)':'var(--text2)'}">${warns.length||'–'}</div>
+      <div class="kpi-lbl">Early Warnings</div>
+      <div class="kpi-explain">${warns.length?`${warns.length} habit${warns.length>1?'s showing':'showing'} early drift. Not critical yet — but worth watching.`:'No early warnings detected.'}</div></div>
+  </div>`;
+
+  if(!results.length){
+    html+='<div class="card"><div style="color:var(--text3);font-family:\'DM Mono\',monospace;font-size:0.76rem;text-align:center;padding:20px;">No numeric habits found in the data yet. Keep logging — this populates automatically.</div></div>';
+  } else {
+    html+=`<div class="card"><div class="card-title"><span class="cdot" style="background:var(--purple)"></span>7-Day Direction of Travel — All Numeric Habits</div>`;
+    results.forEach(d=>{
+      const icon=d.sev==='alert'?'🚨':d.sev==='warn'?'⚠️':'✓';
+      html+=`<div class="drift-item ${d.sev}"><div class="drift-name">${d.h.label}</div><div style="font-size:1.1rem;flex-shrink:0;">${icon}</div>
+        <div class="drift-body"><div class="drift-val">${d.valStr}</div><div class="drift-plain">${d.plain}</div></div></div>`;
+    });
+    html+='</div>';
+
+    if(alerts.length||warns.length){
+      html+='<div class="card"><div class="card-title"><span class="cdot" style="background:var(--gold)"></span>Drift Actions</div>';
+      [...alerts,...warns].forEach(d=>{
+        html+=`<div class="insight ${d.sev==='alert'?'alert':'warn'}">
+          <div class="insight-icon">${d.sev==='alert'?'🚨':'⚠️'}</div>
+          <div class="ib"><strong>${d.h.label}</strong> is drifting. ${d.plain}
+          <span class="plain">${d.sev==='alert'?'This is the pre-failure signal. The miss has not happened yet. You can still stop it.':'A small correction now prevents a much larger one later.'}</span>
+          <span class="${d.sev==='alert'?'al':'action'}">→ ${d.sev==='alert'?`TONIGHT: Hard reset ${d.h.label}. Treat tomorrow as Day 1 of rebuilding the direction.`:`Watch ${d.h.label} for 3 more days. If drift continues, escalate to alert level.`}</span>
+          </div></div>`;
+      });
+      html+='</div>';
+    }
+  }
+  document.getElementById('drift-body').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+//  ENGINE C — VOLATILITY & ANTI-FRAGILITY
+// ═══════════════════════════════════════════════════════
+function buildVol(rows) {
+  const results = ['disc','strong','smart'].map(pk => {
+    const ph   = HABITS.filter(h=>h.pillar===pk);
+    const pcts = rows.map(r=>ph.filter(h=>isDone(r,h)).length/Math.max(1,ph.length)*100);
+    const a    = Math.round(avg(pcts));
+    const v    = Math.round(sdev(pcts));
+    const hS   = a >= 60, hV = v >= 20;
+    let q, qd, qa;
+    if(hS&&!hV){  q='ROBUST';  qd='High performance, low swing. Your anchor pillar.'; qa='Protect the conditions that make this consistent. Do not change what is working here.'; }
+    else if(hS&&hV){ q='FRAGILE'; qd='Looks strong on average but swings wildly. One bad week could collapse it.'; qa='Find the variable that causes the swings. High volatility in a high-scoring pillar is a hidden risk.'; }
+    else if(!hS&&!hV){ q='STUCK'; qd='Consistently low. Not chaotic — just neglected.'; qa='Small consistent investment here compounds fast. Even +10% per week transforms this over a quarter.'; }
+    else{ q='CHAOTIC'; qd='Low score AND high volatility. No stable foundation yet.'; qa='Pick ONE habit in this pillar. Just one. Get it to Automatic before adding anything else.'; }
+    return { pk, name:PN[pk], a, v, q, qd, qa };
+  });
+
+  const anchor = results.slice().sort((a,b)=>(a.v-b.v)||(b.a-a.a))[0];
+  const qc = {
+    ROBUST:  { bg:'rgba(5,150,105,0.08)',  br:'rgba(5,150,105,0.28)',  tx:'var(--strong)' },
+    FRAGILE: { bg:'rgba(220,38,38,0.07)',  br:'rgba(220,38,38,0.28)',  tx:'var(--red)'    },
+    STUCK:   { bg:'rgba(37,99,235,0.07)',  br:'rgba(37,99,235,0.22)',  tx:'var(--smart)'  },
+    CHAOTIC: { bg:'rgba(217,119,6,0.08)',  br:'rgba(217,119,6,0.28)',  tx:'var(--gold)'   },
+  };
+
+  let html = `<div class="kpi-row">
+    <div class="kpi"><div class="kpi-val" style="color:${PC[anchor.pk]}">${anchor.name}</div>
+      <div class="kpi-lbl">Anchor Pillar</div>
+      <div class="kpi-explain">Most stable. Stays consistent even when other pillars are struggling. This is your foundation — protect it above all else.</div></div>
+    ${results.map(r=>`<div class="kpi"><div class="kpi-val" style="color:${r.v>25?'var(--red)':r.v>15?'var(--gold)':'var(--strong)'}">±${r.v}%</div>
+      <div class="kpi-lbl">${r.name} Volatility</div>
+      <div class="kpi-explain">${r.v<15?'Stable and predictable.':r.v<25?'Some swing — normal range.':'Swinging too much. Investigate what triggers your bad days.'}</div></div>`).join('')}
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="cdot" style="background:var(--purple)"></span>Pillar Classification</div>
+    <div class="vol-grid">
+      ${results.map(r=>{const c=qc[r.q];return `<div class="vol-card" style="background:${c.bg};border:1px solid ${c.br};">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px;">
+          <div style="width:9px;height:9px;border-radius:50%;background:${PC[r.pk]};box-shadow:0 0 6px ${PC[r.pk]}"></div>
+          <div style="font-size:0.78rem;font-weight:700;color:var(--text1);">${r.name}</div>
+        </div>
+        <div class="vol-q" style="color:${c.tx}">${r.q}</div>
+        <div class="vol-nums">
+          <div class="vol-num-item"><div class="vol-num-val">${r.a}%</div><div class="vol-num-lbl">Avg Score</div></div>
+          <div class="vol-num-item"><div class="vol-num-val" style="color:${r.v>25?'var(--red)':r.v>15?'var(--gold)':'var(--strong)'}">±${r.v}%</div><div class="vol-num-lbl">Volatility</div></div>
+        </div>
+        <div class="vol-desc">${r.qd}</div>
+      </div>`}).join('')}
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:0.58rem;color:var(--text3);margin-top:12px;padding-top:10px;border-top:1px solid var(--border);">
+      ROBUST = high score + low swing (ideal) · FRAGILE = high score + high swing · STUCK = low score + low swing · CHAOTIC = low score + high swing
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="cdot" style="background:var(--gold)"></span>Insights & Actions</div>
+    ${results.map(r=>`<div class="insight ${r.q==='ROBUST'?'good':r.q==='FRAGILE'||r.q==='CHAOTIC'?'alert':'warn'}">
+      <div class="insight-icon">${r.q==='ROBUST'?'🏔️':r.q==='FRAGILE'?'⚠️':r.q==='STUCK'?'🧊':'🌪️'}</div>
+      <div class="ib"><strong>${r.name} — ${r.q}</strong>: ${r.qd}
+      <span class="plain">Average score: ${r.a}% · Volatility: ±${r.v}% over ${rows.length} days.</span>
+      <span class="action">→ ${r.qa}</span></div></div>`).join('')}
+  </div>`;
+  document.getElementById('vol-body').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+//  ENGINE D — HABIT STRENGTH
+// ═══════════════════════════════════════════════════════
+function buildStrength(rows) {
+  const data = HABITS.map(h => {
+    const done = rows.map(r=>isDone(r,h)?1:0);
+    const pct  = avg(done)*100;
+
+    // Recovery speed: of days after a miss, what % bounced back next day?
+    let misses=0, recov=0;
+    for(let i=0;i<done.length-1;i++){if(done[i]===0){misses++;if(done[i+1]===1)recov++;}}
+    const recRate = misses>0 ? recov/misses : 0.5;
+
+    // Streak factor
+    let cur=0, best=0, s=0;
+    done.forEach(v=>{s=v?s+1:0;if(s>best)best=s;});
+    cur=s;
+    const streakFac = best>0 ? cur/best : 0;
+
+    const score = Math.round((pct*0.5)+(recRate*100*0.3)+(streakFac*100*0.2));
+
+    let level, levelColor, explain;
+    if(score>=80){  level='AUTOMATIC'; levelColor='var(--strong)'; explain='Deeply wired. Requires almost no willpower. Missing it would feel unusual. Protect the conditions — do not spend mental energy re-deciding this every day.'; }
+    else if(score>=60){ level='BUILDING';  levelColor='var(--smart)';  explain='Past the early fragile stage. Not yet automatic. You are in the critical window — this is where most people slip and lose months of progress.'; }
+    else if(score>=40){ level='EFFORTFUL'; levelColor='var(--gold)';  explain='Still requires an active decision every day. Needs structural support — a trigger habit, a time-block, or a fixed anchor in your routine.'; }
+    else{              level='FRAGILE';   levelColor='var(--red)';   explain='Not yet a habit — still a goal. Less than 40% of the time. One miss cascades into many. Needs deliberate daily intention to survive.'; }
+
+    return { h, score, pct:Math.round(pct), recRate:Math.round(recRate*100), streakFac:Math.round(streakFac*100), cur, best, level, levelColor, explain };
+  }).sort((a,b)=>b.score-a.score);
+
+  const autoCount = data.filter(d=>d.level==='AUTOMATIC').length;
+  const fragCount = data.filter(d=>d.level==='FRAGILE').length;
+
+  let html = `<div class="kpi-row">
+    <div class="kpi"><div class="kpi-val" style="color:var(--strong)">${autoCount}</div>
+      <div class="kpi-lbl">Automatic Habits</div>
+      <div class="kpi-explain">These habits now run on autopilot. They cost you almost no willpower to maintain.</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--red)">${fragCount}</div>
+      <div class="kpi-lbl">Fragile Habits</div>
+      <div class="kpi-explain">These are still goals, not habits. One miss and they often disappear for days.</div></div>
+    <div class="kpi"><div class="kpi-val">${rows.length}d</div>
+      <div class="kpi-lbl">Training Data</div>
+      <div class="kpi-explain">Days in the model. Scores become more accurate after 60+ days of logging.</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="cdot" style="background:var(--purple)"></span>Habit Strength Scores — Ranked Highest to Lowest</div>
+    <div class="strength-grid">
+      ${data.map(d=>`<div class="sc">
+        <div class="sc-name">${d.h.label}</div>
+        <div class="sc-level" style="color:${d.levelColor}">${d.level}</div>
+        <div class="sc-score" style="color:${d.levelColor}">${d.score}<span style="font-size:0.75rem;color:var(--text3)">/100</span></div>
+        <div class="sc-bar-track"><div class="sc-bar-fill" style="width:${d.score}%;background:${d.levelColor}"></div></div>
+        <div class="sc-meta">
+          <div class="sc-meta-item">Done: <span>${d.pct}%</span></div>
+          <div class="sc-meta-item">Recovery: <span>${d.recRate}%</span></div>
+          <div class="sc-meta-item">Streak: <span>${d.cur}/${d.best}d</span></div>
+        </div>
+        <div class="sc-explain">${d.explain}</div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+  document.getElementById('strength-body').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+//  ENGINE E — FRAGILITY SCORE
+// ═══════════════════════════════════════════════════════
+function buildFrag(rows) {
+  const data = HABITS.map(h => {
+    const done = rows.map(r=>isDone(r,h)?1:0);
+    let misses=0, cascades=0, dones=0, sticks=0;
+    for(let i=0;i<done.length-1;i++){
+      if(done[i]===0){misses++;if(done[i+1]===0)cascades++;}
+      if(done[i]===1){dones++;if(done[i+1]===1)sticks++;}
+    }
+    const frag  = misses>2  ? Math.round(cascades/misses*100) : null;
+    const stick = dones>2   ? Math.round(sticks/dones*100)   : null;
+    return { h, frag, stick, misses, cascades };
+  }).filter(d=>d.frag!==null).sort((a,b)=>b.frag-a.frag);
+
+  if(!data.length){
+    document.getElementById('fragility-body').innerHTML=`<div class="card"><div style="color:var(--text3);font-family:'DM Mono',monospace;font-size:0.76rem;padding:20px;text-align:center;">Not enough miss events yet to calculate fragility. At least 3 misses per habit required. Keep logging — this will populate automatically.</div></div>`;
+    return;
+  }
+
+  const most   = data[0];
+  const least  = data[data.length-1];
+
+  let html=`<div class="kpi-row">
+    <div class="kpi"><div class="kpi-val" style="color:var(--red)">${most.frag}%</div>
+      <div class="kpi-lbl">Most Fragile</div>
+      <div class="kpi-explain">${most.h.label} — if you miss it once, there is a ${most.frag}% chance you miss it again the next day.</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--strong)">${least.frag}%</div>
+      <div class="kpi-lbl">Most Resilient</div>
+      <div class="kpi-explain">${least.h.label} — missing once rarely cascades. You bounce back the next day ${100-least.frag}% of the time.</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="cdot" style="background:var(--red)"></span>Fragility — P(Miss Tomorrow | Missed Today)</div>
+    <div style="margin-bottom:14px;font-size:0.7rem;color:var(--text2);font-style:italic;">High % = one miss cascades into many. Low % = you bounce back the next day. Both derived from your actual logged data.</div>
+    ${data.map(d=>{
+      const col = d.frag>=70?'var(--red)':d.frag>=45?'var(--gold)':'var(--strong)';
+      const lbl = d.frag>=70?'HIGH':d.frag>=45?'MED':'LOW';
+      return `<div class="frag-item">
+        <div class="frag-name">${d.h.label}</div>
+        <div class="frag-track"><div class="frag-fill" style="width:${d.frag}%;background:${col}"></div></div>
+        <div class="frag-val" style="color:${col}">${d.frag}%</div>
+        <div class="frag-badge" style="color:${col}">${lbl}</div>
+      </div>`;
+    }).join('')}
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="cdot" style="background:var(--strong)"></span>Stickiness — P(Done Tomorrow | Done Today)</div>
+    <div style="margin-bottom:14px;font-size:0.7rem;color:var(--text2);font-style:italic;">High % = doing it today makes tomorrow more likely. These are your momentum habits — one good day pulls the next.</div>
+    ${data.filter(d=>d.stick!==null).sort((a,b)=>b.stick-a.stick).map(d=>{
+      const col = d.stick>=80?'var(--strong)':d.stick>=60?'var(--smart)':'var(--text3)';
+      const lbl = d.stick>=80?'STICKY':d.stick>=60?'SOLID':'WEAK';
+      return `<div class="frag-item">
+        <div class="frag-name">${d.h.label}</div>
+        <div class="frag-track"><div class="frag-fill" style="width:${d.stick}%;background:${col}"></div></div>
+        <div class="frag-val" style="color:${col}">${d.stick}%</div>
+        <div class="frag-badge" style="color:${col}">${lbl}</div>
+      </div>`;
+    }).join('')}
+  </div>
+  <div class="card">
+    <div class="card-title"><span class="cdot" style="background:var(--gold)"></span>Fragility Insights</div>
+    <div class="insight alert"><div class="insight-icon">⚠️</div><div class="ib">
+      <strong>${most.h.label}</strong> is your most fragile habit. Miss it once → <strong class="r">${most.frag}% chance</strong> of missing it again tomorrow.
+      <span class="plain">In simple terms: this habit has no buffer. One bad day becomes a bad week almost automatically.</span>
+      <span class="al">→ Give ${most.h.label} a protected time slot — a fixed point in the day where it always happens, regardless of everything else. Structural protection beats willpower every time.</span>
+    </div></div>
+    <div class="insight good"><div class="insight-icon">🛡️</div><div class="ib">
+      <strong>${least.h.label}</strong> is your most resilient habit. Even after missing, you return <strong class="g">${100-least.frag}%</strong> of the time.
+      <span class="plain">In simple terms: this habit has become robust. Missing it once feels wrong. The identity is already set.</span>
+      <span class="action">→ Study what makes ${least.h.label} so resilient — and try to apply those same structural conditions to your fragile habits.</span>
+    </div></div>
+  </div>`;
+  document.getElementById('fragility-body').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════
+//  TEST DATA
+// ═══════════════════════════════════════════════════════
+function loadTestData() {
+  // Discipline CSV — realistic 6-year streak history
+  const discRowsGen=[];
+  let slNo=1, wholeStreak=0, relapseNo=0;
+  const streakLengths=[12,38,45,502,89,67,34];
+  let cDate=new Date(2020,4,1);
+
+  streakLengths.forEach(len=>{
+    for(let d=0;d<len;d++){
+      wholeStreak++;
+      discRowsGen.push({'Sl. No.':slNo++,'Date':`${String(cDate.getDate()).padStart(2,'0')}/${String(cDate.getMonth()+1).padStart(2,'0')}/${cDate.getFullYear()}`,'Whole Streak':wholeStreak,'Relapse No.':relapseNo});
+      cDate.setDate(cDate.getDate()+1);
+    }
+    relapseNo++; wholeStreak=0;
+    discRowsGen.push({'Sl. No.':slNo++,'Date':`${String(cDate.getDate()).padStart(2,'0')}/${String(cDate.getMonth()+1).padStart(2,'0')}/${cDate.getFullYear()}`,'Whole Streak':0,'Relapse No.':relapseNo});
+    cDate.setDate(cDate.getDate()+1);
+  });
+  // Current ongoing streak
+  const today=new Date(); let ongoing=0;
+  while(cDate<=today){
+    ongoing++; wholeStreak++;
+    discRowsGen.push({'Sl. No.':slNo++,'Date':`${String(cDate.getDate()).padStart(2,'0')}/${String(cDate.getMonth()+1).padStart(2,'0')}/${cDate.getFullYear()}`,'Whole Streak':wholeStreak,'Relapse No.':relapseNo});
+    cDate.setDate(cDate.getDate()+1);
+  }
+
+  // Daily check-in — 90 days with deliberate drift in last 10 days
+  const dailyGen=[];
+  const start=new Date(today); start.setDate(start.getDate()-89);
+  for(let i=0;i<90;i++){
+    const d=new Date(start); d.setDate(d.getDate()+i);
+    const dd=`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+    const r=Math.random(); const good=r>0.2; const great=r>0.68;
+    const drifting=i>79; // simulate drift in last 10 days
+    const bedDrift=drifting?(i-79)*9:0; // 9 min per day later
+    const readDrift=drifting?Math.max(0,30-(i-79)*3):0; // reading dropping
+    dailyGen.push({
+      'Date':dd,
+      'Bed Time':        good?(great?`22:${String(15+bedDrift).padStart(2,'0')}`:`22:${String(50+bedDrift).padStart(2,'0')}`):'00:15',
+      'Wake Time':       good?(great?'04:45':'05:15'):'06:40',
+      'SKY Mins':        good?(great?22:r>0.4?11:0):0,
+      'Meditation Mins': good?(great?18:r>0.45?8:0):0,
+      'Pranayama':       good&&r>0.28?'Yes':'No',
+      'Hand Exercise':   good&&r>0.35?'Yes':'No',
+      'NoFap':           'Yes',
+      'Push Ups':        good?`${14+Math.floor(r*12)}+${11+Math.floor(r*8)}+${9+Math.floor(r*6)}`:'',
+      'Pull Ups':        good&&r>0.38?`${8+Math.floor(r*5)}+${6+Math.floor(r*4)}`:'',
+      'Plank Secs':      good?40+Math.floor(r*110):0,
+      'Workout':         good&&d.getDay()>0&&d.getDay()<6&&r>0.28?'Yes':'No',
+      'Reading Mins':    good?Math.max(0,15+Math.floor(r*50)-readDrift):0,
+      'Focus':           good?5+Math.floor(r*5):3,
+      'Mood':            good?5+Math.floor(r*4):4,
+      'Energy':          good?5+Math.floor(r*4):3,
+    });
+  }
+
+  discRows  = discRowsGen.filter(r=>r['Sl. No.']!==1||r['Whole Streak']>0);
+  dailyRows = dailyGen;
+  runAll();
+  setStatus(`✓ Test data — ${discRowsGen.length} discipline · ${dailyGen.length} daily rows`, true);
+}
+</script>
+</body>
+</html>

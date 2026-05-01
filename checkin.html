@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Daily Check-in - Brahma Yantra</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;500;700&family=Orbitron:wght@400;500;700;900&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #0a0010;
+      --card-bg: #0f0020;
+      --card-inner: #130028;
+      --border: #2a1a4a;
+      --neon: #b347ff;
+      --cyan: #00f0ff;
+      --green: #10b981;
+      --gold: #f0a820;
+      --orange: #ff6b2b;
+      --red: #ef4444;
+      --text-main: #e0ddf0;
+      --text-muted: #6b5f8a;
+      --text-dim: #3d3460;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px);
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .orbitron { font-family: 'Orbitron', sans-serif; }
+    .mono { font-family: 'DM Mono', monospace; }
+    .playfair { font-family: 'Playfair Display', serif; font-style: italic; }
+
+    .app-container {
+      max-width: 440px;
+      margin: 0 auto;
+      padding-bottom: 100px; 
+      position: relative;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(10, 0, 16, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+    .header-title { font-size: 1.4rem; color: #fff; }
+    .header-subtitle { font-size: 0.65rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+    .home-btn {
+      background: none; border: none; color: var(--text-main); font-size: 1.2rem; cursor: pointer;
+    }
+    .score-pills {
+      display: flex; justify-content: space-between;
+    }
+    .score-pill {
+      background: var(--card-inner); border: 1px solid var(--border);
+      padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .pill-orange { color: var(--orange); border-color: rgba(255,107,43,0.3); }
+    .pill-green { color: var(--green); border-color: rgba(16,185,129,0.3); }
+    .pill-blue { color: var(--cyan); border-color: rgba(0,240,255,0.3); }
+    .pill-gold { color: var(--gold); border-color: rgba(240,168,32,0.3); }
+
+    .section {
+      background: var(--card-bg);
+      margin: 0 15px 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .sec-orange { border-left: 3px solid var(--orange); }
+    .sec-purple { border-left: 3px solid var(--neon); }
+    .sec-green { border-left: 3px solid var(--green); }
+    .sec-blue { border-left: 3px solid var(--cyan); }
+    .sec-gold { border-left: 3px solid var(--gold); }
+    .sec-grey { border-left: 3px solid var(--text-muted); }
+
+    .sec-header {
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      background: rgba(255,255,255,0.02);
+    }
+    .sec-title { font-weight: 700; font-size: 1.1rem; color: #fff; display: flex; align-items: center; gap: 8px;}
+    .sec-score { font-size: 0.9rem; color: var(--text-muted); font-family: 'Orbitron'; }
+    .chevron { transition: transform 0.3s; color: var(--text-muted); }
+    .sec-body { padding: 0 15px 15px; display: none; }
+    .section.open .sec-body { display: block; }
+    .section.open .chevron { transform: rotate(180deg); }
+    .section.open .sec-header { border-bottom: 1px solid var(--border); margin-bottom: 15px; }
+
+    .field { margin-bottom: 15px; }
+    .field:last-child { margin-bottom: 0; }
+    label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; }
+    
+    input[type="text"], input[type="number"], input[type="time"], input[type="date"], textarea {
+      width: 100%;
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 10px rgba(255,107,43,0.2);
+    }
+    textarea { resize: vertical; min-height: 80px; }
+
+    .row { display: flex; gap: 10px; }
+    .row > .field { flex: 1; }
+
+    .preview-text {
+      font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; font-family: 'DM Mono';
+    }
+
+    .toggle-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px; background: var(--card-inner); border-radius: 6px; border: 1px solid var(--border);
+      margin-bottom: 10px; cursor: pointer;
+    }
+    .toggle-row.active { border-color: var(--green); background: rgba(16,185,129,0.1); }
+    .toggle-label { font-size: 0.95rem; color: #fff; }
+    .toggle-status { font-family: 'DM Mono'; font-size: 0.8rem; color: var(--text-muted); }
+    .toggle-row.active .toggle-status { color: var(--green); }
+
+    .picker-grid {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px;
+    }
+    .picker-btn {
+      flex: 1; min-width: 30px; height: 36px;
+      background: var(--card-inner); border: 1px solid var(--border);
+      color: var(--text-main); border-radius: 4px; font-family: 'Orbitron';
+    }
+    .picker-btn.active-blue { background: var(--cyan); border-color: var(--cyan); color: #000; box-shadow: 0 0 10px rgba(0,240,255,0.4); }
+    .picker-btn.active-purple { background: var(--neon); border-color: var(--neon); color: #fff; box-shadow: 0 0 10px rgba(179,71,255,0.4); }
+    .picker-btn.active-green { background: var(--green); border-color: var(--green); color: #000; box-shadow: 0 0 10px rgba(16,185,129,0.4); }
+    .picker-btn.active-gold { background: var(--gold); border-color: var(--gold); color: #000; box-shadow: 0 0 10px rgba(240,168,32,0.4); }
+
+    .picker-label { text-align: center; font-size: 0.85rem; color: var(--text-main); min-height: 20px;}
+
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+    .chip { 
+      background: var(--card-inner); border: 1px solid var(--border); padding: 4px 10px; 
+      border-radius: 12px; font-size: 0.8rem; color: var(--text-muted); cursor: pointer;
+    }
+    .chip.active { background: var(--card-bg); border-color: var(--green); color: var(--green); }
+    
+    .rep-chip {
+      background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; font-family: 'DM Mono'; font-size: 0.75rem;
+    }
+
+    .slider { width: 100%; margin: 10px 0; accent-color: var(--cyan); }
+    .slider-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-dim); }
+
+    .score-bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 15px; overflow: hidden; }
+    .score-bar-fill { height: 100%; width: 0%; transition: width 0.3s; }
+    .score-bar-text { font-family: 'DM Mono'; font-size: 0.75rem; margin-top: 5px; color: var(--text-muted); text-align: right; }
+
+    .matrix-row { display: flex; align-items: center; margin-bottom: 4px; }
+    .matrix-label { width: 80px; font-size: 0.7rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .matrix-days { display: flex; gap: 4px; }
+    .matrix-square { width: 14px; height: 14px; border-radius: 2px; background: rgba(255,255,255,0.06); transition: all 0.2s;}
+    .matrix-square.today { border: 1px solid var(--neon); }
+    .matrix-sub { font-family: 'DM Mono'; font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.1em; margin: 10px 0 6px; border-bottom: 1px solid var(--border); padding-bottom: 4px;}
+
+    .sprint-card {
+      background: var(--card-inner); border: 1px solid var(--border); border-radius: 6px; padding: 12px; margin-bottom: 10px;
+    }
+    .sprint-title { font-weight: bold; color: #fff; font-size: 0.95rem; margin-bottom: 4px; }
+    .sprint-meta { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px; }
+
+    .submit-bar {
+      position: fixed; bottom: 0; left: 0; width: 100%;
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 15px 20px; display: flex; gap: 15px; justify-content: center; z-index: 100;
+    }
+    .submit-bar-inner {
+      width: 100%; max-width: 440px; display: flex; gap: 15px;
+    }
+    .btn-calc {
+      flex: 1; background: transparent; border: 1px solid var(--border); color: var(--text-main);
+      padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.9rem;
+    }
+    .btn-submit {
+      flex: 2; background: rgba(179,71,255,0.2); border: 1px solid var(--neon); color: #fff;
+      padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.9rem;
+      box-shadow: 0 0 10px rgba(179,71,255,0.2); transition: all 0.2s;
+    }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .test-fab {
+      position: fixed; bottom: 80px; right: 20px; width: 45px; height: 45px;
+      background: var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; border: none; cursor: pointer; z-index: 99; box-shadow: 0 0 15px var(--neon);
+    }
+
+    .result-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: var(--bg); z-index: 1000; display: none;
+      flex-direction: column; align-items: center; justify-content: center;
+    }
+    .result-overlay.active { display: flex; }
+    
+    .scanline-sweep {
+      position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+      background: var(--neon); box-shadow: 0 0 20px 10px var(--neon);
+      animation: sweep 0.6s ease-in-out; opacity: 0; pointer-events: none;
+    }
+    @keyframes sweep {
+      0% { top: 0; opacity: 1; }
+      80% { top: 100%; opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    .result-card {
+      width: 90%; max-width: 400px; background: var(--card-bg);
+      border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+      box-shadow: 0 0 30px rgba(179,71,255,0.1); opacity: 0; transform: translateY(20px);
+      transition: all 0.4s ease;
+    }
+    .result-card.show { opacity: 1; transform: translateY(0); }
+    .rc-top { height: 4px; background: linear-gradient(90deg, var(--orange), var(--neon), var(--cyan)); }
+    .rc-body { padding: 30px 20px; text-align: center; }
+    .rc-title { font-size: 1.2rem; color: var(--neon); margin-bottom: 5px; text-shadow: 0 0 10px rgba(179,71,255,0.5); }
+    .rc-date { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 25px; }
+    
+    .rc-scores { display: flex; justify-content: space-around; margin-bottom: 25px; }
+    .rc-score { opacity: 0; transform: scale(0.8); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .rc-score.show { opacity: 1; transform: scale(1); }
+    .rc-s-val { font-size: 1.5rem; font-weight: bold; margin-bottom: 4px; }
+    .rc-s-lbl { font-size: 0.7rem; color: var(--text-muted); }
+
+    .rc-amrits {
+      border: 1px solid var(--gold); background: rgba(240,168,32,0.1);
+      border-radius: 6px; padding: 15px; margin-bottom: 25px;
+      opacity: 0; transform: translateY(10px); transition: all 0.3s;
+    }
+    .rc-amrits.show { opacity: 1; transform: translateY(0); }
+    .rc-a-earn { color: var(--gold); font-weight: bold; margin-bottom: 5px; text-shadow: 0 0 5px rgba(240,168,32,0.3); }
+    .rc-a-tot { font-size: 0.85rem; color: var(--text-main); }
+
+    .rc-quote { font-style: italic; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; line-height: 1.4; opacity: 0; transition: opacity 0.5s;}
+    .rc-quote.show { opacity: 1; }
+
+    .btn-continue {
+      width: 100%; background: transparent; border: 1px solid var(--border); color: #fff;
+      padding: 12px; border-radius: 4px; font-family: 'Orbitron'; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-continue:hover { border-color: var(--neon); color: var(--neon); }
+
+    .lvl-overlay {
+      position: absolute; top:0; left:0; width:100%; height:100%;
+      background: rgba(10,0,16,0.95); z-index: 10; display: none;
+      flex-direction: column; align-items: center; justify-content: center;
+    }
+    .lvl-overlay.active { display: flex; }
+    .lvl-card { text-align: center; }
+    .lvl-title { font-size: 2rem; color: var(--gold); font-family: 'Orbitron'; text-shadow: 0 0 20px var(--gold); margin-bottom: 15px; animation: pulseGold 1s 3; }
+    .lvl-desc { font-size: 1.1rem; color: #fff; margin-bottom: 30px; }
+    
+    @keyframes pulseGold {
+      0%, 100% { transform: scale(1); text-shadow: 0 0 20px var(--gold); }
+      50% { transform: scale(1.1); text-shadow: 0 0 40px var(--gold); }
+    }
+
+    .lvl-ring-svg { width: 120px; height: 120px; }
+    .lvl-ring-bg { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 8; }
+    .lvl-ring-fill { fill: none; stroke: var(--gold); stroke-width: 8; stroke-dasharray: 283; stroke-dashoffset: 283; transition: stroke-dashoffset 1s ease-out; }
+    .lvl-ring-fill.animate { stroke-dashoffset: 0; }
+
+    .white-flash { position: fixed; top:0; left:0; width:100vw; height:100vh; background: #fff; z-index: 2000; opacity: 0; pointer-events: none; }
+    .white-flash.active { animation: flash 0.2s ease-out; }
+    @keyframes flash { 0% { opacity: 1; } 100% { opacity: 0; } }
+  </style>
+</head>
+<body>
+  <div class="white-flash" id="whiteFlash"></div>
+
+  <div class="app-container">
+    <header>
+      <div class="header-top">
+        <div>
+          <div class="playfair" style="font-size: 1.2rem; color: #fff;">Daily Check-in</div>
+          <div class="header-subtitle mono">BRAHMA YANTRA · <span id="headerDateStr"></span></div>
+        </div>
+        <button class="home-btn" onclick="window.location.href='launcher.html'">🏠</button>
+      </div>
+      <div class="score-pills">
+        <div class="score-pill pill-orange">🔥 <span id="pillDisc">0</span></div>
+        <div class="score-pill pill-green">💪 <span id="pillStrong">0</span></div>
+        <div class="score-pill pill-blue">🧠 <span id="pillSmart">0</span></div>
+        <div class="score-pill pill-gold">⭐ <span id="pillOverall">0</span></div>
+      </div>
+    </header>
+
+    <div id="bannerWarning" style="display:none; background:rgba(240,168,32,0.1); border:1px solid var(--gold); color:var(--gold); padding:10px; margin:0 15px 20px; border-radius:6px; font-size:0.8rem;">
+      ⚠️ Data exists for this date. Editing.
+    </div>
+
+    <!-- 1. DATE SECTION -->
+    <div class="section sec-orange open" id="sec-date">
+      <div class="sec-header" onclick="toggleSec('sec-date')">
+        <div class="sec-title">📅 Date</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="sec-body">
+        <div class="field">
+          <input type="date" id="f-date" onchange="checkDateExists()">
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. HABIT MATRIX -->
+    <div class="section sec-purple open" id="sec-matrix">
+      <div class="sec-header" onclick="toggleSec('sec-matrix')">
+        <div class="sec-title">🟩 Habit Matrix</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="sec-body" id="habitMatrixBody">
+        <div style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">Loading matrix...</div>
+      </div>
+    </div>
+
+    <!-- 3. SLEEP SECTION -->
+    <div class="section sec-purple open" id="sec-sleep">
+      <div class="sec-header" onclick="toggleSec('sec-sleep')">
+        <div class="sec-title">🌙 Sleep</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="sec-body">
+        <div class="row">
+          <div class="field">
+            <label>Bed Time</label>
+            <input type="time" id="f-bed" onchange="recalc()">
+          </div>
+          <div class="field">
+            <label>Wake Time</label>
+            <input type="time" id="f-wake" onchange="recalc()">
+          </div>
+        </div>
+        <div class="preview-text" id="p-sleep-hrs" style="margin-bottom: 15px;">You slept 0 hrs</div>
+        
+        <div class="field">
+          <label>Quality (1-5)</label>
+          <div class="picker-grid" id="picker-sleep-qual"></div>
+        </div>
+
+        <div style="margin-top: 15px; border-top: 1px solid var(--border); padding-top: 10px;">
+          <div style="color: var(--neon); font-size: 0.85rem; cursor: pointer; display: inline-block;" onclick="document.getElementById('nap-wrap').style.display='block'; this.style.display='none';">＋ Add Nap</div>
+          <div id="nap-wrap" style="display: none; margin-top: 10px;">
+            <div class="row">
+              <div class="field">
+                <label>Nap Start</label>
+                <input type="time" id="f-nap-start" onchange="recalc()">
+              </div>
+              <div class="field">
+                <label>Nap End</label>
+                <input type="time" id="f-nap-end" onchange="recalc()">
+              </div>
+            </div>
+            <div class="preview-text" id="p-nap-hrs">Nap: 0 hrs</div>
+          </div>
+        </div>
+        
+        <div class="preview-text" id="p-total-sleep" style="margin-top: 15px; font-weight: bold; color: #fff; display: none;">Total Sleep: 0 hrs</div>
+      </div>
+    </div>
+
+    <!-- 4. DISCIPLINE -->
+    <div class="section sec-orange open" id="sec-disc">
+      <div class="sec-header" onclick="toggleSec('sec-disc')">
+        <div class="sec-title">🔥 Discipline</div>
+        <div class="sec-score" id="lblDisc">0/100</div>
+      </div>
+      <div class="sec-body">
+        <div class="field">
+          <label>Sudarshan Kriya (mins)</label>
+          <input type="number" id="f-sky" oninput="recalc()">
+          <div class="preview-text" id="p-sky">0m → 0 pts</div>
+        </div>
+        <div class="field">
+          <label>Meditation (mins)</label>
+          <input type="number" id="f-med" oninput="recalc()">
+          <div class="preview-text" id="p-med">0m → 0 pts</div>
+        </div>
+        
+        <div class="toggle-row" id="t-prana" onclick="toggle('prana')">
+          <span class="toggle-label">Pranayama</span><span class="toggle-status">No</span>
+        </div>
+        <div class="toggle-row" id="t-hand" onclick="toggle('hand')">
+          <span class="toggle-label">Hand Exercise</span><span class="toggle-status">No</span>
+        </div>
+        <div class="toggle-row" id="t-disc" onclick="toggle('disc')">
+          <span class="toggle-label">Disciplined today</span><span class="toggle-status">No</span>
+        </div>
+
+        <div class="field" style="margin-top:15px;">
+          <label>Screen Time (hrs or HH:MM)</label>
+          <input type="text" id="f-screen" oninput="recalc()">
+          <div class="preview-text" id="p-screen">0 hrs → 0 pts</div>
+        </div>
+
+        <div class="score-bar-bg"><div class="score-bar-fill" id="bar-disc" style="background:var(--orange);"></div></div>
+      </div>
+    </div>
+
+    <!-- 5. STRONG -->
+    <div class="section sec-green open" id="sec-strong">
+      <div class="sec-header" onclick="toggleSec('sec-strong')">
+        <div class="sec-title">💪 Strong</div>
+        <div class="sec-score" id="lblStrong">0</div>
+      </div>
+      <div class="sec-body">
+        <div class="field">
+          <label>Push Ups (e.g. 20+20+15)</label>
+          <input type="text" id="f-push" oninput="recalc()">
+          <div class="chips" id="c-push"></div>
+          <div class="preview-text" id="p-push" style="margin-top: 4px;">0 reps → 0 pts</div>
+        </div>
+        <div class="field">
+          <label>Pull Ups (e.g. 10+8)</label>
+          <input type="text" id="f-pull" oninput="recalc()">
+          <div class="chips" id="c-pull"></div>
+          <div class="preview-text" id="p-pull" style="margin-top: 4px;">0 reps → 0 pts</div>
+        </div>
+        <div class="field">
+          <label>Plank (secs)</label>
+          <input type="number" id="f-plank" oninput="recalc()">
+          <div class="preview-text" id="p-plank">0s → 0 pts</div>
+        </div>
+
+        <div class="toggle-row" id="t-work" onclick="toggleWorkout()">
+          <span class="toggle-label">Workout</span><span class="toggle-status">No</span>
+        </div>
+        
+        <div id="workout-extra" style="display: none;">
+          <div class="field">
+            <label>Type</label>
+            <div class="chips" id="w-type-chips">
+              <div class="chip" onclick="setWType('Home', this)">Home</div>
+              <div class="chip" onclick="setWType('Gym', this)">Gym</div>
+              <div class="chip" onclick="setWType('Run', this)">Run</div>
+              <div class="chip" onclick="setWType('Cycle', this)">Cycle</div>
+              <div class="chip" onclick="setWType('Other', this)">Other</div>
+            </div>
+            <input type="hidden" id="f-w-type">
+          </div>
+          <div class="field">
+            <label>Duration (mins)</label>
+            <input type="number" id="f-w-dur" oninput="recalc()">
+          </div>
+        </div>
+
+        <div class="toggle-row" id="t-cardio" onclick="toggle('cardio')" style="margin-top:15px;">
+          <span class="toggle-label">Cardio</span><span class="toggle-status">No</span>
+        </div>
+
+        <div class="field" style="margin-top: 15px;">
+          <label>Water: <span id="l-water" style="color:var(--cyan); font-weight:bold;">0L</span></label>
+          <input type="range" class="slider" id="f-water" min="0" max="4" step="0.25" value="0" oninput="updateWater()">
+          <div class="slider-labels"><span>0L</span><span>1L</span><span>2L</span><span>3L★</span><span>4L</span></div>
+        </div>
+
+        <div class="field">
+          <label>Weight (kg) - Optional</label>
+          <input type="number" step="0.1" id="f-weight">
+        </div>
+
+        <div class="score-bar-bg"><div class="score-bar-fill" id="bar-strong" style="background:var(--green);"></div></div>
+      </div>
+    </div>
+
+    <!-- 6. SMART -->
+    <div class="section sec-blue open" id="sec-smart">
+      <div class="sec-header" onclick="toggleSec('sec-smart')">
+        <div class="sec-title">🧠 Smart</div>
+        <div class="sec-score" id="lblSmart">0</div>
+      </div>
+      <div class="sec-body">
+        <div class="field">
+          <label>Reading (mins)</label>
+          <input type="number" id="f-read" oninput="recalc()">
+          <div class="preview-text" id="p-read">0m → 0 pts</div>
+        </div>
+        <div class="field">
+          <label>Current Book</label>
+          <div style="display:flex; gap:10px;">
+            <input type="text" id="f-book" style="flex:1;">
+            <button class="btn-calc" style="flex:none; width:40px; padding:0;" onclick="document.getElementById('f-book').value='';">✕</button>
+          </div>
+          <div class="preview-text" id="p-book"></div>
+        </div>
+        <div class="field" style="margin-top:15px;">
+          <label>Focus (1-10)</label>
+          <div class="picker-grid" id="picker-focus"></div>
+          <div class="picker-label" id="l-focus"></div>
+        </div>
+
+        <div class="score-bar-bg"><div class="score-bar-fill" id="bar-smart" style="background:var(--cyan);"></div></div>
+      </div>
+    </div>
+
+    <!-- 7. VITALS -->
+    <div class="section sec-gold open" id="sec-vitals">
+      <div class="sec-header" onclick="toggleSec('sec-vitals')">
+        <div class="sec-title">💫 Vitals</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="sec-body">
+        <div class="field">
+          <label>Mood (1-10)</label>
+          <div class="picker-grid" id="picker-mood"></div>
+          <div class="picker-label" id="l-mood"></div>
+        </div>
+        <div class="field">
+          <label>Energy (1-10)</label>
+          <div class="picker-grid" id="picker-energy"></div>
+          <div class="picker-label" id="l-energy"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. PRODUCTIVITY -->
+    <div class="section sec-gold open" id="sec-prod">
+      <div class="sec-header" onclick="toggleSec('sec-prod')">
+        <div class="sec-title">⚡ Productivity</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="sec-body">
+        <div class="row">
+          <div class="field"><label>Tasks Planned</label><input type="number" id="f-p-plan" oninput="recalc()"></div>
+          <div class="field"><label>Tasks Done</label><input type="number" id="f-p-done" oninput="recalc()"></div>
+        </div>
+        <div class="preview-text" id="p-comp" style="margin-bottom:15px;">Completion: 0%</div>
+        
+        <div class="field">
+          <label>Top Win</label>
+          <textarea id="f-win" maxlength="200" oninput="document.getElementById('l-win').textContent=this.value.length+'/200'"></textarea>
+          <div class="preview-text" style="text-align:right;" id="l-win">0/200</div>
+        </div>
+
+        <div class="field">
+          <label>Subjective Score (1-10)</label>
+          <div class="picker-grid" id="picker-subj"></div>
+          <div class="picker-label" id="l-subj"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. SPRINTS -->
+    <div class="section sec-purple" id="sec-sprints">
+      <div class="sec-header" onclick="toggleSec('sec-sprints')">
+        <div class="sec-title">📌 Active Sprints</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="sec-body" id="sprintsBody">
+        <div style="font-size: 0.8rem; color: var(--text-muted);">Loading sprints...</div>
+      </div>
+    </div>
+
+    <!-- 10. AMRIT -->
+    <div class="section sec-gold" id="sec-amrit">
+      <div class="sec-header" onclick="toggleSec('sec-amrit')">
+        <div class="sec-title">🪙 Amrit Adjustment</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="sec-body">
+        <div class="toggle-row" id="t-a-type" onclick="toggleAType()">
+          <span class="toggle-label">Type</span><span class="toggle-status" id="l-a-type" style="color:var(--green)">+ Add</span>
+        </div>
+        <div class="field"><label>Amount</label><input type="number" id="f-a-amt"></div>
+        <div class="field"><label>Reason</label><input type="text" id="f-a-reason"></div>
+      </div>
+    </div>
+
+    <!-- 11. NOTE -->
+    <div class="section sec-grey" id="sec-note">
+      <div class="sec-header" onclick="toggleSec('sec-note')">
+        <div class="sec-title">📝 Note</div>
+        <div class="chevron">▼</div>
+      </div>
+      <div class="sec-body">
+        <textarea id="f-note" placeholder="Anything worth remembering today..."></textarea>
+      </div>
+    </div>
+
+  </div> <!-- End App Container -->
+
+  <!-- Submit Bar -->
+  <div class="submit-bar">
+    <div class="submit-bar-inner">
+      <button class="btn-calc" onclick="recalc()">Calculate</button>
+      <button class="btn-submit" id="btnSubmit" onclick="submitCheckin()">Submit Check-in →</button>
+    </div>
+  </div>
+
+  <button class="test-fab" onclick="fillTestData()">🧪</button>
+
+  <!-- Result Overlay -->
+  <div class="result-overlay" id="resOverlay">
+    
+    <!-- Level Up wrapper -->
+    <div class="lvl-overlay" id="lvlOverlay">
+      <div class="lvl-card">
+        <div class="lvl-title">★ LEVEL UP ★</div>
+        <div class="lvl-desc" id="lvlDesc">Lv.3 Disciplined → Lv.4 Warrior</div>
+        <svg class="lvl-ring-svg">
+          <circle class="lvl-ring-bg" cx="60" cy="60" r="45"></circle>
+          <circle class="lvl-ring-fill" id="lvlRing" cx="60" cy="60" r="45" stroke-linecap="round"></circle>
+        </svg>
+      </div>
+    </div>
+
+    <div class="scanline-sweep" id="resSweep"></div>
+    
+    <div class="result-card" id="resCard">
+      <div class="rc-top"></div>
+      <div class="rc-body">
+        <div class="rc-title orbitron">SYSTEM UPDATE COMPLETE</div>
+        <div class="rc-date mono" id="rDate">30/04/2026</div>
+        
+        <div class="rc-scores">
+          <div class="rc-score" id="rs-disc">
+            <div class="rc-s-val" style="color:var(--orange);">🔥 <span id="rv-disc">0</span></div>
+            <div class="rc-s-lbl">DISCIPLINE</div>
+          </div>
+          <div class="rc-score" id="rs-strong">
+            <div class="rc-s-val" style="color:var(--green);">💪 <span id="rv-strong">0</span></div>
+            <div class="rc-s-lbl">STRONG</div>
+          </div>
+          <div class="rc-score" id="rs-smart">
+            <div class="rc-s-val" style="color:var(--cyan);">🧠 <span id="rv-smart">0</span></div>
+            <div class="rc-s-lbl">SMART</div>
+          </div>
+          <div class="rc-score" id="rs-overall">
+            <div class="rc-s-val" style="color:var(--gold);">⭐ <span id="rv-overall">0</span></div>
+            <div class="rc-s-lbl">OVERALL</div>
+          </div>
+        </div>
+
+        <div class="rc-amrits" id="rcAmritsBox">
+          <div class="rc-a-earn" id="rAmritEarn">🪙 +0 Amrits earned today</div>
+          <div class="rc-a-tot" id="rAmritTot">🪙 0 total</div>
+        </div>
+
+        <div class="rc-quote" id="rQuote">"Strong day. Every step forward matters."</div>
+
+        <button class="btn-continue" onclick="closeOverlay()">[Continue]</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="analytics.js"></script>
+  <script src="by-engine.js"></script>
+
+  <script>
+    const state = {
+      toggles: { prana: false, hand: false, disc: false, cardio: false, workout: false },
+      pickers: { 'sleep-qual':0, 'focus':0, 'mood':0, 'energy':0, 'subj':0 },
+      wType: '',
+      sprints: [],
+      pastHabits: []
+    };
+
+    const LABELS = {
+      focus: ['','Empty','Scattered','Low','Below avg','Average','Decent','Good','Strong','Very focused','Laser sharp'],
+      mood: ['','Very low','Low','Below avg','Meh','Neutral','OK','Good','Great','Very happy','Blissful'],
+      energy: ['','Exhausted','Very tired','Tired','Low','Moderate','OK','Good','High','Very high','Peak'],
+      subj: ['','Terrible','Very bad','Bad','Below avg','Average','OK','Good','Very good','Excellent','Perfect']
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initDate();
+      initPickers();
+      initBook();
+      loadData();
+      recalc();
+    });
+
+    function initDate() {
+      const d = new Date();
+      document.getElementById('f-date').value = d.toISOString().split('T')[0];
+      document.getElementById('headerDateStr').textContent = d.toLocaleDateString('en-GB');
+    }
+
+    function initBook() {
+      const b = localStorage.getItem('by_current_book');
+      if (b) {
+        document.getElementById('f-book').value = b;
+        document.getElementById('p-book').textContent = "📖 From last session";
+      }
+    }
+
+    function initPickers() {
+      const create = (id, max, color) => {
+        let html = '';
+        for(let i=1; i<=max; i++) html += `<button class="picker-btn" onclick="setPick('${id}', ${i}, '${color}')">${i}</button>`;
+        document.getElementById(`picker-${id}`).innerHTML = html;
+      };
+      create('sleep-qual', 5, 'purple');
+      create('focus', 10, 'blue');
+      create('mood', 10, 'purple');
+      create('energy', 10, 'green');
+      create('subj', 10, 'gold');
+    }
+
+    function toggleSec(id) {
+      document.getElementById(id).classList.toggle('open');
+    }
+
+    function toggle(id) {
+      state.toggles[id] = !state.toggles[id];
+      const el = document.getElementById(`t-${id}`);
+      el.classList.toggle('active', state.toggles[id]);
+      el.querySelector('.toggle-status').textContent = state.toggles[id] ? 'Yes' : 'No';
+      recalc();
+      renderHabitMatrix();
+    }
+
+    function toggleWorkout() {
+      state.toggles.workout = !state.toggles.workout;
+      const el = document.getElementById('t-work');
+      el.classList.toggle('active', state.toggles.workout);
+      el.querySelector('.toggle-status').textContent = state.toggles.workout ? 'Yes' : 'No';
+      document.getElementById('workout-extra').style.display = state.toggles.workout ? 'block' : 'none';
+      recalc();
+      renderHabitMatrix();
+    }
+
+    let isAddAmrit = true;
+    function toggleAType() {
+      isAddAmrit = !isAddAmrit;
+      const el = document.getElementById('l-a-type');
+      el.textContent = isAddAmrit ? '+ Add' : '− Subtract';
+      el.style.color = isAddAmrit ? 'var(--green)' : 'var(--red)';
+    }
+
+    function setPick(id, val, colorClass) {
+      state.pickers[id] = val;
+      const btns = document.getElementById(`picker-${id}`).querySelectorAll('.picker-btn');
+      btns.forEach(b => b.className = 'picker-btn');
+      btns[val-1].classList.add(`active-${colorClass}`);
+      
+      const lblEl = document.getElementById(`l-${id}`);
+      if (lblEl && LABELS[id]) lblEl.textContent = `${val} — ${LABELS[id][val]}`;
+      recalc();
+    }
+
+    function setWType(type, el) {
+      state.wType = type;
+      document.getElementById('f-w-type').value = type;
+      const chips = document.getElementById('w-type-chips').querySelectorAll('.chip');
+      chips.forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function updateWater() {
+      const v = parseFloat(document.getElementById('f-water').value);
+      document.getElementById('l-water').textContent = v + 'L';
+      recalc();
+    }
+
+    function parseTime(timeStr) {
+      if(!timeStr) return 0;
+      const [h,m] = timeStr.split(':').map(Number);
+      return h + m/60;
+    }
+
+    function parseScreen(val) {
+      if(!val) return 0;
+      if(val.includes(':')) {
+        const [h,m] = val.split(':').map(Number);
+        return h + (m||0)/60;
+      }
+      return parseFloat(val) || 0;
+    }
+
+    function parseReps(val) {
+      if(!val) return {sum:0, arr:[]};
+      const arr = val.split('+').map(s => parseInt(s.trim())).filter(n => !isNaN(n));
+      const sum = arr.reduce((a,b)=>a+b, 0);
+      return {sum, arr};
+    }
+
+    function drawChips(containerId, arr) {
+      const el = document.getElementById(containerId);
+      el.innerHTML = arr.map(n => `<span class="rep-chip">${n}</span>`).join('');
+    }
+
+    function recalc() {
+      // Sleep
+      const b = parseTime(document.getElementById('f-bed').value);
+      const w = parseTime(document.getElementById('f-wake').value);
+      let nHrs = 0;
+      if (b || w) {
+        let diff = w - b;
+        if (diff < 0) diff += 24;
+        nHrs = diff;
+        const p = document.getElementById('p-sleep-hrs');
+        p.textContent = `You slept ${nHrs.toFixed(1)} hrs`;
+        p.style.color = nHrs >= 7 ? 'var(--green)' : nHrs >= 5 ? 'var(--orange)' : 'var(--red)';
+      }
+
+      const ns = parseTime(document.getElementById('f-nap-start').value);
+      const ne = parseTime(document.getElementById('f-nap-end').value);
+      let napHrs = 0;
+      if (ns && ne) {
+        let diff = ne - ns;
+        if (diff < 0) diff += 24;
+        napHrs = diff;
+        document.getElementById('p-nap-hrs').textContent = `Nap: ${napHrs.toFixed(1)} hrs`;
+      }
+      
+      const totSleep = nHrs + napHrs;
+      if (napHrs > 0) {
+        document.getElementById('p-total-sleep').style.display = 'block';
+        document.getElementById('p-total-sleep').textContent = `Total Sleep: ${totSleep.toFixed(1)} hrs (${nHrs.toFixed(1)} night + ${napHrs.toFixed(1)} nap)`;
+      }
+
+      // Discipline
+      let d = 0;
+      if (state.toggles.disc) d += 30;
+      const sky = parseInt(document.getElementById('f-sky').value) || 0;
+      const skyPts = sky >= 15 ? 20 : sky > 0 ? 10 : 0;
+      d += skyPts;
+      document.getElementById('p-sky').textContent = `${sky}m → ${sky>=15?'✓ full':sky>0?'~ partial':'0'} (${skyPts} pts)`;
+      
+      const med = parseInt(document.getElementById('f-med').value) || 0;
+      const medPts = med >= 10 ? 10 : med > 0 ? 5 : 0;
+      d += medPts;
+      document.getElementById('p-med').textContent = `${med}m → ${med>=10?'✓ full':med>0?'~ partial':'0'} (${medPts} pts)`;
+      
+      if (state.toggles.prana) d += 5;
+      if (state.toggles.hand) d += 5;
+
+      const scr = parseScreen(document.getElementById('f-screen').value);
+      let scrPts = 0;
+      if (scr > 0 && scr <= 2) scrPts = 10;
+      else if (scr > 2 && scr <= 4) scrPts = 5;
+      d += scrPts;
+      document.getElementById('p-screen').textContent = `${scr.toFixed(1)} hrs → ${scrPts} pts`;
+      
+      if (nHrs >= 7 && nHrs <= 9) d += 10;
+      else if (nHrs >= 6) d += 5;
+
+      d = Math.min(100, d);
+      document.getElementById('lblDisc').textContent = `${d}/100`;
+      document.getElementById('bar-disc').style.width = `${d}%`;
+      document.getElementById('pillDisc').textContent = d;
+
+      // Strong
+      let st = 0;
+      const push = parseReps(document.getElementById('f-push').value);
+      drawChips('c-push', push.arr);
+      const pushPts = push.sum >= 60 ? 25 : Math.round((push.sum/60)*25);
+      st += pushPts;
+      document.getElementById('p-push').textContent = `${push.sum} reps → ${push.sum>=60?'✓ target':Math.round((push.sum/60)*100)+'%'} (${pushPts} pts)`;
+
+      const pull = parseReps(document.getElementById('f-pull').value);
+      drawChips('c-pull', pull.arr);
+      const pullPts = pull.sum >= 20 ? 25 : Math.round((pull.sum/20)*25);
+      st += pullPts;
+      document.getElementById('p-pull').textContent = `${pull.sum} reps → ${pull.sum>=20?'✓ target':Math.round((pull.sum/20)*100)+'%'} (${pullPts} pts)`;
+
+      const pl = parseInt(document.getElementById('f-plank').value) || 0;
+      const plPts = pl >= 120 ? 15 : Math.round((pl/120)*15);
+      st += plPts;
+      document.getElementById('p-plank').textContent = `${pl}s → ${pl>=120?'✓ target':Math.round((pl/120)*100)+'%'} (${plPts} pts)`;
+
+      if (state.toggles.workout) {
+        const wd = parseInt(document.getElementById('f-w-dur').value) || 0;
+        st += Math.min(25, Math.round((wd/45)*25));
+      }
+      if (state.toggles.cardio) st += 10;
+
+      const wat = parseFloat(document.getElementById('f-water').value) || 0;
+      if (wat >= 3) st += 10;
+      else if (wat >= 2) st += 5;
+
+      st = Math.min(100, st);
+      document.getElementById('lblStrong').textContent = st;
+      document.getElementById('bar-strong').style.width = `${st}%`;
+      document.getElementById('pillStrong').textContent = st;
+
+      // Smart
+      let sm = 0;
+      const rd = parseInt(document.getElementById('f-read').value) || 0;
+      const rdPts = rd >= 30 ? 70 : Math.round((rd/30)*70);
+      sm += rdPts;
+      document.getElementById('p-read').textContent = `${rd}m → ${rd>=30?'✓ target':Math.round((rd/30)*100)+'%'} (${rdPts} pts)`;
+      
+      const foc = state.pickers.focus;
+      if (foc) sm += (foc/10)*30;
+
+      sm = Math.min(100, Math.round(sm));
+      document.getElementById('lblSmart').textContent = sm;
+      document.getElementById('bar-smart').style.width = `${sm}%`;
+      document.getElementById('pillSmart').textContent = sm;
+
+      // Prod
+      const plan = parseInt(document.getElementById('f-p-plan').value) || 0;
+      const done = parseInt(document.getElementById('f-p-done').value) || 0;
+      if (plan > 0) {
+        const comp = Math.round((done/plan)*100);
+        const b = comp >= 80 ? "✓ great" : comp >= 50 ? "~ ok" : "✗ low";
+        document.getElementById('p-comp').textContent = `Completion: ${comp}% (${b})`;
+      }
+
+      // Overall
+      const o = Math.round((d * 0.40) + (sm * 0.20) + (st * 0.25) + 10);
+      document.getElementById('pillOverall').textContent = o;
+
+      renderHabitMatrix();
+    }
+
+    function renderHabitMatrix() {
+      const coreH = ['SKY', 'Meditation', 'Push Ups', 'Pull Ups', 'Plank'];
+      const dailyH = ['Sleep 11PM', 'Wake 5AM', 'Pranayama', 'Hand Ex.', 'Disciplined', 'Reading', 'Workout'];
+
+      const getPillar = (name) => {
+        if (['Push Ups', 'Pull Ups', 'Plank', 'Workout'].includes(name)) return 'var(--green)';
+        if (['Reading'].includes(name)) return 'var(--cyan)';
+        return 'var(--orange)';
+      };
+
+      const today = new Date();
+      const dates = [];
+      for(let i=6; i>=0; i--) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        dates.push(d.toISOString().split('T')[0]); 
+      }
+
+      const map = {};
+      state.pastHabits.forEach(row => {
+        const d = new Date(row.Date || row.date);
+        if(!isNaN(d)) {
+          const dStr = d.toISOString().split('T')[0];
+          const name = row['Habit Name'] || row.name;
+          if(!map[name]) map[name] = {};
+          map[name][dStr] = ((row.Done || row.done) === 'Yes');
+        }
+      });
+
+      const tStr = dates[6];
+      const sky = parseInt(document.getElementById('f-sky').value) || 0;
+      const med = parseInt(document.getElementById('f-med').value) || 0;
+      const push = parseReps(document.getElementById('f-push').value).sum;
+      const pull = parseReps(document.getElementById('f-pull').value).sum;
+      const plank = parseInt(document.getElementById('f-plank').value) || 0;
+      const rd = parseInt(document.getElementById('f-read').value) || 0;
+      
+      const b = parseTime(document.getElementById('f-bed').value);
+      const w = parseTime(document.getElementById('f-wake').value);
+
+      if(!map['SKY']) map['SKY']={}; map['SKY'][tStr] = sky >= 15;
+      if(!map['Meditation']) map['Meditation']={}; map['Meditation'][tStr] = med >= 10;
+      if(!map['Push Ups']) map['Push Ups']={}; map['Push Ups'][tStr] = push >= 60;
+      if(!map['Pull Ups']) map['Pull Ups']={}; map['Pull Ups'][tStr] = pull >= 20;
+      if(!map['Plank']) map['Plank']={}; map['Plank'][tStr] = plank >= 120;
+      if(!map['Reading']) map['Reading']={}; map['Reading'][tStr] = rd >= 30;
+      if(!map['Pranayama']) map['Pranayama']={}; map['Pranayama'][tStr] = state.toggles.prana;
+      if(!map['Hand Ex.']) map['Hand Ex.']={}; map['Hand Ex.'][tStr] = state.toggles.hand;
+      if(!map['Disciplined']) map['Disciplined']={}; map['Disciplined'][tStr] = state.toggles.disc;
+      if(!map['Workout']) map['Workout']={}; map['Workout'][tStr] = state.toggles.workout;
+      
+      if(!map['Sleep 11PM']) map['Sleep 11PM']={}; map['Sleep 11PM'][tStr] = (b > 0 && b <= 23.25);
+      if(!map['Wake 5AM']) map['Wake 5AM']={}; map['Wake 5AM'][tStr] = (w > 0 && w <= 5.5);
+
+      const build = (list, title) => {
+        let h = `<div class="matrix-sub">${title}</div>`;
+        list.forEach(name => {
+          const col = getPillar(name);
+          h += `<div class="matrix-row"><div class="matrix-label" title="${name}">${name}</div><div class="matrix-days">`;
+          dates.forEach((dStr, idx) => {
+            const isToday = idx === 6;
+            const done = map[name] && map[name][dStr];
+            let cls = 'matrix-square' + (isToday ? ' today' : '');
+            let st = done ? `background:${col}; box-shadow:0 0 5px ${col};` : '';
+            h += `<div class="${cls}" style="${st}"></div>`;
+          });
+          h += `</div></div>`;
+        });
+        return h;
+      };
+
+      let html = build(coreH, 'CORE') + build(dailyH, 'DAILY');
+      
+      let doneToday = 0;
+      [...coreH, ...dailyH].forEach(n => { if(map[n] && map[n][tStr]) doneToday++; });
+      html += `<div style="font-size:0.75rem; color:var(--text-muted); text-align:right; margin-top:8px;">${doneToday}/12 done today</div>`;
+
+      document.getElementById('habitMatrixBody').innerHTML = html;
+    }
+
+    async function loadData() {
+      if (typeof BY_ENGINE !== 'undefined') {
+        try {
+          state.pastHabits = await BY_ENGINE.getSheetData('habits');
+          renderHabitMatrix();
+        } catch(e) { console.warn('habits fetch failed'); }
+        
+        try {
+          const url = localStorage.getItem('brahma_script_url');
+          if (url) {
+            const res = await fetch(url + '?action=getSprints');
+            const data = await res.json();
+            if (data && data.sprints) {
+              state.sprints = data.sprints;
+              renderSprints();
+            }
+          }
+        } catch(e) { 
+          document.getElementById('sprintsBody').innerHTML = '<div style="color:var(--text-muted);font-size:0.8rem;">Could not load sprints.</div>';
+        }
+      }
+    }
+
+    function renderSprints() {
+      const b = document.getElementById('sprintsBody');
+      if (!state.sprints || state.sprints.length === 0) {
+        b.innerHTML = '<div style="color:var(--text-muted);font-size:0.8rem;">No active sprints.</div>';
+        return;
+      }
+      let html = '';
+      state.sprints.forEach((s, idx) => {
+        html += `
+          <div class="sprint-card">
+            <div class="sprint-title">📌 ${s.name}</div>
+            <div class="sprint-meta">${s.pillar} · Target: ${s.target}</div>
+            <div class="toggle-row" id="t-sprint-${idx}" onclick="toggleSprint(${idx})">
+              <span class="toggle-label">Completed</span><span class="toggle-status">No</span>
+            </div>
+            <div class="row">
+              <div class="field"><label>Mins spent</label><input type="number" id="f-sprint-min-${idx}"></div>
+              <div class="field"><label>Note (opt)</label><input type="text" id="f-sprint-note-${idx}"></div>
+            </div>
+          </div>
+        `;
+        s._done = false;
+      });
+      b.innerHTML = html;
+    }
+
+    function toggleSprint(idx) {
+      const s = state.sprints[idx];
+      s._done = !s._done;
+      const el = document.getElementById(`t-sprint-${idx}`);
+      el.classList.toggle('active', s._done);
+      el.querySelector('.toggle-status').textContent = s._done ? 'Yes' : 'No';
+    }
+
+    function checkDateExists() {
+      // Logic to check if date already exists in daily payload
+    }
+
+    async function submitCheckin() {
+      const url = localStorage.getItem('brahma_script_url');
+      if (!url) {
+        alert("⚠️ Set AppScript URL in Launcher first");
+        return;
+      }
+
+      const btn = document.getElementById('btnSubmit');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      const d = document.getElementById('f-date').value;
+      const bStr = document.getElementById('f-bed').value;
+      const wStr = document.getElementById('f-wake').value;
+      const ns = document.getElementById('f-nap-start').value;
+      const ne = document.getElementById('f-nap-end').value;
+
+      const payload = {
+        tab: 'checkin',
+        date: d,
+        
+        bed_time: bStr, wake_time: wStr, sleep_hours: parseTime(wStr) - parseTime(bStr) + (parseTime(wStr)<parseTime(bStr)?24:0),
+        nap_start: ns, nap_end: ne, nap_hours: ns&&ne ? parseTime(ne) - parseTime(ns) + (parseTime(ne)<parseTime(ns)?24:0) : 0,
+        sleep_quality: state.pickers['sleep-qual'],
+
+        sky_mins: document.getElementById('f-sky').value,
+        meditation_mins: document.getElementById('f-med').value,
+        pranayama: state.toggles.prana, hand_exercise: state.toggles.hand,
+        disciplined: state.toggles.disc,
+        screen_time: parseScreen(document.getElementById('f-screen').value),
+
+        push_ups: document.getElementById('f-push').value,
+        pull_ups: document.getElementById('f-pull').value,
+        plank_secs: document.getElementById('f-plank').value,
+        workout: state.toggles.workout, workout_type: state.wType, workout_dur: document.getElementById('f-w-dur').value,
+        cardio: state.toggles.cardio, water: document.getElementById('f-water').value, weight: document.getElementById('f-weight').value,
+
+        reading_mins: document.getElementById('f-read').value,
+        current_book: document.getElementById('f-book').value, focus: state.pickers.focus,
+
+        mood: state.pickers.mood, energy: state.pickers.energy,
+
+        tasks_planned: document.getElementById('f-p-plan').value, tasks_done: document.getElementById('f-p-done').value,
+        subj_score: state.pickers.subj, top_win: document.getElementById('f-win').value,
+
+        note: document.getElementById('f-note').value,
+        disc_score: document.getElementById('pillDisc').textContent,
+        strong_score: document.getElementById('pillStrong').textContent,
+        smart_score: document.getElementById('pillSmart').textContent,
+        
+        sprints: state.sprints.filter(s=>s._done || document.getElementById(`f-sprint-min-${state.sprints.indexOf(s)}`).value).map(s => {
+          const idx = state.sprints.indexOf(s);
+          return { name: s.name, done: s._done, mins: document.getElementById(`f-sprint-min-${idx}`).value, note: document.getElementById(`f-sprint-note-${idx}`).value };
+        })
+      };
+
+      if (payload.current_book) localStorage.setItem('by_current_book', payload.current_book);
+
+      try {
+        await fetch(url, {
+          method: 'POST', mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const earned = Math.round(parseFloat(payload.disc_score)*0.4 + parseFloat(payload.smart_score)*0.2 + parseFloat(payload.strong_score)*0.25 + 10);
+        
+        const oldCumul = parseInt(localStorage.getItem('by_cumulative_amrits')) || 0;
+        const newCumul = oldCumul + earned;
+        localStorage.setItem('by_cumulative_amrits', newCumul);
+
+        showResult(earned, oldCumul, newCumul, d);
+
+      } catch(e) {
+        alert("❌ Submit failed. Try again.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Submit Check-in →';
+      }
+    }
+
+    function showResult(earned, oldCumul, newCumul, dateStr) {
+      window.scrollTo(0,0);
+      
+      const getLv = (pts) => typeof BY !== 'undefined' ? BY.calcLevel(pts).level : Math.floor(pts/1000)+1;
+      const oldLvl = getLv(oldCumul);
+      const newLvl = getLv(newCumul);
+
+      document.getElementById('rDate').textContent = dateStr;
+      document.getElementById('rv-disc').textContent = document.getElementById('pillDisc').textContent;
+      document.getElementById('rv-strong').textContent = document.getElementById('pillStrong').textContent;
+      document.getElementById('rv-smart').textContent = document.getElementById('pillSmart').textContent;
+      document.getElementById('rv-overall').textContent = document.getElementById('pillOverall').textContent;
+      
+      document.getElementById('rAmritEarn').textContent = `🪙 +${earned} Amrits earned today`;
+      document.getElementById('rAmritTot').textContent = `🪙 ${newCumul} total`;
+
+      const amritStart = localStorage.getItem('by_amrit_start');
+      document.getElementById('rcAmritsBox').style.display = amritStart ? 'block' : 'none';
+
+      document.getElementById('resOverlay').classList.add('active');
+
+      if (newLvl > oldLvl) {
+        const fl = document.getElementById('whiteFlash');
+        fl.classList.add('active');
+        setTimeout(() => fl.classList.remove('active'), 200);
+
+        const lo = document.getElementById('lvlOverlay');
+        lo.classList.add('active');
+        document.getElementById('lvlDesc').textContent = `Lv.${oldLvl} → Lv.${newLvl}`;
+        
+        setTimeout(() => {
+          document.getElementById('lvlRing').classList.add('animate');
+        }, 100);
+
+        setTimeout(() => {
+          lo.classList.remove('active');
+          document.getElementById('lvlRing').classList.remove('animate');
+          playNormalSequence();
+        }, 2500);
+      } else {
+        playNormalSequence();
+      }
+    }
+
+    function playNormalSequence() {
+      const sw = document.getElementById('resSweep');
+      sw.style.animation = 'none';
+      void sw.offsetWidth; 
+      sw.style.animation = 'sweep 0.6s ease-in-out';
+
+      setTimeout(() => {
+        document.getElementById('resCard').classList.add('show');
+        
+        const scores = document.querySelectorAll('.rc-score');
+        scores.forEach((el, i) => {
+          setTimeout(() => el.classList.add('show'), 200 + (i*100));
+        });
+
+        setTimeout(() => {
+          if (localStorage.getItem('by_amrit_start')) {
+            document.getElementById('rcAmritsBox').classList.add('show');
+          }
+          document.getElementById('rQuote').classList.add('show');
+        }, 800);
+
+      }, 400);
+    }
+
+    function closeOverlay() {
+      document.getElementById('resOverlay').classList.remove('active');
+      document.getElementById('resCard').classList.remove('show');
+      document.querySelectorAll('.rc-score, .rc-amrits, .rc-quote').forEach(el => el.classList.remove('show'));
+    }
+
+    function fillTestData() {
+      document.getElementById('f-bed').value = "23:30";
+      document.getElementById('f-wake').value = "06:15";
+      setPick('sleep-qual', 4, 'purple');
+
+      document.getElementById('f-sky').value = 20;
+      document.getElementById('f-med').value = 15;
+      if(!state.toggles.prana) toggle('prana');
+      if(!state.toggles.disc) toggle('disc');
+      document.getElementById('f-screen').value = "1:45";
+
+      document.getElementById('f-push').value = "25+20+20";
+      document.getElementById('f-plank').value = 90;
+      if(!state.toggles.workout) toggleWorkout();
+      setWType('Gym', document.getElementById('w-type-chips').children[1]);
+      document.getElementById('f-w-dur').value = 45;
+      document.getElementById('f-water').value = 3; updateWater();
+
+      document.getElementById('f-read').value = 40;
+      document.getElementById('f-book').value = "Atomic Habits";
+      setPick('focus', 8, 'blue');
+
+      setPick('mood', 8, 'purple');
+      setPick('energy', 7, 'green');
+
+      document.getElementById('f-p-plan').value = 5;
+      document.getElementById('f-p-done').value = 4;
+      document.getElementById('f-win').value = "Shipped the v1 prototype to production!";
+      setPick('subj', 9, 'gold');
+
+      recalc();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brahma Yantra — GOD MODE</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,900&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #08080a;
+  --surface: #111116;
+  --card:    #16161e;
+  --card2:   #1c1c26;
+  --border:  #252530;
+  --border2: #3a3a4d;
+  --text1:   #fdf6ee;
+  --text2:   #b8b4cc;
+  --text3:   #6e6a88;
+  --disc:    #ff6b2b;
+  --strong:  #10b981;
+  --smart:   #3b82f6;
+  --gold:    #f59e0b;
+  --purple:  #8b5cf6;
+  --red:     #f87171;
+  --teal:    #22d3ee;
+}
+body {
+  background: var(--bg); color: var(--text1);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px; line-height: 1.6;
+  min-height: 100vh; padding-bottom: 80px;
+}
+
+/* ── HEADER ─────────────────────────────────────────────── */
+.header {
+  background: linear-gradient(135deg,#0f0f1a,#1a0a2e 50%,#0a1628);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 28px 16px;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 16px; flex-wrap: wrap;
+}
+.hdr-title {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-weight: 900;
+  font-size: 1.5rem; color: var(--text1);
+}
+.hdr-title em { color: var(--disc); font-style: normal; }
+.god-badge {
+  font-family: 'DM Mono', monospace; font-size: 0.6rem;
+  background: linear-gradient(135deg,var(--purple),var(--disc));
+  color: #fff; padding: 3px 10px; border-radius: 20px;
+  letter-spacing: 0.1em; text-transform: uppercase; margin-left: 10px;
+}
+.hdr-right { display: flex; gap: 10px; }
+.btn {
+  padding: 8px 16px; border-radius: 10px;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--text2); font-family: 'DM Mono', monospace;
+  font-size: 0.68rem; cursor: pointer; transition: all 0.15s;
+  white-space: nowrap;
+}
+.btn:hover { border-color: var(--border2); color: var(--text1); }
+.btn.purple-btn {
+  background: rgba(124,58,237,0.15);
+  border-color: rgba(124,58,237,0.4); color: #a78bfa;
+}
+.btn.purple-btn:hover { background: rgba(124,58,237,0.28); }
+
+/* ── ENGINE NAV ─────────────────────────────────────────── */
+.engine-nav {
+  display: flex; background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.nav-btn {
+  padding: 11px 16px; border: none; background: transparent;
+  color: var(--text3); font-family: 'DM Mono', monospace;
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em;
+  cursor: pointer; white-space: nowrap;
+  border-bottom: 2px solid transparent; transition: all 0.15s;
+}
+.nav-btn:hover { color: var(--text2); }
+.nav-btn.active { color: var(--text1); border-bottom-color: var(--disc); }
+
+/* ── STATUS ─────────────────────────────────────────────── */
+.status-bar {
+  padding: 7px 28px; background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-family: 'DM Mono', monospace; font-size: 0.75rem;
+  color: var(--text2); display: flex; align-items: center; gap: 16px;
+}
+.sdot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--strong); box-shadow: 0 0 6px var(--strong);
+  display: inline-block; flex-shrink: 0;
+}
+
+/* ── MAIN ───────────────────────────────────────────────── */
+.main { padding: 24px 28px; max-width: 1400px; margin: 0 auto; }
+.engine { display: none; }
+.engine.active { display: block; }
+
+/* ── SECTION HEADER ─────────────────────────────────────── */
+.sec-hdr { margin-bottom: 20px; }
+.sec-title {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-weight: 900;
+  font-size: 1.85rem; color: var(--text1);
+}
+.sec-title em { color: var(--disc); font-style: normal; }
+.sec-sub {
+  font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+  color: var(--text2); margin-top: 6px; line-height: 1.7;
+}
+
+/* ── CARD ───────────────────────────────────────────────── */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 20px; padding: 22px; margin-bottom: 18px;
+}
+.card-title {
+  font-family: 'DM Mono', monospace; font-size: 0.78rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text2); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.cdot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── KPI STRIP ──────────────────────────────────────────── */
+.kpi-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+.kpi {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 16px 18px; flex: 1; min-width: 130px;
+}
+.kpi-val {
+  font-family: 'DM Mono', monospace; font-size: 1.8rem;
+  font-weight: 600; color: var(--text1); line-height: 1;
+}
+.kpi-lbl { font-size: 0.58rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+.kpi-delta { font-size: 0.68rem; margin-top: 3px; }
+
+/* ── INSIGHT ────────────────────────────────────────────── */
+.insight {
+  display: flex; gap: 12px; padding: 12px 14px;
+  border-radius: 12px; background: var(--card2);
+  border: 1px solid var(--border); margin-bottom: 8px;
+  align-items: flex-start;
+}
+.insight-icon { font-size: 1.1rem; flex-shrink: 0; }
+.insight-body { font-size: 0.9rem; line-height: 1.65; color: var(--text1); }
+.insight-body strong { color: #ffffff; font-weight: 700; }
+.insight-body.g strong { color: var(--strong); }
+.insight-body.b strong { color: var(--smart); }
+.insight-body.au strong { color: var(--gold); }
+
+/* ── BAR ROWS ───────────────────────────────────────────── */
+.bar-chart { display: flex; flex-direction: column; gap: 9px; }
+.bar-row { display: flex; align-items: center; gap: 10px; }
+.bar-lbl {
+  font-family: 'DM Mono', monospace; font-size: 0.76rem;
+  color: var(--text2); width: 130px; flex-shrink: 0; text-align: right;
+}
+.bar-track {
+  flex: 1; height: 9px; background: var(--border);
+  border-radius: 5px; overflow: hidden;
+}
+.bar-fill { height: 100%; border-radius: 5px; transition: width 0.8s ease; }
+.bar-val {
+  font-family: 'DM Mono', monospace; font-size: 0.8rem;
+  color: var(--text1); width: 46px; flex-shrink: 0; font-weight: 600;
+}
+
+/* ── GRID HELPERS ───────────────────────────────────────── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+.gauto { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 14px; }
+
+/* ── CORRELATION TABLE ──────────────────────────────────── */
+.corr-wrap { overflow-x: auto; }
+.corr-table { border-collapse: separate; border-spacing: 3px; }
+.corr-table th {
+  font-family: 'DM Mono', monospace; font-size: 0.68rem;
+  color: var(--text2); padding: 4px 6px; text-align: center;
+  text-transform: uppercase; font-weight: 600; white-space: nowrap;
+}
+.corr-table th.row-lbl { text-align: right; padding-right: 8px; }
+.corr-cell {
+  width: 48px; height: 34px; border-radius: 7px;
+  text-align: center; vertical-align: middle;
+  font-family: 'DM Mono', monospace; font-size: 0.75rem;
+  font-weight: 500; cursor: default; transition: transform 0.1s;
+  position: relative;
+}
+.corr-cell:hover { transform: scale(1.15); z-index: 10; }
+.corr-cell.diag { background: var(--border2); color: var(--text3); }
+
+/* ── DOW HEATMAP ────────────────────────────────────────── */
+.dow-wrap { overflow-x: auto; }
+.dow-table { border-collapse: separate; border-spacing: 4px; min-width: 520px; }
+.dow-table th {
+  font-family: 'DM Mono', monospace; font-size: 0.72rem;
+  color: var(--text2); text-transform: uppercase;
+  padding: 4px 6px; text-align: center; font-weight: 600;
+}
+.dow-lbl {
+  font-family: 'DM Mono', monospace; font-size: 0.72rem;
+  color: var(--text2); padding-right: 10px; text-align: right;
+  white-space: nowrap;
+}
+.dow-cell {
+  height: 36px; min-width: 60px; border-radius: 8px;
+  text-align: center; vertical-align: middle;
+  font-family: 'DM Mono', monospace; font-size: 0.82rem;
+  font-weight: 600; cursor: default; transition: transform 0.1s;
+}
+.dow-cell:hover { transform: scale(1.06); }
+
+/* ── PROFILE CARDS ──────────────────────────────────────── */
+.prof-card {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px;
+}
+.prof-name { font-size: 0.82rem; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
+.prof-val {
+  font-family: 'DM Mono', monospace; font-size: 1.5rem;
+  font-weight: 600; color: var(--text1); line-height: 1;
+}
+.prof-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+.prof-fill { height: 100%; border-radius: 2px; }
+.prof-sub { font-size: 0.62rem; color: var(--text3); margin-top: 4px; }
+
+/* ── MOMENTUM GAUGE ─────────────────────────────────────── */
+.gauge-wrap { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
+.gauge-svg-wrap { position: relative; flex-shrink: 0; }
+.gauge-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding-top: 20px;
+}
+.gauge-num {
+  font-family: 'DM Mono', monospace; font-size: 2rem;
+  font-weight: 500; color: var(--text1); line-height: 1;
+}
+.gauge-tag { font-size: 0.62rem; color: var(--text2); margin-top: 3px; }
+.momentum-bars { flex: 1; min-width: 200px; }
+
+/* ── TIMELINE ───────────────────────────────────────────── */
+.timeline { padding-left: 22px; position: relative; }
+.timeline::before {
+  content: ''; position: absolute; left: 7px;
+  top: 0; bottom: 0; width: 2px; background: var(--border);
+}
+.tl-item { position: relative; margin-bottom: 18px; }
+.tl-dot {
+  position: absolute; left: -18px; top: 5px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--border2); border: 2px solid var(--border);
+}
+.tl-dot.r { background: var(--red); border-color: var(--red); box-shadow: 0 0 7px rgba(220,38,38,0.45); }
+.tl-dot.g { background: var(--strong); border-color: var(--strong); box-shadow: 0 0 7px rgba(5,150,105,0.45); }
+.tl-dot.gold { background: var(--gold); border-color: var(--gold); }
+.tl-body { font-size: 0.8rem; color: var(--text1); line-height: 1.5; }
+.tl-date { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--text3); margin-top: 2px; }
+
+/* ── PROJ LEGEND ────────────────────────────────────────── */
+.proj-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
+.proj-leg-item { display: flex; align-items: center; gap: 6px; font-size: 0.65rem; color: var(--text2); font-family: 'DM Mono', monospace; }
+.proj-leg-line { width: 22px; height: 3px; border-radius: 2px; }
+
+/* ── EMPTY / LOADING ────────────────────────────────────── */
+.empty { text-align: center; padding: 60px 20px; color: var(--text3); font-family: 'DM Mono', monospace; font-size: 0.8rem; }
+.empty-icon { font-size: 2rem; display: block; margin-bottom: 10px; }
+
+/* ── TEST FAB ───────────────────────────────────────────── */
+.test-fab {
+  position: fixed; bottom: 20px; right: 20px; z-index: 200;
+  background: rgba(124,58,237,0.9); color: #fff; border: none;
+  border-radius: 50px; padding: 10px 18px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 700;
+  cursor: pointer; box-shadow: 0 4px 16px rgba(124,58,237,0.5);
+  transition: transform 0.1s;
+}
+.test-fab:active { transform: scale(0.95); }
+
+/* ── SPINNER ────────────────────────────────────────────── */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner {
+  display: inline-block; width: 10px; height: 10px;
+  border: 2px solid var(--border); border-top-color: var(--disc);
+  border-radius: 50%; animation: spin 0.7s linear infinite;
+  vertical-align: middle; margin-right: 5px;
+}
+
+@media (max-width: 700px) {
+  .main { padding: 16px; }
+  .g2, .g3 { grid-template-columns: 1fr; }
+  .kpi { min-width: 110px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="hdr-title">
+      <em>Brahma Yantra</em>
+      <span class="god-badge">⚡ God Mode</span>
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--text3);margin-top:5px;text-transform:uppercase;letter-spacing:0.1em;">
+      Deep Analytics · Know Thyself
+    </div>
+  </div>
+  <div class="hdr-right">
+    <button class="btn" onclick="window.location.href='habits.html'">← Habits</button>
+    <button class="btn" style="border-color:rgba(167,139,250,0.4);color:#a78bfa;" onclick="window.location.href='oracle.html'">🔮 Oracle</button>
+    <button class="btn purple-btn" onclick="loadTestData()">🧪 Test Data</button>
+  </div>
+</div>
+
+<!-- ENGINE NAV -->
+<div class="engine-nav">
+  <button class="nav-btn active" onclick="showEngine('corr',this)">① Correlation</button>
+  <button class="nav-btn" onclick="showEngine('dep',this)">② Dependencies</button>
+  <button class="nav-btn" onclick="showEngine('profile',this)">③ Best Day</button>
+  <button class="nav-btn" onclick="showEngine('momentum',this)">④ Momentum</button>
+  <button class="nav-btn" onclick="showEngine('dow',this)">⑤ Day Patterns</button>
+  <button class="nav-btn" onclick="showEngine('relapse',this)">⑥ Relapse Recovery</button>
+  <button class="nav-btn" onclick="showEngine('compound',this)">⑦ Compound Effect</button>
+</div>
+
+<!-- STATUS -->
+<div class="status-bar">
+  <span class="sdot" id="sdot"></span>
+  <span id="status-text"><span class="spinner"></span>Loading data…</span>
+  <span id="status-meta"></span>
+</div>
+
+<div class="main">
+
+  <!-- ══════════════════════════════════════════════════════
+       ENGINE 1 — CORRELATION MATRIX
+  ══════════════════════════════════════════════════════ -->
+  <div class="engine active" id="eng-corr">
+    <div class="sec-hdr">
+      <div class="sec-title">① <em>Correlation</em> Engine</div>
+      <div class="sec-sub">Pearson correlation between every tracked metric. Red = negative, Green = positive. Hover a cell for the exact coefficient and what it means.</div>
+    </div>
+    <div class="kpi-row" id="corr-kpis"></div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--disc)"></span>Full Correlation Matrix</div>
+      <div class="corr-wrap"><table class="corr-table" id="corr-table"></table></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--gold)"></span>Key Insights</div>
+      <div id="corr-insights"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       ENGINE 2 — HABIT DEPENDENCY MAP
+  ══════════════════════════════════════════════════════ -->
+  <div class="engine" id="eng-dep">
+    <div class="sec-hdr">
+      <div class="sec-title">② Habit <em>Dependencies</em></div>
+      <div class="sec-sub">When you do habit A, how often do you also do habit B? Reveals which habits pull others with them.</div>
+    </div>
+    <div class="kpi-row" id="dep-kpis"></div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--smart)"></span>Dependency Matrix — "When I do A, I also do B ___% of the time"</div>
+      <div class="corr-wrap"><table class="corr-table" id="dep-table"></table></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--gold)"></span>Strongest Habit Chains</div>
+      <div id="dep-insights"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       ENGINE 3 — BEST DAY PROFILE
+  ══════════════════════════════════════════════════════ -->
+  <div class="engine" id="eng-profile">
+    <div class="sec-hdr">
+      <div class="sec-title">③ <em>Best Day</em> Profile</div>
+      <div class="sec-sub">Your top 10% days vs average days vs worst 10%. A portrait of your best self, derived from data.</div>
+    </div>
+    <div class="kpi-row" id="profile-kpis"></div>
+    <div class="g2" style="margin-bottom:18px;">
+      <div class="card">
+        <div class="card-title"><span class="cdot" style="background:var(--gold)"></span>🏆 Top 10% Days — What you always do</div>
+        <div id="profile-top" class="gauto"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="cdot" style="background:var(--text3)"></span>📉 Bottom 10% Days — What you skip</div>
+        <div id="profile-bot" class="gauto"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--disc)"></span>Gap Analysis — Top vs Bottom vs Average</div>
+      <div id="profile-bars" class="bar-chart"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       ENGINE 4 — MOMENTUM SCORE
+  ══════════════════════════════════════════════════════ -->
+  <div class="engine" id="eng-momentum">
+    <div class="sec-hdr">
+      <div class="sec-title">④ <em>Momentum</em> Score</div>
+      <div class="sec-sub">A 14-day exponentially weighted score. Harder to build than streak, harder to lose. The truest measure of your current state.</div>
+    </div>
+    <div class="kpi-row" id="mom-kpis"></div>
+    <div class="g2" style="margin-bottom:18px;">
+      <div class="card">
+        <div class="card-title"><span class="cdot" style="background:var(--disc)"></span>Overall Momentum Gauge</div>
+        <div class="gauge-wrap">
+          <div class="gauge-svg-wrap">
+            <svg id="gauge-svg" width="180" height="120" viewBox="0 0 180 120"></svg>
+            <div class="gauge-center">
+              <div class="gauge-num" id="gauge-num">–</div>
+              <div class="gauge-tag">/ 100</div>
+            </div>
+          </div>
+          <div class="momentum-bars">
+            <div id="mom-pillar-bars" class="bar-chart"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="cdot" style="background:var(--smart)"></span>14-Day Momentum Trend</div>
+        <canvas id="mom-canvas" height="140"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--gold)"></span>Momentum Insights</div>
+      <div id="mom-insights"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       ENGINE 5 — DAY OF WEEK PATTERNS
+  ══════════════════════════════════════════════════════ -->
+  <div class="engine" id="eng-dow">
+    <div class="sec-hdr">
+      <div class="sec-title">⑤ Day-of-Week <em>Patterns</em></div>
+      <div class="sec-sub">Which days are you strongest? Which days do you consistently slip? Heatmap of every habit across Mon–Sun.</div>
+    </div>
+    <div class="kpi-row" id="dow-kpis"></div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--teal)"></span>Completion % per Habit per Day of Week</div>
+      <div class="dow-wrap"><table class="dow-table" id="dow-table"></table></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--gold)"></span>Your Strongest & Weakest Days</div>
+      <div id="dow-insights"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       ENGINE 6 — RELAPSE RECOVERY
+  ══════════════════════════════════════════════════════ -->
+  <div class="engine" id="eng-relapse">
+    <div class="sec-hdr">
+      <div class="sec-title">⑥ Relapse <em>Recovery</em> Analysis</div>
+      <div class="sec-sub">After each relapse, how fast did you recover? Is recovery improving over time? Your personal resilience data.</div>
+    </div>
+    <div class="kpi-row" id="rel-kpis"></div>
+    <div class="g2" style="margin-bottom:18px;">
+      <div class="card">
+        <div class="card-title"><span class="cdot" style="background:var(--disc)"></span>NoFap Streak History</div>
+        <div id="rel-timeline" class="timeline"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="cdot" style="background:var(--smart)"></span>Recovery Speed Over Time</div>
+        <canvas id="rel-canvas" height="160"></canvas>
+        <div style="margin-top:12px;" id="rel-recovery-bars" class="bar-chart"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--gold)"></span>Recovery Insights</div>
+      <div id="rel-insights"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       ENGINE 7 — COMPOUND EFFECT PROJECTOR
+  ══════════════════════════════════════════════════════ -->
+  <div class="engine" id="eng-compound">
+    <div class="sec-hdr">
+      <div class="sec-title">⑦ <em>Compound Effect</em> Projector</div>
+      <div class="sec-sub">If you maintain current consistency for 6 months, 1 year, 3 years — where will your scores be? Based on actual trajectory, not optimism.</div>
+    </div>
+    <div class="kpi-row" id="comp-kpis"></div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--disc)"></span>Score Projection — 6M · 1Y · 3Y</div>
+      <div class="proj-legend" id="proj-legend"></div>
+      <canvas id="comp-canvas" height="200"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--smart)"></span>Habit Completion Projection</div>
+      <div id="comp-bars" class="bar-chart"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="cdot" style="background:var(--gold)"></span>What the data says about your future</div>
+      <div id="comp-insights"></div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<button class="test-fab" onclick="loadTestData()">🧪 Test Data</button>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+//  CONFIG
+// ══════════════════════════════════════════════════════════════
+const SCRIPT_URL = 'YOUR_APPS_SCRIPT_DEPLOYMENT_URL_HERE';
+
+// Metrics used in correlation/dependency analysis
+const METRICS = [
+  { key:'SKY Mins',        label:'SKY',        type:'num'  },
+  { key:'Meditation Mins', label:'Meditation',  type:'num'  },
+  { key:'Plank Secs',      label:'Plank',       type:'num'  },
+  { key:'Reading Mins',    label:'Reading',     type:'num'  },
+  { key:'Focus',           label:'Focus',       type:'num'  },
+  { key:'Mood',            label:'Mood',        type:'num'  },
+  { key:'Energy',          label:'Energy',      type:'num'  },
+  { key:'Water',           label:'Water',       type:'num'  },
+];
+
+// Habits (for dependency + DOW analysis)
+const HABITS = [
+  { col:'NoFap',           label:'NoFap',     check:'yn'                       },
+  { col:'SKY Mins',        label:'SKY',       check:'num', target:15            },
+  { col:'Meditation Mins', label:'Meditation',check:'num', target:10            },
+  { col:'Pranayama',       label:'Pranayama', check:'yn'                       },
+  { col:'Hand Exercise',   label:'Hand Ex.',  check:'yn'                       },
+  { col:'Bed Time',        label:'Sleep 11PM',check:'time',target:'23:00',tol:10},
+  { col:'Wake Time',       label:'Wake 5AM',  check:'time',target:'05:00',tol:10},
+  { col:'Push Ups',        label:'Push Ups',  check:'sets'                     },
+  { col:'Pull Ups',        label:'Pull Ups',  check:'sets'                     },
+  { col:'Plank Secs',      label:'Plank',     check:'num', target:30            },
+  { col:'Workout',         label:'Workout',   check:'yn'                       },
+  { col:'Reading Mins',    label:'Reading',   check:'num', target:30            },
+];
+
+const PILLAR_COLOR = { disc:'#ff6b2b', strong:'#059669', smart:'#2563eb' };
+const DOW_LABELS   = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+// ══════════════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════════════
+let allRows = [];
+
+// ══════════════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', fetchData);
+
+// ══════════════════════════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════════════════════════
+async function fetchData() {
+  if (!SCRIPT_URL || SCRIPT_URL.includes('YOUR_APPS')) {
+    setStatus('⚠ Set SCRIPT_URL — using test data', false);
+    return;
+  }
+  try {
+    const r = await fetch(`${SCRIPT_URL}?tab=daily`);
+    const j = await r.json();
+    if (j.status === 'ok') {
+      allRows = j.data || [];
+      runAllEngines();
+      setStatus(`✓ ${allRows.length} rows loaded`, true);
+    } else { setStatus('✗ ' + j.message, false); }
+  } catch(e) { setStatus('✗ Connection error', false); }
+}
+
+function setStatus(msg, ok) {
+  document.getElementById('status-text').innerHTML = msg;
+  const dot = document.getElementById('sdot');
+  dot.style.background   = ok ? '#059669' : '#dc2626';
+  dot.style.boxShadow    = ok ? '0 0 6px #059669' : '0 0 6px #dc2626';
+  if (allRows.length) {
+    const sorted = [...allRows].sort((a,b) => parseDate(a['Date'])-parseDate(b['Date']));
+    const first  = sorted[0]?.['Date'] || '–';
+    const last   = sorted[sorted.length-1]?.['Date'] || '–';
+    document.getElementById('status-meta').textContent = `${first} → ${last}`;
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ENGINE NAV
+// ══════════════════════════════════════════════════════════════
+function showEngine(id, btn) {
+  document.querySelectorAll('.engine').forEach(e => e.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('eng-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ══════════════════════════════════════════════════════════════
+//  PARSERS & HELPERS
+// ══════════════════════════════════════════════════════════════
+function parseDate(s) {
+  if (!s) return null;
+  const str = String(s).trim();
+  if (str.includes('/')) { const [d,m,y]=str.split('/').map(Number); if(y&&m&&d) return new Date(y,m-1,d); }
+  if (str.includes('-')) { const [y,m,d]=str.split('-').map(Number); return new Date(y,m-1,d); }
+  const MO={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+  const p=str.split(' '); if(p.length>=3){const m=MO[p[1]?.toLowerCase().slice(0,3)]; if(m!==undefined) return new Date(parseInt(p[2]),m,parseInt(p[0]));}
+  return null;
+}
+function fmtDate(d) {
+  const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${String(d.getDate()).padStart(2,'0')} ${mo[d.getMonth()]} ${d.getFullYear()}`;
+}
+function parseSets(s) {
+  if (!s) return 0;
+  return String(s).split('+').map(x=>parseInt(x.trim())).filter(n=>!isNaN(n)&&n>0).reduce((a,b)=>a+b,0);
+}
+function checkTime(a, t, tol=10) {
+  if (!a||!t) return false;
+  const [ah,am]=String(a).split(':').map(Number);
+  const [th,tm]=String(t).split(':').map(Number);
+  return Math.abs((ah*60+am)-(th*60+tm)) <= tol*2;
+}
+function isDone(row, h) {
+  if (!row) return false;
+  const v = row[h.col];
+  if (h.check==='time') return checkTime(v, h.target, h.tol);
+  if (h.check==='num')  return (parseFloat(v)||0) >= h.target;
+  if (h.check==='sets') return parseSets(v) > 0;
+  return v==='Yes'||v===true||v===1;
+}
+function getNum(row, key) { return parseFloat(row?.[key]) || 0; }
+function mean(arr) { return arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0; }
+function pearson(ax, ay) {
+  if (ax.length < 3) return 0;
+  const mx=mean(ax), my=mean(ay);
+  let num=0, dx=0, dy=0;
+  for (let i=0;i<ax.length;i++) {
+    const a=ax[i]-mx, b=ay[i]-my;
+    num+=a*b; dx+=a*a; dy+=b*b;
+  }
+  return (dx&&dy) ? num/Math.sqrt(dx*dy) : 0;
+}
+function clamp(v,lo,hi) { return Math.max(lo,Math.min(hi,v)); }
+
+// Colour scale: -1→red, 0→dark, +1→green
+function corrColor(r) {
+  const abs = Math.abs(r);
+  if (r > 0.1) {
+    const t = clamp((r-0.1)/0.9,0,1);
+    const g = Math.round(80 + t*119); // 80→199
+    return `rgba(5,${g},105,${0.15+t*0.7})`;
+  }
+  if (r < -0.1) {
+    const t = clamp((-r-0.1)/0.9,0,1);
+    return `rgba(220,38,38,${0.15+t*0.7})`;
+  }
+  return 'rgba(50,50,63,0.5)';
+}
+function textForCorr(r) {
+  const abs=Math.abs(r);
+  if (abs<0.05) return '–';
+  return (r>0?'+':'')+r.toFixed(2);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  RUN ALL ENGINES
+// ══════════════════════════════════════════════════════════════
+function runAllEngines() {
+  const sorted = [...allRows]
+    .filter(r => r['Date'])
+    .sort((a,b) => parseDate(a['Date'])-parseDate(b['Date']));
+
+  buildCorrelation(sorted);
+  buildDependency(sorted);
+  buildBestDay(sorted);
+  buildMomentum(sorted);
+  buildDOW(sorted);
+  buildRelapse(sorted);
+  buildCompound(sorted);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ENGINE 1 — CORRELATION MATRIX
+// ══════════════════════════════════════════════════════════════
+function buildCorrelation(rows) {
+  // Extract numeric vectors
+  const vecs = {};
+  METRICS.forEach(m => {
+    vecs[m.key] = rows.map(r => getNum(r, m.key));
+  });
+
+  // Build full matrix
+  const n    = METRICS.length;
+  const mat  = Array.from({length:n},()=>Array(n).fill(0));
+  for (let i=0;i<n;i++) for (let j=0;j<n;j++) {
+    mat[i][j] = (i===j) ? 1 : pearson(vecs[METRICS[i].key], vecs[METRICS[j].key]);
+  }
+
+  // KPIs
+  const allPairs = [];
+  for (let i=0;i<n;i++) for (let j=i+1;j<n;j++) allPairs.push({i,j,r:mat[i][j]});
+  allPairs.sort((a,b) => Math.abs(b.r)-Math.abs(a.r));
+  const topPos = allPairs.filter(p=>p.r>0)[0];
+  const topNeg = allPairs.filter(p=>p.r<0)[0];
+
+  document.getElementById('corr-kpis').innerHTML = `
+    <div class="kpi"><div class="kpi-val" style="color:var(--strong)">${topPos?'+'+topPos.r.toFixed(2):'–'}</div>
+      <div class="kpi-lbl">Strongest Positive</div>
+      <div class="kpi-sub">${topPos?METRICS[topPos.i].label+' ↔ '+METRICS[topPos.j].label:'–'}</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--red)">${topNeg?topNeg.r.toFixed(2):'–'}</div>
+      <div class="kpi-lbl">Strongest Negative</div>
+      <div class="kpi-sub">${topNeg?METRICS[topNeg.i].label+' ↔ '+METRICS[topNeg.j].label:'–'}</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--gold)">${allPairs.filter(p=>Math.abs(p.r)>0.3).length}</div>
+      <div class="kpi-lbl">Strong Links (r>0.3)</div>
+      <div class="kpi-sub">out of ${allPairs.length} pairs</div></div>
+    <div class="kpi"><div class="kpi-val">${rows.length}</div>
+      <div class="kpi-lbl">Days Analysed</div></div>`;
+
+  // Table
+  const table = document.getElementById('corr-table');
+  let html = '<tr><th></th>' + METRICS.map(m=>`<th>${m.label}</th>`).join('') + '</tr>';
+  for (let i=0;i<n;i++) {
+    html += `<tr><th class="row-lbl">${METRICS[i].label}</th>`;
+    for (let j=0;j<n;j++) {
+      const r   = mat[i][j];
+      const cls = i===j ? 'diag' : '';
+      const bg  = i===j ? '' : `background:${corrColor(r)};`;
+      const col = i===j ? '' : `color:${Math.abs(r)>0.3?'#fdf6ee':'var(--text2)'};`;
+      html += `<td class="corr-cell ${cls}" style="${bg}${col}" title="${METRICS[i].label} vs ${METRICS[j].label}: ${r.toFixed(3)}">${i===j?'●':textForCorr(r)}</td>`;
+    }
+    html += '</tr>';
+  }
+  table.innerHTML = html;
+
+  // Insights
+  const top5 = allPairs.slice(0,5);
+  let insHtml = '';
+  top5.forEach(p => {
+    const pos = p.r > 0;
+    const abs = Math.abs(p.r);
+    const strength = abs>0.6?'strong':abs>0.35?'moderate':'weak';
+    const icon = pos ? '🟢' : '🔴';
+    insHtml += `<div class="insight">
+      <div class="insight-icon">${icon}</div>
+      <div class="insight-body ${pos?'g':''}">
+        <strong>${METRICS[p.i].label}</strong> and <strong>${METRICS[p.j].label}</strong>
+        have a <strong>${strength} ${pos?'positive':'negative'} correlation (${p.r>0?'+':''}${p.r.toFixed(2)})</strong>.
+        ${pos
+          ? `On days you score high in one, you tend to score higher in the other.`
+          : `On days you score high in one, the other tends to be lower.`}
+      </div></div>`;
+  });
+  document.getElementById('corr-insights').innerHTML = insHtml;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ENGINE 2 — DEPENDENCY MAP
+// ══════════════════════════════════════════════════════════════
+function buildDependency(rows) {
+  const n   = HABITS.length;
+  const mat = Array.from({length:n},()=>Array(n).fill(0));
+
+  // mat[i][j] = % of days habit j done GIVEN habit i done
+  for (let i=0;i<n;i++) {
+    const doneI = rows.filter(r=>isDone(r,HABITS[i]));
+    for (let j=0;j<n;j++) {
+      if (i===j) { mat[i][j]=1; continue; }
+      mat[i][j] = doneI.length
+        ? doneI.filter(r=>isDone(r,HABITS[j])).length / doneI.length
+        : 0;
+    }
+  }
+
+  // KPIs
+  const basePct  = HABITS.map((_,i) => mean(rows.map(r=>isDone(r,HABITS[i])?1:0)));
+  const pairs = [];
+  for (let i=0;i<n;i++) for (let j=0;j<n;j++) {
+    if (i===j) continue;
+    const lift = mat[i][j] - basePct[j];
+    pairs.push({i,j,dep:mat[i][j],lift});
+  }
+  pairs.sort((a,b)=>b.lift-a.lift);
+  const top = pairs[0];
+
+  document.getElementById('dep-kpis').innerHTML = `
+    <div class="kpi"><div class="kpi-val" style="color:var(--strong)">${top?Math.round(top.dep*100)+'%':'–'}</div>
+      <div class="kpi-lbl">Strongest Chain</div>
+      <div class="kpi-sub">${top?HABITS[top.i].label+' → '+HABITS[top.j].label:'–'}</div></div>
+    <div class="kpi"><div class="kpi-val">${pairs.filter(p=>p.dep>0.8).length}</div>
+      <div class="kpi-lbl">Strong Dependencies</div><div class="kpi-sub">>80% co-occurrence</div></div>
+    <div class="kpi"><div class="kpi-val">${pairs.filter(p=>p.lift>0.2).length}</div>
+      <div class="kpi-lbl">Positive Lifts</div><div class="kpi-sub">>20% above baseline</div></div>`;
+
+  // Table
+  const table = document.getElementById('dep-table');
+  let html = '<tr><th>When I do →</th>' + HABITS.map(h=>`<th>${h.label}</th>`).join('') + '</tr>';
+  for (let i=0;i<n;i++) {
+    html += `<tr><th class="row-lbl">${HABITS[i].label}</th>`;
+    for (let j=0;j<n;j++) {
+      const v   = mat[i][j];
+      const cls = i===j ? 'diag' : '';
+      const pct = Math.round(v*100);
+      const bg  = i===j ? '' : `background:${corrColor(v-0.5)};`;
+      const col = i===j ? '' : `color:${v>0.6?'#fdf6ee':'var(--text2)'};`;
+      html += `<td class="corr-cell ${cls}" style="${bg}${col}">${i===j?'●':pct+'%'}</td>`;
+    }
+    html += '</tr>';
+  }
+  table.innerHTML = html;
+
+  // Insights — top 5 chains with meaningful lift
+  const top5 = pairs.filter(p=>p.lift>0.1).slice(0,6);
+  let insHtml = '';
+  top5.forEach(p => {
+    const icon = p.lift > 0.3 ? '🔗' : '➡️';
+    insHtml += `<div class="insight">
+      <div class="insight-icon">${icon}</div>
+      <div class="insight-body g">
+        On days you do <strong>${HABITS[p.i].label}</strong>, you also do
+        <strong>${HABITS[p.j].label}</strong>
+        <strong>${Math.round(p.dep*100)}%</strong> of the time
+        — <strong>+${Math.round(p.lift*100)}%</strong> above your baseline.
+      </div></div>`;
+  });
+  if (!insHtml) insHtml = '<div class="insight"><div class="insight-icon">📊</div><div class="insight-body">Not enough data yet to find strong chains. Keep logging!</div></div>';
+  document.getElementById('dep-insights').innerHTML = insHtml;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ENGINE 3 — BEST DAY PROFILE
+// ══════════════════════════════════════════════════════════════
+function buildBestDay(rows) {
+  if (rows.length < 10) { document.getElementById('profile-kpis').innerHTML='<div class="kpi"><div class="kpi-val">–</div><div class="kpi-lbl">Need 10+ days</div></div>'; return; }
+
+  // Score each day by number of habits done
+  const scored = rows.map(r => ({
+    row: r,
+    score: HABITS.filter(h=>isDone(r,h)).length
+  })).sort((a,b)=>b.score-a.score);
+
+  const topN    = Math.max(1, Math.floor(scored.length*0.1));
+  const botN    = topN;
+  const topDays = scored.slice(0,topN);
+  const botDays = scored.slice(-botN);
+  const avgDays = scored;
+
+  // Per-habit averages
+  function habitAvg(days) {
+    return HABITS.map(h => ({
+      h,
+      pct: Math.round(days.filter(d=>isDone(d.row,h)).length/days.length*100)
+    }));
+  }
+  const topHabits = habitAvg(topDays);
+  const botHabits = habitAvg(botDays);
+  const avgHabits = habitAvg(avgDays);
+
+  // KPIs
+  const topScore = mean(topDays.map(d=>d.score));
+  const botScore = mean(botDays.map(d=>d.score));
+  const avgScore = mean(avgDays.map(d=>d.score));
+
+  document.getElementById('profile-kpis').innerHTML = `
+    <div class="kpi"><div class="kpi-val" style="color:var(--gold)">${Math.round(topScore)}/12</div>
+      <div class="kpi-lbl">Top 10% Avg</div><div class="kpi-sub">${topN} days</div></div>
+    <div class="kpi"><div class="kpi-val">${Math.round(avgScore*10)/10}/12</div>
+      <div class="kpi-lbl">Overall Avg</div><div class="kpi-sub">${rows.length} days</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--red)">${Math.round(botScore)}/12</div>
+      <div class="kpi-lbl">Bottom 10% Avg</div><div class="kpi-sub">${botN} days</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--strong)">${Math.round((topScore-botScore)/12*100)}%</div>
+      <div class="kpi-lbl">Gap</div><div class="kpi-sub">top vs bottom</div></div>`;
+
+  // Profile cards
+  function profCards(habits) {
+    return habits.map(({h,pct}) => {
+      const color = pct>79?'var(--strong)':pct>49?'var(--gold)':'var(--red)';
+      return `<div class="prof-card">
+        <div class="prof-name">${h.label}</div>
+        <div class="prof-val" style="color:${color}">${pct}%</div>
+        <div class="prof-bar"><div class="prof-fill" style="width:${pct}%;background:${color}"></div></div>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('profile-top').innerHTML = profCards(topHabits);
+  document.getElementById('profile-bot').innerHTML = profCards(botHabits);
+
+  // Gap bars — top vs avg vs bot
+  let barHtml = '';
+  HABITS.forEach((h,i) => {
+    const t = topHabits[i].pct, a = avgHabits[i].pct, b = botHabits[i].pct;
+    barHtml += `
+      <div style="margin-bottom:10px;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--text2);margin-bottom:5px;">${h.label}</div>
+        <div class="bar-row"><div class="bar-lbl" style="width:60px;font-size:0.58rem;color:var(--gold)">Top 10%</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${t}%;background:var(--gold)"></div></div>
+          <div class="bar-val">${t}%</div></div>
+        <div class="bar-row"><div class="bar-lbl" style="width:60px;font-size:0.58rem;color:var(--text2)">Average</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${a}%;background:var(--text3)"></div></div>
+          <div class="bar-val">${a}%</div></div>
+        <div class="bar-row"><div class="bar-lbl" style="width:60px;font-size:0.58rem;color:var(--red)">Bottom 10%</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${b}%;background:var(--red)"></div></div>
+          <div class="bar-val">${b}%</div></div>
+      </div>`;
+  });
+  document.getElementById('profile-bars').innerHTML = barHtml;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ENGINE 4 — MOMENTUM SCORE
+// ══════════════════════════════════════════════════════════════
+function buildMomentum(rows) {
+  if (rows.length < 3) return;
+
+  // EWM with half-life = 7 days (alpha = 1 - exp(-ln2/7))
+  const alpha = 1 - Math.exp(-Math.LN2 / 7);
+
+  function ewm(values) {
+    let s = values[0];
+    return values.map(v => { s = alpha*v + (1-alpha)*s; return s; });
+  }
+
+  // Daily habit completion % (0-100)
+  const dailyScore = rows.map(r => HABITS.filter(h=>isDone(r,h)).length / HABITS.length * 100);
+  const momentum   = ewm(dailyScore);
+  const current    = Math.round(momentum[momentum.length-1]);
+
+  // Per-pillar momentum
+  const PILLAR_HABITS = {
+    disc:   HABITS.filter(h=>['NoFap','SKY','Meditation','Pranayama','Hand Ex.','Sleep 11PM','Wake 5AM'].includes(h.label)),
+    strong: HABITS.filter(h=>['Push Ups','Pull Ups','Plank','Workout'].includes(h.label)),
+    smart:  HABITS.filter(h=>['Reading'].includes(h.label)),
+  };
+  const pillarMom = {};
+  Object.entries(PILLAR_HABITS).forEach(([k,habits]) => {
+    if (!habits.length) return;
+    const scores = rows.map(r => habits.filter(h=>isDone(r,h)).length/habits.length*100);
+    const ew     = ewm(scores);
+    pillarMom[k] = Math.round(ew[ew.length-1]);
+  });
+
+  // KPIs
+  const prev7avg  = mean(momentum.slice(-14,-7));
+  const curr7avg  = mean(momentum.slice(-7));
+  const trend     = curr7avg - prev7avg;
+  document.getElementById('mom-kpis').innerHTML = `
+    <div class="kpi"><div class="kpi-val" style="color:${current>70?'var(--strong)':current>40?'var(--gold)':'var(--red)'}">${current}</div>
+      <div class="kpi-lbl">Current Momentum</div><div class="kpi-sub">14-day EWM</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:${trend>0?'var(--strong)':'var(--red)'}">${trend>0?'+':''}${Math.round(trend)}</div>
+      <div class="kpi-lbl">7-Day Trend</div><div class="kpi-sub">vs prev 7 days</div></div>
+    <div class="kpi"><div class="kpi-val">${Math.round(Math.max(...momentum))}</div>
+      <div class="kpi-lbl">Peak Momentum</div><div class="kpi-sub">all time</div></div>
+    <div class="kpi"><div class="kpi-val">${rows.length}</div>
+      <div class="kpi-lbl">Days in Model</div></div>`;
+
+  // Gauge SVG
+  drawGauge(current);
+  document.getElementById('gauge-num').textContent = current;
+
+  // Pillar bars — BUG 8 fix: use display names not raw keys
+  const PILLAR_NAMES = { disc:'Discipline', strong:'Strong', smart:'Smart' };
+  let pbHtml = '';
+  Object.entries(pillarMom).forEach(([k,v]) => {
+    const color = PILLAR_COLOR[k];
+    const prev7scores = rows.slice(-14,-7).map(r => PILLAR_HABITS[k].length ? PILLAR_HABITS[k].filter(h=>isDone(r,h)).length/PILLAR_HABITS[k].length*100 : 0);
+    const curr7scores = rows.slice(-7).map(r => PILLAR_HABITS[k].length ? PILLAR_HABITS[k].filter(h=>isDone(r,h)).length/PILLAR_HABITS[k].length*100 : 0);
+    const pTrend = mean(curr7scores) - mean(prev7scores);
+    const arrow = pTrend > 2 ? '↑' : pTrend < -2 ? '↓' : '→';
+    const arrowCol = pTrend > 2 ? 'var(--strong)' : pTrend < -2 ? 'var(--red)' : 'var(--text3)';
+    pbHtml += `<div class="bar-row">
+      <div class="bar-lbl">${PILLAR_NAMES[k]} <span style="color:${arrowCol};font-size:0.8rem;">${arrow}</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${v}%;background:${color}"></div></div>
+      <div class="bar-val" style="color:${color}">${v}</div></div>`;
+  });
+  document.getElementById('mom-pillar-bars').innerHTML = pbHtml;
+
+  // Canvas — last 60 days momentum trend
+  const last60m = momentum.slice(-60);
+  const last60s = dailyScore.slice(-60);
+  drawLineCanvas('mom-canvas', [
+    { data:last60s, color:'rgba(50,50,100,0.4)', fill:true, label:'Daily' },
+    { data:last60m, color:'#ff6b2b', fill:false, label:'Momentum' },
+  ]);
+
+  // Insights
+  const insHtml = `
+    <div class="insight"><div class="insight-icon">${trend>5?'📈':trend<-5?'📉':'➡️'}</div>
+      <div class="insight-body ${trend>0?'g':''}">
+        Your momentum is currently <strong>${current}/100</strong> and 
+        <strong>${trend>2?'rising':trend<-2?'declining':'holding steady'}</strong> 
+        (${trend>0?'+':''}${Math.round(trend)} vs last 7 days).
+        ${current>70?'You are in flow. Keep going.':current>40?'Solid foundation. Small pushes compound fast.':'Every logged day adds to your momentum.'}
+      </div></div>`;
+  document.getElementById('mom-insights').innerHTML = insHtml;
+}
+
+function drawGauge(value) {
+  const svg = document.getElementById('gauge-svg');
+  const cx=90, cy=98, r=68;
+  // Semicircle: left (180°) to right (0°) going through top
+  const startAngle = Math.PI;   // left
+  const endAngle   = 0;         // right (going counter-clockwise through top = sweep anti = 0,0 flag)
+  // Fill angle: from left, clockwise by value/100 * π
+  const fillAngle  = startAngle + (value/100) * Math.PI;
+  const toXY = a => [cx + r*Math.cos(a), cy + r*Math.sin(a)];
+  const [sx,sy] = toXY(startAngle);        // left point
+  const [ex,ey] = toXY(0);                 // right point
+  const [fx,fy] = toXY(fillAngle);         // fill end
+  const fillLarge = (fillAngle - startAngle) > Math.PI ? 1 : 0;
+  const color = value>70?'#10b981':value>40?'#f59e0b':'#f87171';
+  // Track: full semicircle from left to right going up (large-arc=1, sweep=0 means counter-clockwise)
+  // Using sweep-flag=0 draws the top arc
+  svg.innerHTML = `
+    <path d="M${sx},${sy} A${r},${r} 0 0,1 ${ex},${ey}" stroke="#252530" stroke-width="14" fill="none" stroke-linecap="round"/>
+    <path d="M${sx},${sy} A${r},${r} 0 ${fillLarge},1 ${fx},${fy}" stroke="${color}" stroke-width="14" fill="none" stroke-linecap="round" style="filter:drop-shadow(0 0 8px ${color})"/>
+    <text x="${cx}" y="${cy+32}" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#6e6a88" letter-spacing="1">MOMENTUM</text>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ENGINE 5 — DAY OF WEEK PATTERNS
+// ══════════════════════════════════════════════════════════════
+function buildDOW(rows) {
+  // Group by day of week (0=Mon ... 6=Sun)
+  const byDow = Array.from({length:7},()=>[]);
+  rows.forEach(r => {
+    const d = parseDate(r['Date']);
+    if (!d) return;
+    const dow = (d.getDay()+6)%7; // Mon=0
+    byDow[dow].push(r);
+  });
+
+  // Per-habit per-DOW completion
+  const mat = HABITS.map(h => byDow.map(dayRows =>
+    dayRows.length ? Math.round(dayRows.filter(r=>isDone(r,h)).length/dayRows.length*100) : null
+  ));
+
+  // Overall by DOW
+  const overallByDow = byDow.map(dayRows => {
+    if (!dayRows.length) return null;
+    return Math.round(mean(dayRows.map(r=>HABITS.filter(h=>isDone(r,h)).length/HABITS.length*100)));
+  });
+
+  // KPIs
+  const bestDow  = overallByDow.indexOf(Math.max(...overallByDow.filter(x=>x!==null)));
+  const worstDow = overallByDow.indexOf(Math.min(...overallByDow.filter(x=>x!==null)));
+  document.getElementById('dow-kpis').innerHTML = `
+    <div class="kpi"><div class="kpi-val" style="color:var(--strong)">${DOW_LABELS[bestDow]}</div>
+      <div class="kpi-lbl">Strongest Day</div><div class="kpi-sub">${overallByDow[bestDow]}% avg completion</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--red)">${DOW_LABELS[worstDow]}</div>
+      <div class="kpi-lbl">Weakest Day</div><div class="kpi-sub">${overallByDow[worstDow]}% avg completion</div></div>
+    <div class="kpi"><div class="kpi-val">${byDow.map(d=>d.length).reduce((a,b)=>a+b,0)}</div>
+      <div class="kpi-lbl">Total Days</div></div>`;
+
+  // Table
+  const table = document.getElementById('dow-table');
+  let html = '<tr><th></th>' + DOW_LABELS.map(d=>`<th>${d}</th>`).join('') + '<th>AVG</th></tr>';
+
+  // Overall row
+  html += `<tr><td class="dow-lbl" style="color:var(--gold);font-weight:700;">OVERALL</td>`;
+  overallByDow.forEach(v => {
+    const bg    = v===null ? 'var(--border)' : `hsla(${v*1.2},60%,${35+v*0.2}%,0.7)`;
+    const color = v===null ? 'var(--text3)' : '#fdf6ee';
+    html += `<td class="dow-cell" style="background:${bg};color:${color};">${v===null?'–':v+'%'}</td>`;
+  });
+  const ov = overallByDow.filter(x=>x!==null);
+  html += `<td class="dow-cell" style="background:var(--border2);color:var(--text2);">${ov.length?Math.round(mean(ov))+'%':'–'}</td></tr>`;
+
+  // Per-habit rows
+  HABITS.forEach((h,i) => {
+    html += `<tr><td class="dow-lbl">${h.label}</td>`;
+    mat[i].forEach(v => {
+      const bg    = v===null ? 'rgba(30,30,38,0.5)' : `hsla(${v*1.2},55%,${25+v*0.22}%,0.8)`;
+      const color = v===null ? 'var(--text3)' : v>50 ? '#fdf6ee' : 'var(--text2)';
+      html += `<td class="dow-cell" style="background:${bg};color:${color};">${v===null?'–':v+'%'}</td>`;
+    });
+    const avg = mat[i].filter(x=>x!==null);
+    html += `<td class="dow-cell" style="background:var(--border2);color:var(--text2);">${avg.length?Math.round(mean(avg))+'%':'–'}</td></tr>`;
+  });
+  table.innerHTML = html;
+
+  // Insights
+  const gap = overallByDow[bestDow] - overallByDow[worstDow];
+  document.getElementById('dow-insights').innerHTML = `
+    <div class="insight"><div class="insight-icon">📅</div>
+      <div class="insight-body g"><strong>${DOW_LABELS[bestDow]}</strong> is your strongest day 
+        at <strong>${overallByDow[bestDow]}%</strong> avg completion.</div></div>
+    <div class="insight"><div class="insight-icon">⚠️</div>
+      <div class="insight-body"><strong>${DOW_LABELS[worstDow]}</strong> is your weakest day 
+        at <strong>${overallByDow[worstDow]}%</strong>. 
+        That's a <strong>${gap}% gap</strong> — worth a Sunday review ritual.</div></div>
+    <div class="insight"><div class="insight-icon">💡</div>
+      <div class="insight-body au">Your weekday vs weekend average: 
+        <strong>${Math.round(mean([0,1,2,3,4].map(i=>overallByDow[i]).filter(x=>x!==null)))}%</strong> vs 
+        <strong>${Math.round(mean([5,6].map(i=>overallByDow[i]).filter(x=>x!==null)))}%</strong>.
+      </div></div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ENGINE 6 — RELAPSE RECOVERY
+// ══════════════════════════════════════════════════════════════
+function buildRelapse(rows) {
+  // Extract NoFap status per day
+  const nofapRows = rows.filter(r=>r['NoFap']!==undefined);
+  if (!nofapRows.length) {
+    document.getElementById('rel-kpis').innerHTML='<div class="kpi"><div class="kpi-val">–</div><div class="kpi-lbl">No NoFap data</div></div>';
+    return;
+  }
+
+  // Build streaks: array of {start, end, days, relapseDate}
+  const streaks = [];
+  let start = null, count = 0;
+
+  nofapRows.forEach((r,i) => {
+    const kept = r['NoFap']==='Yes'||r['NoFap']===true||r['NoFap']===1;
+    if (kept) {
+      if (!start) start = r['Date'];
+      count++;
+    } else {
+      if (start && count > 0) {
+        streaks.push({ start, days: count, relapseDate: r['Date'] });
+      }
+      start = null; count = 0;
+    }
+  });
+  // Current ongoing streak
+  if (start && count > 0) streaks.push({ start, days: count, relapseDate: null });
+
+  // KPIs
+  const completed = streaks.filter(s=>s.relapseDate);
+  const current   = streaks.find(s=>!s.relapseDate);
+  const avgRecovery = completed.length > 1
+    ? Math.round(mean(completed.slice(1).map((s,i) => {
+        // Days between relapse[i-1] and start of streak[i]
+        const prev = completed[i]; // actually need gap calculation
+        return s.days; // simplified: streak length as proxy for recovery
+      })))
+    : null;
+
+  document.getElementById('rel-kpis').innerHTML = `
+    <div class="kpi"><div class="kpi-val" style="color:var(--strong)">${current?current.days+'d':'–'}</div>
+      <div class="kpi-lbl">Current Streak</div><div class="kpi-sub">${current?'since '+current.start:'–'}</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--gold)">${Math.max(...streaks.map(s=>s.days))}d</div>
+      <div class="kpi-lbl">Longest Streak</div></div>
+    <div class="kpi"><div class="kpi-val">${completed.length}</div>
+      <div class="kpi-lbl">Total Relapses</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--smart)">${streaks.length>1?Math.round(mean(completed.map(s=>s.days)))+'d':'–'}</div>
+      <div class="kpi-lbl">Avg Streak Length</div></div>`;
+
+  // Timeline
+  let tlHtml = '';
+  streaks.forEach((s,i) => {
+    const isRecord = s.days === Math.max(...streaks.map(x=>x.days));
+    const isCurrent = !s.relapseDate;
+    tlHtml += `<div class="tl-item">
+      <div class="tl-dot ${isCurrent?'g':isRecord?'gold':'r'}"></div>
+      <div class="tl-body">
+        ${isCurrent
+          ? `<strong style="color:var(--strong)">Current streak — ${s.days} days</strong> 🔥`
+          : isRecord
+          ? `<strong style="color:var(--gold)">Personal Best — ${s.days} days</strong> 🏆`
+          : `<strong>Streak #${i+1} — ${s.days} days</strong>`}
+      </div>
+      <div class="tl-date">${s.start}${s.relapseDate?' → relapsed '+s.relapseDate:' → ongoing'}</div>
+    </div>`;
+  });
+  document.getElementById('rel-timeline').innerHTML = tlHtml || '<div class="tl-body" style="color:var(--text3)">No streaks found yet.</div>';
+
+  // Recovery bar chart — streak lengths over time
+  let recHtml = '';
+  completed.forEach((s,i) => {
+    const max = Math.max(...streaks.map(x=>x.days));
+    const pct = Math.round(s.days/max*100);
+    const color = i===completed.indexOf(completed.reduce((a,b)=>a.days>b.days?a:b)) ? 'var(--gold)' : 'var(--disc)';
+    recHtml += `<div class="bar-row">
+      <div class="bar-lbl" style="font-size:0.6rem;">Streak #${i+1}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>
+      <div class="bar-val">${s.days}d</div></div>`;
+  });
+  if (current) recHtml += `<div class="bar-row">
+    <div class="bar-lbl" style="font-size:0.6rem;color:var(--strong)">Current 🔥</div>
+    <div class="bar-track"><div class="bar-fill" style="width:${Math.round(current.days/Math.max(...streaks.map(x=>x.days))*100)}%;background:var(--strong)"></div></div>
+    <div class="bar-val" style="color:var(--strong)">${current.days}d</div></div>`;
+  document.getElementById('rel-recovery-bars').innerHTML = recHtml;
+
+  // Trend canvas — streak lengths over time
+  if (streaks.length > 1) {
+    drawLineCanvas('rel-canvas', [
+      { data: streaks.map(s=>s.days), color:'var(--disc)', fill:true, label:'Streak Length' }
+    ], { xLabels: streaks.map((_,i)=>'#'+(i+1)) });
+  }
+
+  // Insights — rel-insights populated here (BUG 6 fix: was missing)
+  const improving = completed.length > 2 &&
+    mean(completed.slice(-2).map(s=>s.days)) > mean(completed.slice(0,2).map(s=>s.days));
+  const avgStreakLen = completed.length ? Math.round(mean(completed.map(s=>s.days))) : 0;
+  document.getElementById('rel-insights').innerHTML = `
+    <div class="insight"><div class="insight-icon">${improving?'📈':'🔄'}</div>
+      <div class="insight-body ${improving?'g':''}">
+        ${completed.length > 2
+          ? `Your streak lengths are <strong>${improving?'getting longer over time — resilience is building':'variable — the pattern is still forming'}</strong>.`
+          : 'Not enough completed streaks yet to determine trend. Keep going.'}
+        <span style="display:block;margin-top:4px;font-size:0.78rem;color:var(--text2);font-style:italic;">
+          ${improving ? 'Each recovery is stronger than the last. This is real progress.' : 'Every streak adds data. The oracle gets smarter as you go.'}
+        </span>
+      </div></div>
+    ${current ? `<div class="insight"><div class="insight-icon">🔥</div>
+      <div class="insight-body g">Current streak: <strong>${current.days} days</strong> since ${current.start}. 
+      ${current.days > avgStreakLen ? `<strong>Above your personal average of ${avgStreakLen}d.</strong> You are in growth territory.` : `Building toward your average of ${avgStreakLen}d. Stay focused.`}
+      </div></div>` : ''}
+    ${completed.length >= 2 ? `<div class="insight"><div class="insight-icon">📊</div>
+      <div class="insight-body">
+        Your average streak length is <strong>${avgStreakLen} days</strong> across ${completed.length} completed streaks.
+        <span style="display:block;margin-top:4px;font-size:0.78rem;color:var(--text2);font-style:italic;">Your personal best is ${Math.max(...streaks.map(s=>s.days))}d. That ceiling can be broken.</span>
+      </div></div>` : ''}`;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ENGINE 7 — COMPOUND EFFECT PROJECTOR
+// ══════════════════════════════════════════════════════════════
+function buildCompound(rows) {
+  if (rows.length < 14) {
+    document.getElementById('comp-kpis').innerHTML='<div class="kpi"><div class="kpi-val">–</div><div class="kpi-lbl">Need 14+ days</div></div>';
+    return;
+  }
+
+  // Current metrics
+  const last30   = rows.slice(-30);
+  const last7    = rows.slice(-7);
+  const current  = mean(last7.map(r=>HABITS.filter(h=>isDone(r,h)).length/HABITS.length*100));
+  const momentum = mean(last30.map(r=>HABITS.filter(h=>isDone(r,h)).length/HABITS.length*100));
+  const trend    = current - momentum; // daily improvement rate (very small)
+
+  // Project forward: 6M (180d), 1Y (365d), 3Y (1095d)
+  const horizons = [
+    { label:'6 Months', days:180, color:'#d97706' },
+    { label:'1 Year',   days:365, color:'#2563eb' },
+    { label:'3 Years',  days:1095,color:'#7c3aed' },
+  ];
+
+  // Simple projection: compound consistency
+  // If consistency is C and improving at rate T per 30 days:
+  // projected = C + (T/30)*days, bounded [0,100]
+  function project(days) {
+    const monthlyGrowth = trend * (days/30);
+    return Math.round(clamp(momentum + monthlyGrowth * 0.3, 0, 100));
+  }
+
+  // KPIs
+  document.getElementById('comp-kpis').innerHTML = `
+    <div class="kpi"><div class="kpi-val" style="color:var(--disc)">${Math.round(current)}%</div>
+      <div class="kpi-lbl">Current 7D Avg</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--gold)">${project(180)}%</div>
+      <div class="kpi-lbl">6-Month Projection</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--smart)">${project(365)}%</div>
+      <div class="kpi-lbl">1-Year Projection</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--purple)">${project(1095)}%</div>
+      <div class="kpi-lbl">3-Year Projection</div></div>`;
+
+  // Canvas — historical + 3 projected lines
+  const hist = rows.map(r=>HABITS.filter(h=>isDone(r,h)).length/HABITS.length*100);
+  // 30-day rolling avg of history
+  const rolling = hist.map((_,i,arr)=>mean(arr.slice(Math.max(0,i-29),i+1)));
+
+  // Build projection lines from today
+  const projPoints = {};
+  horizons.forEach(h => {
+    const pts = [];
+    for (let d=0; d<=h.days; d+=7) {
+      pts.push(clamp(momentum + (trend/30)*d*0.3, 0, 100));
+    }
+    projPoints[h.label] = pts;
+  });
+
+  // Legend
+  document.getElementById('proj-legend').innerHTML = `
+    <div class="proj-leg-item"><div class="proj-leg-line" style="background:rgba(255,107,43,0.5)"></div>History (30d avg)</div>` +
+    horizons.map(h=>`<div class="proj-leg-item"><div class="proj-leg-line" style="background:${h.color};border-top:2px dashed ${h.color};background:none;width:22px;"></div>${h.label}</div>`).join('');
+
+  // Draw canvas
+  const canvas = document.getElementById('comp-canvas');
+  const ctx    = canvas.getContext('2d');
+  const W      = canvas.offsetWidth || 600;
+  const H      = 200;
+  canvas.width = W; canvas.height = H;
+  ctx.clearRect(0,0,W,H);
+
+  // Background grid
+  ctx.strokeStyle = '#252530'; ctx.lineWidth = 1;
+  [25,50,75,100].forEach(y => {
+    const py = H - (y/100)*H*0.85 - H*0.05;
+    ctx.beginPath(); ctx.moveTo(0,py); ctx.lineTo(W,py); ctx.stroke();
+    ctx.fillStyle='#3a3a4d'; ctx.font='9px DM Mono';
+    ctx.fillText(y+'%',3,py-2);
+  });
+
+  // History line
+  const histLen = rolling.length;
+  const histW   = W * 0.55; // 55% of canvas for history
+  ctx.beginPath(); ctx.strokeStyle='rgba(255,107,43,0.6)'; ctx.lineWidth=2;
+  rolling.forEach((v,i) => {
+    const x = (i/histLen)*histW;
+    const y = H - (v/100)*H*0.85 - H*0.05;
+    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+
+  // Projection lines
+  const projStartX = histW;
+  horizons.forEach(h => {
+    const pts = projPoints[h.label];
+    ctx.beginPath();
+    ctx.strokeStyle = h.color; ctx.lineWidth=2;
+    ctx.setLineDash([6,4]);
+    pts.forEach((v,i) => {
+      const x = projStartX + (i/(pts.length-1))*(W-projStartX);
+      const y = H - (v/100)*H*0.85 - H*0.05;
+      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+    ctx.setLineDash([]);
+    // End label
+    const lastV  = pts[pts.length-1];
+    const lastX  = W-4;
+    const lastY  = H - (lastV/100)*H*0.85 - H*0.05;
+    ctx.fillStyle=h.color; ctx.font='bold 9px DM Mono';
+    ctx.fillText(Math.round(lastV)+'%',lastX-26,lastY-4);
+  });
+
+  // Divider line
+  ctx.beginPath(); ctx.strokeStyle='rgba(255,255,255,0.12)'; ctx.lineWidth=1;
+  ctx.setLineDash([4,4]);
+  ctx.moveTo(projStartX,0); ctx.lineTo(projStartX,H); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='rgba(255,255,255,0.2)'; ctx.font='8px DM Mono';
+  ctx.fillText('TODAY →',projStartX+4,12);
+
+  // Per-habit projection bars
+  let barHtml = '';
+  HABITS.forEach(h => {
+    const hLast30 = last30.filter(r=>isDone(r,h)).length/last30.length*100;
+    const proj1Y  = Math.round(clamp(hLast30 + (trend/30)*365*0.15, 0, 100));
+    barHtml += `<div class="bar-row">
+      <div class="bar-lbl">${h.label}</div>
+      <div class="bar-track" style="position:relative;" title="Now: ${Math.round(hLast30)}% → 1Y: ${proj1Y}%">
+        <div style="position:absolute;height:100%;width:${proj1Y}%;background:rgba(255,107,43,0.12);top:0;left:0;border-radius:5px;"></div>
+        <div class="bar-fill" style="position:relative;width:${Math.round(hLast30)}%;background:rgba(255,107,43,0.55);z-index:1;"></div>
+      </div>
+      <div class="bar-val">${Math.round(hLast30)}% <span style="font-size:0.55rem;color:var(--text3)">→${proj1Y}%</span></div></div>`; 
+  });
+  const barsContainer = document.getElementById('comp-bars');
+  barsContainer.style.position='relative';
+  barsContainer.innerHTML = barHtml;
+
+  // Insights
+  const willImprove = trend > 2;
+  const plateau     = Math.abs(trend) <= 2;
+  document.getElementById('comp-insights').innerHTML = `
+    <div class="insight"><div class="insight-icon">${willImprove?'🚀':plateau?'➡️':'⚠️'}</div>
+      <div class="insight-body ${willImprove?'g':''}">
+        Based on your last 30 days, your trajectory is 
+        <strong>${willImprove?'improving':plateau?'holding steady':'declining'}</strong>.
+        At current rate, your 1-year consistency projection is <strong>${project(365)}%</strong>.
+      </div></div>
+    <div class="insight"><div class="insight-icon">💎</div>
+      <div class="insight-body au">
+        The gap between <strong>${Math.round(current)}%</strong> today and 
+        <strong>${project(365)}%</strong> in 1 year 
+        is ${project(365)-Math.round(current)} points — earned one logged day at a time.
+      </div></div>
+    <div class="insight"><div class="insight-icon">🌱</div>
+      <div class="insight-body b">
+        At 3 years of current consistency, your projected score is 
+        <strong>${project(1095)}%</strong>. That is the compound effect.
+      </div></div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  CANVAS LINE CHART HELPER
+// ══════════════════════════════════════════════════════════════
+function drawLineCanvas(id, series, opts={}) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const ctx  = canvas.getContext('2d');
+  const W    = canvas.offsetWidth || 500;
+  const H    = parseInt(canvas.getAttribute('height')) || 140;
+  canvas.width = W; canvas.height = H;
+  ctx.clearRect(0,0,W,H);
+
+  const allVals = series.flatMap(s=>s.data).filter(v=>v!==null&&v!==undefined);
+  if (!allVals.length) return;
+  const minV = Math.min(...allVals);
+  const maxV = Math.max(...allVals);
+  const range = maxV - minV || 1;
+
+  const toY = v => H - ((v-minV)/range)*H*0.82 - H*0.09;
+
+  // Grid
+  ctx.strokeStyle='#252530'; ctx.lineWidth=1;
+  [0,0.25,0.5,0.75,1].forEach(t => {
+    const y = H - t*H*0.82 - H*0.09;
+    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+  });
+
+  series.forEach(s => {
+    const n   = s.data.length;
+    if (!n) return;
+    const pts = s.data.map((v,i)=>({x:(i/(n-1||1))*W, y:toY(v)}));
+
+    if (s.fill) {
+      ctx.beginPath();
+      ctx.moveTo(pts[0].x, H);
+      pts.forEach(p=>ctx.lineTo(p.x,p.y));
+      ctx.lineTo(pts[pts.length-1].x, H);
+      ctx.closePath();
+      ctx.fillStyle = s.color.replace(')',',0.15)').replace('rgb','rgba').replace('var(--','rgba(99,99,');
+      ctx.fillStyle = s.color+'22';
+      ctx.fill();
+    }
+
+    ctx.beginPath();
+    ctx.strokeStyle = s.color; ctx.lineWidth = 2;
+    pts.forEach((p,i)=> i===0 ? ctx.moveTo(p.x,p.y) : ctx.lineTo(p.x,p.y));
+    ctx.stroke();
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+//  🧪 TEST DATA
+// ══════════════════════════════════════════════════════════════
+function loadTestData() {
+  const rows  = [];
+  const today = new Date();
+  const start = new Date(today.getFullYear(), 0, 1);
+  let nofap   = true;
+  const relapses = new Set([44,119,194,280]);
+  const cur   = new Date(start);
+  let doy     = 0;
+
+  while (cur <= today) {
+    const ds  = fmtDate(new Date(cur));
+    if (relapses.has(doy)) nofap = false;
+    else if (!nofap && Math.random()>0.92) nofap = true;
+
+    const r    = Math.random();
+    const dow  = cur.getDay();
+    const good = r > 0.18;
+    const great= r > 0.65;
+
+    rows.push({
+      'Date':            ds,
+      'Bed Time':        good?(great?'22:15':'22:55'):'00:10',
+      'Wake Time':       good?(great?'04:45':'05:15'):'06:30',
+      'SKY Mins':        good?(great?22:r>0.4?11:0):0,
+      'Meditation Mins': good?(great?18:r>0.45?8:0):0,
+      'Pranayama':       good&&r>0.28?'Yes':'No',
+      'Hand Exercise':   good&&r>0.35?'Yes':'No',
+      'NoFap':           nofap?'Yes':'No',
+      'Push Ups':        good?`${14+Math.floor(r*12)}+${11+Math.floor(r*8)}+${9+Math.floor(r*6)}`:'',
+      'Pull Ups':        good&&r>0.38?`${8+Math.floor(r*5)}+${6+Math.floor(r*4)}`:'',
+      'Plank Secs':      good?40+Math.floor(r*110):0,
+      'Workout':         good&&dow>0&&dow<6&&r>0.28?'Yes':'No',
+      'Reading Mins':    good?15+Math.floor(r*50):0,
+      'Screen Time':     good?'01:20':'03:50',
+      'Focus':           good?5+Math.floor(r*5):3,
+      'Mood':            good?5+Math.floor(r*5):4,
+      'Energy':          good?5+Math.floor(r*4):3,
+      'Water':           good?2+r*2:1,
+    });
+    cur.setDate(cur.getDate()+1);
+    doy++;
+  }
+
+  allRows = rows;
+  runAllEngines();
+  setStatus(`✓ ${rows.length} test rows`, true);
+}
+</script>
+</body>
+</html>

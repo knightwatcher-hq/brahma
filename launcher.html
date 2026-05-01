@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brahma Yantra OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;500;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #0a0010;
+      --card-bg: #0f0020;
+      --border: #2a1a4a;
+      --neon: #b347ff;
+      --neon-alt: #00f0ff;
+      --green: #10b981;
+      --gold: #f0a820;
+      --cyan: #00f0ff;
+      --text-main: #e0ddf0;
+      --text-muted: #6b5f8a;
+      --pillar-discipline: #ff5500;
+      --pillar-strong: #10b981;
+      --pillar-smart: #3b82f6;
+      --pillar-rich: #f0a820;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 50%, rgba(179, 71, 255, 0.08), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.05), transparent 25%);
+      background-size: 200% 200%;
+      animation: breathingBg 15s ease infinite;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .orbitron { font-family: 'Orbitron', sans-serif; }
+    .mono { font-family: 'DM Mono', monospace; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 10;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(10, 0, 16, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 15px 0;
+    }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-left { 
+      display: flex; 
+      align-items: center; 
+      gap: 15px; 
+    }
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid var(--neon);
+      box-shadow: 0 0 10px var(--neon);
+      object-fit: cover;
+      cursor: pointer;
+      background: var(--card-bg);
+      animation: pulseAvatar 3s infinite;
+    }
+    @media (max-width: 600px) {
+      .avatar { width: 52px; height: 52px; }
+    }
+
+    .header-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 0 10px var(--neon), 0 0 20px var(--neon);
+      letter-spacing: 2px;
+      animation: pulseText 4s infinite;
+    }
+    .header-subtitle {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+    .header-center {
+      font-size: 0.9rem;
+      color: var(--neon-alt);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .header-right { display: flex; align-items: center; gap: 15px; }
+
+    button {
+      background: none;
+      border: none;
+      color: var(--text-main);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn-icon {
+      font-size: 1.5rem;
+      transition: all 0.2s;
+    }
+    .btn-icon:hover {
+      text-shadow: 0 0 10px var(--neon);
+      transform: rotate(90deg);
+    }
+    .btn-ghost {
+      border: 1px solid var(--border);
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      color: var(--text-muted);
+      transition: all 0.2s;
+      background: rgba(0,0,0,0.3);
+    }
+    .btn-ghost:hover {
+      border-color: var(--neon);
+      color: var(--neon);
+      box-shadow: 0 0 10px rgba(179, 71, 255, 0.2);
+    }
+
+    .stats-container {
+      display: flex;
+      gap: 20px;
+      margin: 30px 0;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+    .stats-container::-webkit-scrollbar { height: 6px; }
+    .stats-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    
+    .stat-panel {
+      flex: 1;
+      min-width: 250px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    .stat-title {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+    .stat-sub {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--neon), var(--neon-alt), var(--neon));
+      background-size: 200% 100%;
+      width: 0%;
+      transition: width 1s ease-out;
+      box-shadow: 0 0 10px var(--neon);
+      animation: shimmerBar 3s linear infinite;
+    }
+
+    /* Habits Grid */
+    .dashboard-middle {
+      display: flex;
+      gap: 30px;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+    .habit-section {
+      flex: 2;
+      min-width: 300px;
+    }
+    .habit-section-heading {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin: 16px 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .habit-section-heading::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .habit-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .habit-label {
+      width: 90px;
+      font-family: 'DM Sans';
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .habit-squares {
+      display: flex;
+      gap: 3px;
+    }
+    .habit-square {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.06);
+    }
+    .habit-square.today {
+      border: 2px solid var(--neon);
+      animation: pulseBorder 2s infinite;
+    }
+    @media (max-width: 600px) {
+      .habit-square { width: 8px; height: 8px; }
+      .habit-label { width: 70px; font-size: 0.7rem; }
+    }
+
+    /* Calendar */
+    .calendar-section {
+      flex: 1;
+      min-width: 300px;
+    }
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      text-align: center;
+    }
+    .cal-day-label {
+      font-family: 'DM Mono';
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+    .calendar-day {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Mono';
+      font-size: 0.8rem;
+      border-radius: 4px;
+      margin: 0 auto;
+    }
+    .calendar-day.done {
+      background: rgba(179,71,255,0.3);
+      border: 1px solid var(--neon);
+      color: #fff;
+    }
+    .calendar-day.today {
+      border: 2px solid var(--neon);
+      color: var(--neon);
+      animation: pulseBorder 2s infinite;
+    }
+    .calendar-day.missed {
+      background: rgba(255,255,255,0.03);
+      color: var(--text-muted);
+    }
+
+    /* Skeletons */
+    .skeleton {
+      background: linear-gradient(90deg, var(--card-bg) 25%, var(--border) 50%, var(--card-bg) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 4px;
+    }
+    .skel-text { height: 20px; width: 60%; margin-bottom: 10px; }
+    .skel-title { height: 12px; width: 40%; margin-bottom: 15px; }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .mandala-section {
+      display: flex;
+      justify-content: center;
+      margin: 40px 0;
+      position: relative;
+    }
+    .mandala-wrapper {
+      position: relative;
+      width: 800px;
+      height: 300px;
+      max-width: 100%;
+    }
+    .mandala-canvas {
+      width: 100%;
+      height: 100%;
+      animation: rotateCanvas 120s linear infinite;
+    }
+    .mandala-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      pointer-events: none;
+    }
+    .mandala-level {
+      font-weight: bold;
+      font-size: 24px;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    }
+    .mandala-name {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    @keyframes rotateCanvas {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Freedom Countdowns */
+    .freedom-bar {
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      padding: 12px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin: 16px 0;
+    }
+    .freedom-bar .line1 { color: var(--text-main); margin-bottom: 4px; }
+    .freedom-bar .line2 { color: var(--neon); }
+
+    .category-section {
+      margin-bottom: 40px;
+    }
+    .category-header {
+      font-size: 1.2rem;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 1024px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+    
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: block;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .card:hover {
+      border-color: var(--neon);
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px rgba(179, 71, 255, 0.15), inset 0 0 10px rgba(179, 71, 255, 0.05);
+    }
+    .card-title {
+      font-size: 1.1rem;
+      color: #fff;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-bottom-line {
+      position: absolute;
+      bottom: 0; left: 0; width: 100%; height: 3px;
+      opacity: 0.8;
+    }
+
+    .card.special {
+      grid-column: span 2;
+      background: linear-gradient(135deg, var(--card-bg), #1a0b2e);
+    }
+    @media (max-width: 600px) { .card.special { grid-column: span 1; } }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--card-bg);
+      border: 1px solid var(--neon);
+      border-radius: 8px;
+      padding: 30px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 0 30px rgba(179, 71, 255, 0.2);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+    .modal-title { font-size: 1.2rem; color: #fff; }
+    .close-btn { font-size: 1.5rem; color: var(--text-muted); }
+    .close-btn:hover { color: #fff; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .form-input {
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--neon);
+    }
+    .btn-primary {
+      background: rgba(179, 71, 255, 0.2);
+      border: 1px solid var(--neon);
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 4px;
+      font-weight: bold;
+      transition: all 0.2s;
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .btn-primary:hover {
+      background: var(--neon);
+      box-shadow: 0 0 15px var(--neon);
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+      margin-right: 10px;
+      margin-top: 10px;
+    }
+    .btn-secondary:hover {
+      border-color: var(--text-main);
+      color: var(--text-main);
+    }
+    
+    .status-text {
+      font-size: 0.8rem;
+      margin-top: 5px;
+      display: inline-block;
+    }
+    .text-green { color: var(--green); }
+    .text-red { color: #ef4444; }
+
+    .theme-swatches { display: flex; gap: 10px; }
+    .swatch {
+      width: 30px; height: 30px; border-radius: 50%;
+      cursor: pointer; border: 2px solid transparent;
+    }
+    .swatch.active { border-color: #fff; }
+
+    a.link { color: var(--neon); text-decoration: none; }
+    a.link:hover { text-decoration: underline; }
+    
+    @media (max-width: 768px) {
+      .header-center { display: none; }
+    }
+
+    @keyframes pulseText {
+      0%, 100% { text-shadow: 0 0 10px var(--neon), 0 0 20px var(--neon); }
+      50% { text-shadow: 0 0 15px var(--neon), 0 0 35px var(--neon); }
+    }
+    @keyframes pulseAvatar {
+      0%, 100% { box-shadow: 0 0 10px var(--neon); }
+      50% { box-shadow: 0 0 25px var(--neon), inset 0 0 10px rgba(179, 71, 255, 0.2); }
+    }
+    @keyframes breathingBg {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    @keyframes shimmerBar {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    @keyframes pulseBorder {
+      0%, 100% { border-color: var(--neon); box-shadow: 0 0 5px transparent; }
+      50% { border-color: var(--neon-alt); box-shadow: 0 0 10px var(--neon-alt); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container header-content">
+      <div class="header-left">
+        <div style="position:relative;">
+          <img id="playerAvatar" class="avatar" alt="Avatar" onclick="document.getElementById('avatarUpload').click()" title="Change Avatar">
+          <input type="file" id="avatarUpload" style="display:none" accept="image/*" onchange="handleAvatarUpload(event)">
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <div class="header-title orbitron">BRAHMA YANTRA</div>
+          <div class="header-subtitle mono">SYSTEM v1.0</div>
+        </div>
+      </div>
+      <div class="header-center mono" id="headerDate">
+        THURSDAY · 30 APR 2026
+      </div>
+      <div class="header-right">
+        <button class="btn-ghost" onclick="loadCoreStats(true)" title="Load pure mock data without AppScript">🧪 Test Data</button>
+        <button class="btn-icon" onclick="openConfig()" title="System Config">⚙️</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="stats-container">
+      <div class="stat-panel" id="rankPanel"></div>
+      <div class="stat-panel" id="totalAmritsPanel"></div>
+      <div class="stat-panel" id="streakPanel"></div>
+      <div class="stat-panel" id="sankalpaPanel"></div>
+    </div>
+
+    <div class="dashboard-middle">
+      <div class="habit-section">
+        <div id="habitGridCore"></div>
+        <div id="habitGridDaily"></div>
+      </div>
+      <div class="calendar-section">
+        <div id="calendarMonth"></div>
+      </div>
+    </div>
+
+    <div class="mandala-section">
+      <div class="mandala-wrapper">
+        <canvas id="mandalaCanvas" width="800" height="300" class="mandala-canvas"></canvas>
+        <div class="mandala-overlay">
+          <div class="mandala-level orbitron" id="mandalaLevel">Lv.?</div>
+          <div class="mandala-name" id="mandalaName">Seeker</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="freedom-bar">
+      <div class="line1" id="freedomLine1"></div>
+      <div class="line2" id="freedomLine2"></div>
+    </div>
+
+    <div class="area-graph-container" style="position: relative; width: 800px; max-width: 100%; margin: 0 auto 40px;">
+      <canvas id="areaGraphCanvas" width="800" height="120" style="width: 100%; height: 120px;"></canvas>
+      <div style="position: absolute; bottom: 5px; left: 0; font-family: 'DM Mono'; font-size: 0.7rem; color: var(--text-muted);">30 DAYS</div>
+      <div style="position: absolute; bottom: 5px; right: 0; font-family: 'DM Mono'; font-size: 0.7rem; color: var(--neon);">TODAY</div>
+      <div style="position: absolute; top: 0; right: 0; font-family: 'Orbitron'; font-size: 1.5rem; font-weight: bold; color: #fff;" id="areaGraphScore"></div>
+    </div>
+
+    <div id="pageGrid"></div>
+
+  </main>
+
+  <!-- Config Modal -->
+  <div class="modal-overlay" id="configModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title orbitron">SYSTEM CONFIG</div>
+        <button class="close-btn" onclick="closeConfig()">×</button>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label orbitron">SYSTEM CORE URL</label>
+        <input type="text" class="form-input" id="scriptUrl" placeholder="https://script.google.com/...">
+        <div class="status-text" id="urlStatus"></div>
+        <button class="btn-primary" onclick="saveConfig()">CONNECT</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label orbitron">AMRIT START DATE</label>
+        <input type="date" class="form-input" id="amritDate">
+        <div class="form-label" style="margin-top:5px; text-transform:none;">Amrits only counted from this date onwards.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label orbitron">QUIT DATE (SBI)</label>
+        <input type="date" class="form-input" id="quitDate">
+        <div class="form-label" style="margin-top:5px; text-transform:none;">Your early freedom target.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label orbitron">PLAYER AVATAR</label>
+        <button class="btn-secondary" onclick="document.getElementById('avatarUpload').click()" style="width:100%; margin-top:0;">Upload Image</button>
+        <div class="form-label" style="margin-top:5px; text-transform:none;">Or drop avatar.png in /assets/ folder</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label orbitron">CACHE CONTROL</label>
+        <div>
+          <button class="btn-secondary" onclick="clearCache()">CLEAR ALL CACHE</button>
+          <button class="btn-secondary" onclick="forceRefresh()">FORCE REFRESH</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label orbitron">ACCENT COLOR</label>
+        <div class="theme-swatches">
+          <div class="swatch" id="swatch-purple" style="background:#b347ff" onclick="setAccentColor('purple')"></div>
+          <div class="swatch" id="swatch-cyan" style="background:#00f0ff" onclick="setAccentColor('cyan')"></div>
+          <div class="swatch" id="swatch-gold" style="background:#f0a820" onclick="setAccentColor('gold')"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- External Scripts (Fail-safe) -->
+  <script src="analytics.js"></script>
+  <script src="by-engine.js"></script>
+
+  <!-- Inline Core Logic -->
+  <script>
+    const PLACEHOLDER_SVG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="%230f0020"/><text x="50" y="55" font-family="Orbitron" font-size="40" fill="%236b5f8a" text-anchor="middle" dominant-baseline="middle">S</text></svg>';
+
+    const PAGES = [
+      // System Gates
+      { name:'Check-in',    url:'checkin.html',    icon:'📝', desc:'Log your daily stats and journal.', category:'tools' },
+      { name:'Habits',      url:'habits.html',     icon:'🟩', desc:'Track your daily habits and routines.', category:'tools' },
+      { name:'God Mode',    url:'godmode.html',    icon:'⚡', desc:'Enter deep work and flow state.', category:'tools' },
+      { name:'Oracle',      url:'oracle.html',     icon:'👁️', desc:'Review your life analytics and insights.', category:'tools' },
+
+      // The Four Pillars
+      { name:'Disciplined', url:'disciplined.html',icon:'🔥', desc:'Willpower, routines, and persistence.', category:'pillar', color:'orange' },
+      { name:'Strong',      url:'strong.html',     icon:'💪', desc:'Physical health, fitness, and energy.', category:'pillar', color:'green' },
+      { name:'Smart',       url:'smart.html',      icon:'🧠', desc:'Knowledge, skills, and intellect.', category:'pillar', color:'blue' },
+      { name:'Rich',        url:'rich.html',       icon:'💰', desc:'Wealth, resources, and value creation.', category:'pillar', color:'gold' },
+
+      // Rank Progression
+      { name:'Badges',      url:'badges.html',     icon:'🏆', desc:'Achievements and milestones unlocked.', category:'progression' },
+      { name:'Goals',       url:'goals.html',      icon:'🎯', desc:'Current targets and active quests.', category:'progression' },
+      { name:'Sankalpa',    url:'sankalpa.html',   icon:'🪬', desc:'Sacred intentions and rewards.', category:'progression' },
+      { name:'Amrits',      url:'amrits.html',     icon:'🪙', desc:'Your accumulated spiritual currency.', category:'progression' },
+
+      // Dungeon Floor
+      { name:'System Mandala', url:'overview.html',icon:'🌀', desc:'Complete view of the Brahma Yantra OS.', category:'special', isSpecial:true },
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initHeaderDate();
+      initAvatar();
+      setAccentColor(localStorage.getItem('by_accent') || 'purple');
+      renderPageGrid();
+      
+      // Auto open config if no URL
+      if (!localStorage.getItem('brahma_script_url') && !localStorage.getItem('brahma_config_seen')) {
+        localStorage.setItem('brahma_config_seen', 'true');
+        openConfig();
+        showErrorState("— CONNECT SYSTEM —");
+        drawEmptyMandala();
+      } else {
+        loadCoreStats();
+      }
+    });
+
+    function initHeaderDate() {
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-GB', { 
+        weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' 
+      }).toUpperCase().replace(',', ' ·');
+      document.getElementById('headerDate').textContent = dateStr;
+    }
+
+    function initAvatar() {
+      const av = localStorage.getItem('by_avatar') || '/assets/avatar.png';
+      const img = document.getElementById('playerAvatar');
+      img.onerror = () => { img.src = PLACEHOLDER_SVG; img.onerror = null; };
+      img.src = av;
+    }
+
+    function handleAvatarUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        localStorage.setItem('by_avatar', e.target.result);
+        initAvatar();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function renderPageGrid() {
+      const container = document.getElementById('pageGrid');
+      container.innerHTML = '';
+      
+      const categories = [
+        { id: 'tools', title: '⚔️ System Gates' },
+        { id: 'pillar', title: '🏛️ The Four Pillars' },
+        { id: 'progression', title: '📈 Rank Progression' },
+        { id: 'special', title: '🌀 Dungeon Floor' }
+      ];
+
+      categories.forEach(cat => {
+        const catPages = PAGES.filter(p => p.category === cat.id);
+        if (catPages.length === 0) return;
+
+        const catSection = document.createElement('div');
+        catSection.className = 'category-section';
+        catSection.innerHTML = `<div class="category-header orbitron">${cat.title}</div>`;
+        
+        const grid = document.createElement('div');
+        grid.className = 'grid';
+
+        catPages.forEach(page => {
+          const a = document.createElement('a');
+          a.href = page.url;
+          a.target = '_blank';
+          a.className = `card ${page.isSpecial ? 'special' : ''}`;
+          
+          let colorVar = 'var(--neon)';
+          if (page.color === 'orange') colorVar = 'var(--pillar-discipline)';
+          if (page.color === 'green') colorVar = 'var(--pillar-strong)';
+          if (page.color === 'blue') colorVar = 'var(--pillar-smart)';
+          if (page.color === 'gold') colorVar = 'var(--pillar-rich)';
+
+          a.innerHTML = `
+            <div class="card-title orbitron">
+              <span>${page.icon}</span> <span>${page.name}</span>
+            </div>
+            <div class="card-desc">${page.desc}</div>
+            <div class="card-bottom-line" style="background: linear-gradient(90deg, transparent, ${colorVar}, transparent);"></div>
+          `;
+          grid.appendChild(a);
+        });
+
+        catSection.appendChild(grid);
+        container.appendChild(catSection);
+      });
+    }
+
+    // Modal & Config
+    function openConfig() {
+      document.getElementById('configModal').classList.add('active');
+      const url = localStorage.getItem('brahma_script_url') || '';
+      document.getElementById('scriptUrl').value = url;
+      updateUrlStatus(url);
+      
+      document.getElementById('amritDate').value = localStorage.getItem('by_amrit_start') || '';
+      document.getElementById('quitDate').value = localStorage.getItem('by_quit_date') || '';
+
+      const accent = localStorage.getItem('by_accent') || 'purple';
+      setAccentColor(accent);
+    }
+
+    function closeConfig() {
+      document.getElementById('configModal').classList.remove('active');
+    }
+
+    function saveConfig() {
+      const url = document.getElementById('scriptUrl').value;
+      if (url && !url.startsWith('https://script.google.com')) {
+        alert("URL must start with https://script.google.com");
+        return;
+      }
+      localStorage.setItem('brahma_script_url', url);
+      
+      const date = document.getElementById('amritDate').value;
+      if (date) localStorage.setItem('by_amrit_start', date);
+
+      const quitDate = document.getElementById('quitDate').value;
+      if (quitDate) {
+        localStorage.setItem('by_quit_date', quitDate);
+      }
+
+      updateUrlStatus(url);
+      
+      if (url) {
+        closeConfig();
+        loadCoreStats();
+      } else {
+        renderFreedomCountdowns(); // In case just quit date changed
+      }
+    }
+
+    function updateUrlStatus(url) {
+      const statusEl = document.getElementById('urlStatus');
+      if (url && url.startsWith('https://script.google.com')) {
+        statusEl.innerHTML = '<span class="text-green">● Connected</span>';
+      } else {
+        statusEl.innerHTML = '<span class="text-red">○ Disconnected</span>';
+      }
+    }
+
+    function setAccentColor(color) {
+      const root = document.documentElement;
+      localStorage.setItem('by_accent', color);
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      
+      if (color === 'purple') {
+        root.style.setProperty('--neon', '#b347ff');
+        document.getElementById('swatch-purple').classList.add('active');
+      } else if (color === 'cyan') {
+        root.style.setProperty('--neon', '#00f0ff');
+        document.getElementById('swatch-cyan').classList.add('active');
+      } else if (color === 'gold') {
+        root.style.setProperty('--neon', '#f0a820');
+        document.getElementById('swatch-gold').classList.add('active');
+      }
+    }
+
+    function clearCache() {
+      localStorage.removeItem('by_cache_daily');
+      localStorage.removeItem('by_cache_discipline');
+      alert("Cache cleared.");
+    }
+
+    function forceRefresh() {
+      clearCache();
+      loadCoreStats();
+      closeConfig();
+    }
+
+    // Data Flow
+    async function loadCoreStats(useMock = false) {
+      showSkeletons();
+      
+      const url = localStorage.getItem('brahma_script_url');
+      
+      if (!url && !useMock) {
+        showErrorState("— CONNECT SYSTEM —");
+        drawEmptyMandala();
+        return;
+      }
+
+      try {
+        if (useMock) {
+          // Pure Mock Data Flow
+          await new Promise(r => setTimeout(r, 800)); // fake network delay
+          const dailyData = generateMockDailyData();
+          const habitsData = generateMockHabitsData();
+          
+          const stats = {
+            rank: { level: 3, name: "Disciplined", percent: 48, nextName: "Warrior" },
+            streak: { days: 47, status: "🔥 Unbroken" },
+            amrits: { total: 2847, earnRate: 15 },
+            pillars: { discipline: 75, strong: 60, smart: 85, rich: 40 }
+          };
+
+          renderStats(stats);
+          updateMandalaText(stats.rank.level, stats.rank.name);
+          drawMandala('mandalaCanvas', stats.pillars);
+          renderHabits(habitsData);
+          renderCalendar(dailyData);
+          renderAreaGraph(dailyData);
+          renderFreedomCountdowns();
+          return;
+        }
+
+        // AppScript Flow
+        if (typeof BY_ENGINE !== 'undefined' && typeof BY !== 'undefined') {
+          try {
+            const dailyData = await BY_ENGINE.getSheetData('daily');
+            const discData = await BY_ENGINE.getSheetData('discipline');
+            let habitsData = [];
+            try { habitsData = await BY_ENGINE.getSheetData('habits'); } catch(e) { console.warn("No habits data"); }
+            
+            const allDays = BY.calcAllDays(dailyData, discData);
+            const cumulativePoints = allDays.reduce((acc, d) => acc + (d.points || 0), 0);
+            const levelInfo = BY.calcLevel(cumulativePoints);
+            const streakInfo = BY.getNoFapStreak(discData);
+            const totalAmrits = allDays.reduce((acc, d) => acc + (d.amrits || 0), 0);
+            
+            const pillarScores = (typeof BY.getPillarScores === 'function') 
+              ? BY.getPillarScores(allDays) 
+              : { discipline: 50, strong: 50, smart: 50, rich: 50 };
+            
+            // Calculate 7-day average earn rate
+            const last7 = allDays.slice(-7);
+            const earnRate = last7.reduce((acc, d) => acc + (d.amrits || 0), 0) / (last7.length || 1);
+
+            const stats = {
+              rank: { 
+                level: levelInfo.level || 1, 
+                name: levelInfo.name || 'Seeker', 
+                percent: levelInfo.percent || 0, 
+                nextName: levelInfo.nextName || 'Novice' 
+              },
+              streak: { days: streakInfo.days || 0, status: streakInfo.status || 'Active' },
+              amrits: { total: totalAmrits || 0, earnRate: earnRate || 1 },
+              pillars: pillarScores
+            };
+
+            renderStats(stats);
+            updateMandalaText(stats.rank.level, stats.rank.name);
+            drawMandala('mandalaCanvas', stats.pillars);
+            renderHabits(habitsData);
+            renderCalendar(allDays);
+            renderAreaGraph(allDays);
+            renderFreedomCountdowns();
+          } catch (e) {
+            console.error("AppScript fetch failed:", e);
+            handleFetchError();
+          }
+        } else {
+          console.warn("BY_ENGINE or BY not found. Falling back to mock.");
+          loadCoreStats(true); // Fallback to mock
+        }
+        
+      } catch (err) {
+        console.error("General error:", err);
+        handleFetchError();
+      }
+    }
+
+    function generateMockDailyData() {
+      const today = new Date();
+      const res = [];
+      let score = 50;
+      for(let i=35; i>=0; i--) { 
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        score += (Math.random() * 10 - 4);
+        if (score > 100) score = 100;
+        if (score < 0) score = 0;
+        res.push({
+          date: d.toISOString(),
+          overall: score,
+          checkedIn: Math.random() > 0.2,
+          amrits: Math.floor(Math.random() * 20)
+        });
+      }
+      return res;
+    }
+
+    function generateMockHabitsData() {
+      const today = new Date();
+      const habits = ['SKY', 'Meditation', 'Push Ups', 'Pull Ups', 'Plank', 'Sleep 11PM', 'Wake 5AM', 'Pranayama', 'Hand Ex.', 'Disciplined', 'Reading', 'Workout'];
+      const res = [];
+      for(let i=0; i<30; i++) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        const dStr = d.toISOString().split('T')[0];
+        habits.forEach(h => {
+          res.push({ date: dStr, name: h, done: Math.random() > 0.3 ? 'Yes' : 'No' });
+        });
+      }
+      return res;
+    }
+
+    function renderStats(data) {
+      document.getElementById('rankPanel').innerHTML = `
+        <div class="stat-title orbitron">PLAYER RANK</div>
+        <div class="stat-value">Lv.${data.rank.level}</div>
+        <div class="stat-sub">${data.rank.name}</div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${data.rank.percent}%"></div></div>
+        <div class="stat-sub" style="margin-top:5px; font-size: 0.7rem;">${data.rank.percent}% → ${data.rank.nextName}</div>
+      `;
+      
+      document.getElementById('totalAmritsPanel').innerHTML = `
+        <div class="stat-title orbitron">TOTAL AMRITS</div>
+        <div class="stat-value">🪙 ${data.amrits.total.toLocaleString()}</div>
+        <div class="stat-sub">cumulative</div>
+      `;
+      
+      document.getElementById('streakPanel').innerHTML = `
+        <div class="stat-title orbitron">IRON WILL STREAK</div>
+        <div class="stat-value">${data.streak.days} DAYS</div>
+        <div class="stat-sub">${data.streak.status}</div>
+      `;
+      
+      renderSankalpaProgress(data.amrits.total, data.amrits.earnRate);
+    }
+
+    function renderSankalpaProgress(totalAmrits, earnRate) {
+      const sankalpasStr = localStorage.getItem('by_sankalpas');
+      const panel = document.getElementById('sankalpaPanel');
+      
+      const noSankalpaHTML = `
+        <div class="stat-title orbitron">NEXT SANKALPA</div>
+        <div class="stat-value">🪙 ${totalAmrits.toLocaleString()}</div>
+        <div class="stat-sub"><a href="sankalpa.html" target="_blank" class="link">Set a Sankalpa →</a></div>
+      `;
+
+      if (!sankalpasStr) {
+        panel.innerHTML = noSankalpaHTML;
+        return;
+      }
+      
+      try {
+        const sankalpas = JSON.parse(sankalpasStr);
+        const active = sankalpas.filter(s => s.active).sort((a,b) => a.cost - b.cost);
+        
+        if (active.length === 0) {
+          panel.innerHTML = noSankalpaHTML;
+          return;
+        }
+        
+        const target = active[0];
+        const remaining = Math.max(0, target.cost - totalAmrits);
+        const percent = Math.min(100, (totalAmrits / target.cost) * 100);
+        const daysLeft = earnRate > 0 ? Math.ceil(remaining / earnRate) : '?';
+        
+        panel.innerHTML = `
+          <div class="stat-title orbitron">NEXT SANKALPA</div>
+          <div class="stat-value">🪙 ${totalAmrits.toLocaleString()}</div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${percent}%"></div></div>
+          <div class="stat-sub" style="margin-top:5px; font-size: 0.75rem;">Next: ${target.name}</div>
+          <div class="stat-sub" style="font-size: 0.7rem;">${remaining} more · ~${daysLeft} days at current rate</div>
+        `;
+        
+      } catch (e) {
+        console.error("Error parsing sankalpas:", e);
+        panel.innerHTML = `
+          <div class="stat-title orbitron">NEXT SANKALPA</div>
+          <div class="stat-value">🪙 ${totalAmrits.toLocaleString()}</div>
+        `;
+      }
+    }
+
+    function renderHabits(habitsData) {
+      const coreHabits = ['SKY', 'Meditation', 'Push Ups', 'Pull Ups', 'Plank'];
+      const dailyHabits = ['Sleep 11PM', 'Wake 5AM', 'Pranayama', 'Hand Ex.', 'Disciplined', 'Reading', 'Workout'];
+
+      const getPillarColor = (name) => {
+        if (['Push Ups', 'Pull Ups', 'Plank', 'Workout'].includes(name)) return 'var(--pillar-strong)';
+        if (['Reading'].includes(name)) return 'var(--pillar-smart)';
+        return 'var(--pillar-discipline)';
+      };
+
+      const today = new Date();
+      const dates = [];
+      for(let i=29; i>=0; i--) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        dates.push(d.toISOString().split('T')[0]); 
+      }
+
+      const habitMap = {};
+      if (habitsData && habitsData.length > 0) {
+        habitsData.forEach(row => {
+          const d = new Date(row.Date || row.date);
+          if (!isNaN(d)) {
+            const dStr = d.toISOString().split('T')[0];
+            const name = row['Habit Name'] || row.name;
+            const done = (row.Done || row.done) === 'Yes';
+            if (!habitMap[name]) habitMap[name] = {};
+            habitMap[name][dStr] = done;
+          }
+        });
+      }
+
+      const buildHTML = (habitList, title) => {
+        let html = `<div class="habit-section-heading">${title}</div>`;
+        habitList.forEach(habit => {
+          const color = getPillarColor(habit);
+          html += `<div class="habit-row">
+            <div class="habit-label" title="${habit}">${habit}</div>
+            <div class="habit-squares">`;
+          
+          dates.forEach((dStr, idx) => {
+            const isToday = (idx === 29);
+            const done = habitMap[habit] && habitMap[habit][dStr];
+            let style = '';
+            let classes = 'habit-square';
+            if (done) {
+              classes += ' done';
+              style += `background: ${color}; box-shadow: 0 0 5px ${color};`;
+            }
+            if (isToday) classes += ' today';
+            html += `<div class="${classes}" style="${style}" title="${dStr}: ${done ? 'Done' : 'Missed'}"></div>`;
+          });
+          
+          html += `</div></div>`;
+        });
+        return html;
+      };
+
+      document.getElementById('habitGridCore').innerHTML = buildHTML(coreHabits, '━━━ CORE PRACTICES ━━━━━━━━━━━━━━━━━━━━━━━━━');
+      document.getElementById('habitGridDaily').innerHTML = buildHTML(dailyHabits, '━━━ DAILY PRACTICES ━━━━━━━━━━━━━━━━━━━━━━━━');
+    }
+
+    function renderCalendar(dailyData) {
+      const container = document.getElementById('calendarMonth');
+      
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth();
+      
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      
+      const monthName = firstDay.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+      
+      let html = `
+        <div class="calendar-header" style="text-align: right; font-family: 'Orbitron'; margin-bottom: 10px; color: var(--text-muted);">
+          ${monthName} ${year}
+        </div>
+        <div class="calendar-grid">
+          <div class="cal-day-label">Mo</div><div class="cal-day-label">Tu</div><div class="cal-day-label">We</div>
+          <div class="cal-day-label">Th</div><div class="cal-day-label">Fr</div><div class="cal-day-label">Sa</div><div class="cal-day-label">Su</div>
+      `;
+
+      const checkinMap = {};
+      if (dailyData) {
+        dailyData.forEach(row => {
+          const d = new Date(row.Date || row.date);
+          if (!isNaN(d)) {
+            checkinMap[d.toISOString().split('T')[0]] = row.checkedIn !== false;
+          }
+        });
+      }
+
+      let startDayOfWeek = firstDay.getDay(); 
+      if (startDayOfWeek === 0) startDayOfWeek = 7; 
+      const emptyDays = startDayOfWeek - 1; 
+
+      for (let i = 0; i < emptyDays; i++) {
+        html += `<div></div>`;
+      }
+
+      const todayStr = today.toISOString().split('T')[0];
+
+      for (let d = 1; d <= lastDay.getDate(); d++) {
+        const curD = new Date(year, month, d);
+        const dStr = curD.toISOString().split('T')[0];
+        const isToday = (dStr === todayStr);
+        const isFuture = (curD > today);
+        const isCheckedIn = checkinMap[dStr];
+
+        let classes = 'calendar-day';
+        if (isToday) classes += ' today';
+        if (!isFuture) {
+          if (isCheckedIn) classes += ' done';
+          else classes += ' missed';
+        }
+
+        html += `<div class="${classes}">${d}</div>`;
+      }
+
+      html += `</div>`;
+      container.innerHTML = html;
+    }
+
+    function renderFreedomCountdowns() {
+      const line1 = document.getElementById('freedomLine1');
+      const line2 = document.getElementById('freedomLine2');
+
+      const FREEDOM_DATE = new Date('2034-07-01');
+      const daysLeft1 = Math.ceil((FREEDOM_DATE - new Date()) / 86400000);
+      line1.innerHTML = `⏳ ${daysLeft1.toLocaleString()} days remaining · July 1, 2034`;
+
+      const quitDateStr = localStorage.getItem('by_quit_date');
+      if (quitDateStr) {
+        const quitDate = new Date(quitDateStr);
+        const daysLeft2 = Math.ceil((quitDate - new Date()) / 86400000);
+        line2.innerHTML = `🔥 ${daysLeft2.toLocaleString()} days to quit SBI`;
+      } else {
+        line2.innerHTML = `🔥 Set your quit date in ⚙️`;
+      }
+    }
+
+    function renderAreaGraph(allDays) {
+      const canvas = document.getElementById('areaGraphCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const last30 = [];
+      if (allDays && allDays.length > 0) {
+        last30.push(...allDays.slice(-30));
+      }
+
+      const scores = last30.map(d => d.overall || 0);
+      while(scores.length < 30) scores.unshift(0);
+
+      const ma7 = [];
+      for(let i=0; i<30; i++) {
+        let sum = 0;
+        let count = 0;
+        for(let j=Math.max(0, i-6); j<=i; j++) {
+          sum += scores[j];
+          count++;
+        }
+        ma7.push(sum/count);
+      }
+
+      const w = canvas.width;
+      const h = canvas.height;
+      const dx = w / 29;
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+      ctx.lineWidth = 1;
+      [0, 25, 50, 75, 100].forEach(val => {
+        const y = h - (val / 100) * h;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      });
+
+      const getC = (varName) => getComputedStyle(document.body).getPropertyValue(varName).trim();
+      const neon = getC('--neon') || '#b347ff';
+      const cyan = getC('--cyan') || '#00f0ff';
+      
+      ctx.beginPath();
+      ctx.moveTo(0, h);
+      for(let i=0; i<30; i++) {
+        const x = i * dx;
+        const y = h - (scores[i] / 100) * h;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(w, h);
+      ctx.closePath();
+
+      const gradient = ctx.createLinearGradient(0, 0, 0, h);
+      gradient.addColorStop(0, neon + '4D'); 
+      gradient.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      ctx.beginPath();
+      for(let i=0; i<30; i++) {
+        const x = i * dx;
+        const y = h - (scores[i] / 100) * h;
+        if (i===0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = neon;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.beginPath();
+      for(let i=0; i<30; i++) {
+        const x = i * dx;
+        const y = h - (ma7[i] / 100) * h;
+        if (i===0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = cyan;
+      ctx.setLineDash([5, 5]);
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.setLineDash([]); 
+
+      const lastScore = scores[29];
+      const lastY = h - (lastScore / 100) * h;
+      ctx.beginPath();
+      ctx.moveTo(w-1, 0);
+      ctx.lineTo(w-1, h);
+      ctx.strokeStyle = neon;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(w-1, lastY, 4, 0, Math.PI*2);
+      ctx.fillStyle = neon;
+      ctx.fill();
+
+      const scoreEl = document.getElementById('areaGraphScore');
+      if (scoreEl) scoreEl.textContent = Math.round(lastScore);
+    }
+
+    function handleFetchError() {
+      const cachedDaily = localStorage.getItem('by_cache_daily');
+      if (cachedDaily) {
+        // Fallback to mock data representation for cached state
+        const dailyData = generateMockDailyData();
+        const habitsData = generateMockHabitsData();
+        
+        const stats = {
+          rank: { level: 3, name: "Disciplined", percent: 48, nextName: "Warrior" },
+          streak: { days: 47, status: "🔥 Unbroken" },
+          amrits: { total: 2847, earnRate: 15 },
+          pillars: { discipline: 75, strong: 60, smart: 85, rich: 40 }
+        };
+
+        renderStats(stats);
+        addCachedWarning();
+        updateMandalaText(stats.rank.level, stats.rank.name);
+        drawMandala('mandalaCanvas', stats.pillars);
+        renderHabits(habitsData);
+        renderCalendar(dailyData);
+        renderAreaGraph(dailyData);
+        renderFreedomCountdowns();
+      } else {
+        showErrorState("— — —");
+        drawEmptyMandala();
+      }
+    }
+
+    function addCachedWarning() {
+      document.querySelectorAll('.stat-panel').forEach(p => {
+        if (!p.querySelector('.cached-badge')) {
+          p.insertAdjacentHTML('beforeend', '<div class="cached-badge" style="position:absolute; top:10px; right:10px; font-size:0.6rem; color:var(--gold); border:1px solid var(--gold); padding:2px 5px; border-radius:3px;">⚠️ CACHED</div>');
+        }
+      });
+    }
+
+    function showErrorState(msg) {
+      const panelIds = ['rankPanel', 'totalAmritsPanel', 'streakPanel', 'sankalpaPanel'];
+      const titles = ['PLAYER RANK', 'TOTAL AMRITS', 'IRON WILL STREAK', 'NEXT SANKALPA'];
+      
+      panelIds.forEach((id, idx) => {
+        const el = document.getElementById(id);
+        if(el) {
+          el.innerHTML = `
+            <div class="stat-title orbitron">${titles[idx]}</div>
+            <div class="stat-value" style="font-size:1.2rem;">${msg}</div>
+          `;
+        }
+      });
+    }
+
+    function showSkeletons() {
+      const skelHtml = `
+        <div class="stat-title orbitron skeleton skel-title"></div>
+        <div class="skeleton skel-text"></div>
+        <div class="skeleton skel-text" style="width:40%;"></div>
+        <div class="skeleton" style="width:100%; height:8px; margin-top:10px; border-radius:4px;"></div>
+      `;
+      ['rankPanel', 'totalAmritsPanel', 'streakPanel', 'sankalpaPanel'].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.innerHTML = skelHtml;
+      });
+    }
+
+    function updateMandalaText(level, name) {
+      const lvl = document.getElementById('mandalaLevel');
+      const n = document.getElementById('mandalaName');
+      if (lvl) lvl.textContent = `Lv.${level}`;
+      if (n) n.textContent = name;
+    }
+
+    function drawEmptyMandala() {
+      updateMandalaText('?', 'Unknown');
+      drawMandala('mandalaCanvas', { discipline: 0, strong: 0, smart: 0, rich: 0 });
+    }
+
+    function drawMandala(canvasId, scores) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+
+      const styles = getComputedStyle(document.body);
+      const getC = (varName) => styles.getPropertyValue(varName).trim();
+
+      const rings = [
+        { name: 'Discipline', color: getC('--pillar-discipline'), score: scores.discipline, radius: 120 },
+        { name: 'Strong',     color: getC('--pillar-strong'),     score: scores.strong,     radius: 95 },
+        { name: 'Smart',      color: getC('--pillar-smart'),      score: scores.smart,      radius: 70 },
+        { name: 'Rich',       color: getC('--pillar-rich'),       score: scores.rich,       radius: 45 },
+      ];
+
+      rings.forEach(ring => {
+        ctx.beginPath();
+        ctx.arc(cx, cy, ring.radius, 0, 2 * Math.PI);
+        ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+        ctx.lineWidth = 12;
+        ctx.stroke();
+
+        if (ring.score > 0) {
+          ctx.beginPath();
+          const percent = Math.min(100, Math.max(0, ring.score));
+          const endAngle = (percent / 100) * 2 * Math.PI - (Math.PI / 2);
+          ctx.arc(cx, cy, ring.radius, -Math.PI / 2, endAngle);
+          ctx.strokeStyle = ring.color;
+          ctx.lineWidth = 12;
+          ctx.lineCap = 'round';
+          
+          ctx.shadowColor = ring.color;
+          ctx.shadowBlur = 15;
+          ctx.stroke();
+          ctx.shadowBlur = 0; 
+        }
+      });
+    }
+  </script>
+</body>
+</html>

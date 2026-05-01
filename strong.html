@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brahma Yantra | Strong</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;1,600&family=Syne:wght@600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #08080a; --card: #16161e; --border: #252530;
+            --text: #fdf6ee; --muted: #a0a0ab; --dim: #5a5a6a;
+            --orange: #ff6b2b; --green: #059669; --blue: #2563eb;
+            --gold: #d97706; --purple: #7c3aed; --red: #dc2626;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'DM Sans', sans-serif;
+            --font-mono: 'DM Mono', monospace;
+            --font-display: 'Syne', sans-serif;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--bg); color:var(--text); font-family:var(--font-sans); line-height:1.5; padding:20px; max-width:960px; margin:0 auto; min-height:100vh; }
+        .header { display:flex; align-items:center; margin-bottom:24px; margin-top:10px; }
+        .back-btn { color:var(--muted); text-decoration:none; font-size:1.5rem; margin-right:20px; transition:color 0.2s; }
+        .back-btn:hover { color:var(--text); }
+        .title-group h1 { font-family:var(--font-serif); font-style:italic; font-size:2.4rem; color:var(--text); letter-spacing:1px; }
+        .title-group .subtitle { font-family:var(--font-mono); color:var(--muted); font-size:0.9rem; margin-top:4px; }
+        .sync-bar { display:flex; align-items:center; justify-content:flex-end; margin-bottom:20px; gap:12px; font-size:0.85rem; color:var(--muted); font-family:var(--font-mono); }
+        .sync-btn { background:var(--card); border:1px solid var(--border); color:var(--text); padding:6px 12px; border-radius:6px; cursor:pointer; font-family:var(--font-mono); display:flex; align-items:center; gap:6px; transition:all 0.2s; }
+        .sync-btn:hover { background:var(--border); }
+        .sage-btn { background:rgba(124,58,237,0.1); border:1px solid var(--purple); color:#c4b5fd; }
+        .sage-btn:hover { background:rgba(124,58,237,0.2); }
+        .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:24px; margin-bottom:16px; width:100%; }
+        .score-card { display:grid; grid-template-columns:1fr 2fr; gap:30px; align-items:center; }
+        .score-main { text-align:center; }
+        .score-val { font-family:var(--font-display); font-size:4rem; color:var(--text); line-height:1; }
+        .score-label { color:var(--muted); text-transform:uppercase; letter-spacing:2px; font-size:0.8rem; margin-top:8px; }
+        .score-avg { font-family:var(--font-mono); color:var(--dim); font-size:0.85rem; margin-top:4px; }
+        .score-breakdown { display:grid; grid-template-columns:repeat(2,1fr); gap:12px 20px; }
+        .breakdown-item { display:flex; flex-direction:column; gap:4px; }
+        .breakdown-header { display:flex; justify-content:space-between; font-size:0.8rem; color:var(--muted); }
+        .breakdown-bar-bg { height:6px; background:var(--bg); border-radius:3px; overflow:hidden; border:1px solid var(--border); }
+        .breakdown-bar-fill { height:100%; background:var(--orange); transition:width 0.5s; }
+        .chart-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; }
+        .chart-title { font-family:var(--font-serif); font-style:italic; font-size:1.4rem; margin-bottom:8px; }
+        .kpi-strip { display:flex; gap:24px; flex-wrap:wrap; }
+        .kpi { display:flex; flex-direction:column; }
+        .kpi-val { font-family:var(--font-display); font-size:1.4rem; }
+        .kpi-label { font-family:var(--font-mono); font-size:0.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+        .view-toggles { display:flex; gap:8px; background:var(--bg); padding:4px; border-radius:8px; border:1px solid var(--border); flex-shrink:0; }
+        .toggle-btn { background:transparent; border:none; color:var(--muted); padding:4px 12px; border-radius:4px; cursor:pointer; font-family:var(--font-mono); font-size:0.8rem; transition:all 0.2s; }
+        .toggle-btn.active { background:var(--orange); color:#08080a; font-weight:bold; }
+        .canvas-container { width:100%; overflow-x:auto; }
+        /* FIX: canvas must NOT have CSS width or min-height — dimensions set by JS only */
+        canvas { display:block; }
+        .test-btn { position:fixed; bottom:20px; right:20px; background:var(--card); border:1px solid var(--border); color:var(--text); padding:10px 16px; border-radius:8px; font-family:var(--font-mono); font-size:0.85rem; cursor:pointer; z-index:100; box-shadow:0 4px 12px rgba(0,0,0,0.5); }
+        .test-btn:hover { background:var(--border); }
+        .hidden { display:none !important; }
+        .message-box { text-align:center; padding:40px 20px; color:var(--muted); border:1px dashed var(--border); border-radius:12px; margin-bottom:20px; }
+        .empty-chart { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px; color:var(--muted); font-size:0.9rem; gap:8px; border:1px dashed var(--border); border-radius:8px; }
+        .empty-chart .empty-icon { font-size:2rem; }
+        .modal-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(8,8,10,0.85); backdrop-filter:blur(5px); display:flex; align-items:center; justify-content:center; z-index:1000; padding:20px; }
+        .modal-card { background:var(--card); border:1px solid var(--purple); box-shadow:0 0 30px rgba(124,58,237,0.2); border-radius:14px; padding:30px; max-width:600px; width:100%; position:relative; }
+        .modal-title { font-family:var(--font-serif); font-style:italic; font-size:1.8rem; color:var(--purple); margin-bottom:16px; }
+        .modal-close { position:absolute; top:20px; right:20px; background:none; border:none; color:var(--muted); font-size:1.5rem; cursor:pointer; }
+        .modal-close:hover { color:var(--text); }
+        @media(max-width:768px) {
+            .score-card { grid-template-columns:1fr; gap:20px; }
+            .chart-header { flex-direction:column; gap:16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <a href="launcher.html" class="back-btn">←</a>
+    <div class="title-group">
+        <h1>Incredibly Strong 💪</h1>
+        <div class="subtitle" id="header-date">--/--/----</div>
+    </div>
+</div>
+
+<div class="sync-bar">
+    <span id="sync-status">Last synced: Never</span>
+    <button class="sync-btn sage-btn" onclick="consultSage()">✨ Consult the Sage</button>
+    <button class="sync-btn" onclick="fetchData()">↻ Sync</button>
+</div>
+
+<!-- FIX BUG 3: setup-message hidden by default, hidden again on success -->
+<div id="setup-message" class="message-box hidden">
+    Script URL not set. Open <a href="launcher.html" style="color:var(--orange)">Launcher → Settings</a> to configure.
+</div>
+
+<div class="card score-card">
+    <div class="score-main">
+        <div class="score-val" id="score-today">—</div>
+        <div class="score-label">Strong Score</div>
+        <div class="score-avg" id="score-avg">7-Day Avg: —</div>
+    </div>
+    <div class="score-breakdown" id="score-breakdown"></div>
+</div>
+
+<!-- PUSH UPS -->
+<div class="card">
+    <div class="chart-header">
+        <div>
+            <div class="chart-title">Push Ups</div>
+            <div class="kpi-strip">
+                <div class="kpi"><span class="kpi-val" id="kpi-push-total">—</span><span class="kpi-label">Total Reps</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-push-best">—</span><span class="kpi-label">Best Day</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-push-avg">—</span><span class="kpi-label">7D Avg</span></div>
+            </div>
+        </div>
+        <div class="view-toggles" data-chart="push">
+            <button class="toggle-btn" data-val="7">7D</button>
+            <button class="toggle-btn active" data-val="30">30D</button>
+            <button class="toggle-btn" data-val="90">90D</button>
+            <button class="toggle-btn" data-val="all">All</button>
+        </div>
+    </div>
+    <div class="canvas-container" id="cont-push">
+        <canvas id="canvas-push"></canvas>
+    </div>
+</div>
+
+<!-- PULL UPS -->
+<div class="card">
+    <div class="chart-header">
+        <div>
+            <div class="chart-title">Pull Ups</div>
+            <div class="kpi-strip">
+                <div class="kpi"><span class="kpi-val" id="kpi-pull-total">—</span><span class="kpi-label">Total Reps</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-pull-best">—</span><span class="kpi-label">Best Day</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-pull-avg">—</span><span class="kpi-label">7D Avg</span></div>
+            </div>
+        </div>
+        <div class="view-toggles" data-chart="pull">
+            <button class="toggle-btn" data-val="7">7D</button>
+            <button class="toggle-btn active" data-val="30">30D</button>
+            <button class="toggle-btn" data-val="90">90D</button>
+            <button class="toggle-btn" data-val="all">All</button>
+        </div>
+    </div>
+    <div class="canvas-container" id="cont-pull">
+        <canvas id="canvas-pull"></canvas>
+    </div>
+</div>
+
+<!-- PLANK -->
+<div class="card">
+    <div class="chart-header">
+        <div>
+            <div class="chart-title">Plank</div>
+            <div class="kpi-strip">
+                <div class="kpi"><span class="kpi-val" id="kpi-plank-best">—</span><span class="kpi-label">Best</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-plank-avg">—</span><span class="kpi-label">7D Avg</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-plank-streak">—</span><span class="kpi-label">Streak (done)</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-plank-target">—</span><span class="kpi-label">Hit 60s</span></div>
+            </div>
+        </div>
+        <div class="view-toggles" data-chart="plank">
+            <button class="toggle-btn" data-val="7">7D</button>
+            <button class="toggle-btn active" data-val="30">30D</button>
+            <button class="toggle-btn" data-val="90">90D</button>
+            <button class="toggle-btn" data-val="all">All</button>
+        </div>
+    </div>
+    <div class="canvas-container" id="cont-plank">
+        <canvas id="canvas-plank"></canvas>
+    </div>
+</div>
+
+<!-- WATER -->
+<div class="card">
+    <div class="chart-header">
+        <div>
+            <div class="chart-title">Water Intake</div>
+            <div class="kpi-strip">
+                <div class="kpi"><span class="kpi-val" id="kpi-water-avg">—</span><span class="kpi-label">Daily Avg</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-water-best">—</span><span class="kpi-label">Best Day</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-water-hit">—</span><span class="kpi-label">Days Hit 3L</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-water-month">—</span><span class="kpi-label">This Month</span></div>
+            </div>
+        </div>
+        <div class="view-toggles" data-chart="water">
+            <button class="toggle-btn" data-val="7">7D</button>
+            <button class="toggle-btn active" data-val="30">30D</button>
+            <button class="toggle-btn" data-val="90">90D</button>
+            <button class="toggle-btn" data-val="all">All</button>
+        </div>
+    </div>
+    <div class="canvas-container" id="cont-water">
+        <canvas id="canvas-water"></canvas>
+    </div>
+</div>
+
+<!-- WEIGHT -->
+<div class="card">
+    <div class="chart-header">
+        <div>
+            <div class="chart-title">Weight Trend</div>
+            <div class="kpi-strip">
+                <div class="kpi"><span class="kpi-val" id="kpi-weight-cur">—</span><span class="kpi-label">Current</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-weight-chg" style="font-size:1.4rem">—</span><span class="kpi-label">Change</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-weight-min">—</span><span class="kpi-label">Lowest</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-weight-max">—</span><span class="kpi-label">Highest</span></div>
+            </div>
+        </div>
+        <div class="view-toggles" data-chart="weight">
+            <button class="toggle-btn" data-val="7">7D</button>
+            <button class="toggle-btn active" data-val="30">30D</button>
+            <button class="toggle-btn" data-val="90">90D</button>
+            <button class="toggle-btn" data-val="all">All</button>
+        </div>
+    </div>
+    <div class="canvas-container" id="cont-weight">
+        <canvas id="canvas-weight"></canvas>
+    </div>
+</div>
+
+<!-- WORKOUT HEATMAP -->
+<div class="card">
+    <div class="chart-header">
+        <div>
+            <div class="chart-title">Workout Activity</div>
+            <div class="kpi-strip">
+                <div class="kpi"><span class="kpi-val" id="kpi-heat-total">—</span><span class="kpi-label">Total Workouts</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-heat-month">—</span><span class="kpi-label">This Month</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-heat-streak">—</span><span class="kpi-label">Current Streak</span></div>
+                <div class="kpi"><span class="kpi-val" id="kpi-heat-best">—</span><span class="kpi-label">Best Streak</span></div>
+            </div>
+        </div>
+    </div>
+    <div style="display:flex;gap:12px;margin-bottom:12px;font-size:0.75rem;color:var(--muted);font-family:var(--font-mono)">
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;background:#059669;border-radius:2px;display:inline-block"></span>Workout</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;background:#2563eb;border-radius:2px;display:inline-block"></span>Cardio</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;background:#252530;border-radius:2px;display:inline-block"></span>Rest</span>
+    </div>
+    <div class="canvas-container" id="cont-heatmap" style="overflow-x:auto">
+        <canvas id="canvas-heatmap"></canvas>
+    </div>
+</div>
+
+<!-- SAGE MODAL -->
+<div id="sage-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+        <button class="modal-close" onclick="closeSageModal()">×</button>
+        <div class="modal-title">✨ The Sage Speaks</div>
+        <div id="sage-content" style="line-height:1.7;font-size:0.95rem;color:var(--muted)"></div>
+    </div>
+</div>
+
+<button class="test-btn" onclick="injectTestData()">🧪 Test Data</button>
+
+<script>
+'use strict';
+
+// ══════════════════════════════════════════════════════
+//  FIX BUG 2: SCRIPT_URL as function, not const
+//  Always reads fresh from localStorage
+// ══════════════════════════════════════════════════════
+function getScriptUrl() {
+    return localStorage.getItem('brahma_script_url') || '';
+}
+
+// ══════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════
+let rawDaily    = [];
+let rawWorkouts = [];
+let combinedData = [];
+const views = { push:30, pull:30, plank:30, water:30, weight:30 };
+let heatmapScrolled = false; // FIX BUG 7: only auto-scroll once
+
+// ══════════════════════════════════════════════════════
+//  COLOURS
+// ══════════════════════════════════════════════════════
+const C = {
+    bg:'#08080a', card:'#16161e', border:'#252530',
+    text:'#fdf6ee', muted:'#a0a0ab', dim:'#5a5a6a',
+    orange:'#ff6b2b', green:'#059669', blue:'#2563eb',
+    gold:'#d97706', purple:'#7c3aed', red:'#dc2626',
+    push: ['#1a1030','#2d1b69','#4c1d95','#7c3aed','#ff6b2b'],
+    pull: ['#1e3a5f','#1d4ed8','#2563eb','#3b82f6','#60a5fa'],
+};
+
+// ══════════════════════════════════════════════════════
+//  FIX BUG 10: roundRect polyfill for older browsers
+// ══════════════════════════════════════════════════════
+function roundRect(ctx, x, y, w, h, r) {
+    if (w < 0) w = 0;
+    if (h < 0) h = 0;
+    r = Math.min(r, w/2, h/2);
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.arcTo(x + w, y, x + w, y + r, r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+    ctx.lineTo(x + r, y + h);
+    ctx.arcTo(x, y + h, x, y + h - r, r);
+    ctx.lineTo(x, y + r);
+    ctx.arcTo(x, y, x + r, y, r);
+    ctx.closePath();
+    ctx.fill();
+}
+
+// ══════════════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════════════
+function parseDate(str) {
+    if (!str) return null;
+    // DD/MM/YYYY
+    let m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (m) return new Date(+m[3], +m[2]-1, +m[1]);
+    // YYYY-MM-DD fallback
+    m = str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (m) return new Date(+m[1], +m[2]-1, +m[3]);
+    return null;
+}
+
+function formatDate(d) {
+    return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+}
+
+function shortDate(str) {
+    // "22/03/2026" → "22/03"
+    return str ? str.substring(0,5) : '';
+}
+
+function parseSets(str) {
+    if (!str || typeof str !== 'string' || !str.trim()) return { parts:[], total:0, sets:0, best:0 };
+    const parts = str.split('+').map(s => parseInt(s.trim())).filter(n => !isNaN(n) && n > 0);
+    return {
+        parts,
+        total: parts.reduce((a,b) => a+b, 0),
+        sets:  parts.length,
+        best:  parts.length ? Math.max(...parts) : 0
+    };
+}
+
+function pad2(n) { return String(n).padStart(2,'0'); }
+
+// ══════════════════════════════════════════════════════
+//  CANVAS SETUP
+//  FIX BUG 4 & 5: Set dimensions ONLY via JS, never CSS
+// ══════════════════════════════════════════════════════
+function setupCanvas(canvasId, height) {
+    const canvas = document.getElementById(canvasId);
+    const container = canvas.parentElement;
+    canvas.width  = container.clientWidth || 800;
+    canvas.height = height;
+    // Explicitly clear any CSS sizing
+    canvas.style.width  = canvas.width  + 'px';
+    canvas.style.height = canvas.height + 'px';
+    return canvas.getContext('2d');
+}
+
+// ══════════════════════════════════════════════════════
+//  EMPTY STATE — rendered as HTML div, not canvas
+//  FIX BUG 1: removed ctx/canvas confusion entirely
+// ══════════════════════════════════════════════════════
+function showEmpty(containerId, msg) {
+    const cont = document.getElementById(containerId);
+    // Hide the canvas, show empty message
+    const canvas = cont.querySelector('canvas');
+    if (canvas) canvas.style.display = 'none';
+    // Remove old empty if exists
+    const old = cont.querySelector('.empty-chart');
+    if (old) old.remove();
+    const div = document.createElement('div');
+    div.className = 'empty-chart';
+    div.innerHTML = `<div class="empty-icon">💪</div><div>${msg}</div>`;
+    cont.appendChild(div);
+}
+
+function clearEmpty(containerId) {
+    const cont = document.getElementById(containerId);
+    const canvas = cont.querySelector('canvas');
+    if (canvas) canvas.style.display = 'block';
+    const old = cont.querySelector('.empty-chart');
+    if (old) old.remove();
+}
+
+// ══════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════
+document.getElementById('header-date').textContent = formatDate(new Date());
+
+// View toggles
+document.querySelectorAll('.view-toggles').forEach(group => {
+    const chart = group.dataset.chart;
+    group.querySelectorAll('.toggle-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+            group.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            const v = e.target.dataset.val;
+            views[chart] = v === 'all' ? 9999 : parseInt(v);
+            renderAll();
+        });
+    });
+});
+
+window.addEventListener('resize', () => {
+    if (combinedData.length > 0) renderAll();
+});
+
+// ══════════════════════════════════════════════════════
+//  DATA FETCH
+// ══════════════════════════════════════════════════════
+async function fetchData() {
+    const url = getScriptUrl(); // FIX BUG 2: always fresh
+    if (!url) {
+        document.getElementById('setup-message').classList.remove('hidden');
+        return;
+    }
+    document.getElementById('setup-message').classList.add('hidden'); // FIX BUG 3
+    document.getElementById('sync-status').textContent = 'Syncing…';
+
+    try {
+        const [dailyRes, workRes] = await Promise.all([
+            fetch(`${url}?tab=daily&t=${Date.now()}`).then(r => r.json()),
+            fetch(`${url}?tab=workouts&t=${Date.now()}`).then(r => r.json()),
+        ]);
+        if (dailyRes.status === 'ok')   rawDaily    = dailyRes.data   || [];
+        if (workRes.status === 'ok')    rawWorkouts = workRes.data    || [];
+        processData();
+        renderAll();
+        const now = new Date();
+        document.getElementById('sync-status').textContent =
+            `Synced ${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
+    } catch(err) {
+        console.error(err);
+        document.getElementById('sync-status').textContent = 'Sync failed';
+    }
+}
+
+// ══════════════════════════════════════════════════════
+//  PROCESS DATA
+//  FIX BUG 8: unified workout field, no workoutDaily confusion
+// ══════════════════════════════════════════════════════
+function processData() {
+    const map = new Map();
+
+    rawDaily.forEach(row => {
+        const d = parseDate(row['Date'] || row['date'] || '');
+        if (!d) return;
+        const key = formatDate(d);
+        if (!map.has(key)) map.set(key, { dateObj:d, dateStr:key });
+        const e = map.get(key);
+        e.water   = parseFloat(row['Water']   || row['water']   || 0) || 0;
+        e.weight  = parseFloat(row['Weight']  || row['weight']  || 0) || 0;
+        // FIX: unified workout flag from Daily tab
+        e.workoutFlag = (row['Workout'] || row['workout'] || '').toLowerCase() === 'yes';
+    });
+
+    rawWorkouts.forEach(row => {
+        const d = parseDate(row['Date'] || row['date'] || '');
+        if (!d) return;
+        const key = formatDate(d);
+        if (!map.has(key)) map.set(key, { dateObj:d, dateStr:key });
+        const e = map.get(key);
+        e.push   = parseSets(row['Push Ups']   || row['push_ups']   || '');
+        e.pull   = parseSets(row['Pull Ups']   || row['pull_ups']   || '');
+        e.plank  = parseInt(row['Plank Secs']  || row['plank_secs'] || 0) || 0;
+        e.cardio = (row['Cardio'] || row['cardio'] || '').toLowerCase() === 'yes';
+        // Workout: true if explicitly logged in workouts tab OR from daily flag
+        e.workout = e.workoutFlag || !!(row['Workout Type'] && row['Workout Type'].trim());
+    });
+
+    combinedData = Array.from(map.values()).sort((a,b) => a.dateObj - b.dateObj);
+}
+
+function getView(daysLimit) {
+    if (daysLimit === 9999) return combinedData;
+    return combinedData.slice(-daysLimit);
+}
+
+// ══════════════════════════════════════════════════════
+//  RENDER ALL
+// ══════════════════════════════════════════════════════
+function renderAll() {
+    updateScoreCard();
+    drawSegmented('canvas-push', 'cont-push', 'push', C.push, 80,  'kpi-push-total', 'kpi-push-best', 'kpi-push-avg', views.push);
+    drawSegmented('canvas-pull', 'cont-pull', 'pull', C.pull, 30,  'kpi-pull-total', 'kpi-pull-best', 'kpi-pull-avg', views.pull);
+    drawPlank();
+    drawWater();
+    drawWeight();
+    drawHeatmap();
+}
+
+// ══════════════════════════════════════════════════════
+//  SCORE CARD
+// ══════════════════════════════════════════════════════
+function calcStrongScore(day) {
+    if (!day) return 0;
+    let s = 0;
+    s += Math.min(((day.push?.total || 0) / 60) * 25, 25);
+    s += Math.min(((day.pull?.total || 0) / 20) * 15, 15);
+    s += Math.min(((day.plank      || 0) / 120) * 15, 15);
+    s += (day.workout || day.workoutFlag) ? 20 : 0;
+    s += Math.min(((day.water      || 0) / 3)   * 15, 15);
+    s += day.cardio ? 10 : 0;
+    return Math.round(s);
+}
+
+function updateScoreCard() {
+    if (!combinedData.length) return;
+    const today  = combinedData[combinedData.length - 1];
+    const last7  = getView(7);
+    const scores = last7.map(d => calcStrongScore(d));
+    const avg7   = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
+
+    document.getElementById('score-today').textContent = calcStrongScore(today);
+    document.getElementById('score-avg').textContent   = `7-Day Avg: ${avg7}`;
+
+    const items = [
+        { label:'Push Ups (25)',  val: Math.min(((today.push?.total||0)/60)*25,25),  max:25 },
+        { label:'Pull Ups (15)',  val: Math.min(((today.pull?.total||0)/20)*15,15),  max:15 },
+        { label:'Plank (15)',     val: Math.min(((today.plank||0)/120)*15,15),        max:15 },
+        { label:'Workout (20)',   val: (today.workout||today.workoutFlag) ? 20 : 0,   max:20 },
+        { label:'Water (15)',     val: Math.min(((today.water||0)/3)*15,15),          max:15 },
+        { label:'Cardio (10)',    val: today.cardio ? 10 : 0,                         max:10 },
+    ];
+
+    document.getElementById('score-breakdown').innerHTML = items.map(item => `
+        <div class="breakdown-item">
+            <div class="breakdown-header">
+                <span>${item.label}</span>
+                <span>${Math.round(item.val)} pts</span>
+            </div>
+            <div class="breakdown-bar-bg">
+                <div class="breakdown-bar-fill" style="width:${(item.val/item.max)*100}%"></div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ══════════════════════════════════════════════════════
+//  CHART: SEGMENTED HORIZONTAL BARS (Push-ups & Pull-ups)
+// ══════════════════════════════════════════════════════
+function drawSegmented(canvasId, contId, dataKey, colors, target, kpiTotal, kipBest, kpiAvg, daysLimit) {
+    const data = getView(daysLimit).filter(d => d[dataKey] && d[dataKey].total > 0);
+
+    if (!data.length) {
+        showEmpty(contId, 'No data yet — start logging in your daily check-in');
+        return;
+    }
+    clearEmpty(contId);
+
+    // KPIs
+    const allTime = combinedData.filter(d => d[dataKey] && d[dataKey].total > 0);
+    const total   = allTime.reduce((s,d) => s + d[dataKey].total, 0);
+    const best    = allTime.reduce((m,d) => Math.max(m, d[dataKey].total), 0);
+    // FIX BUG 6: divide by actual entries in last 7 days, not hardcoded 7
+    const last7   = getView(7).filter(d => d[dataKey] && d[dataKey].total > 0);
+    const avg7    = last7.length ? Math.round(last7.reduce((s,d)=>s+d[dataKey].total,0)/last7.length) : 0;
+
+    document.getElementById(kpiTotal).textContent = total;
+    document.getElementById(kipBest).textContent  = best;
+    document.getElementById(kpiAvg).textContent   = avg7;
+
+    // Canvas
+    const rowH = 28, gap = 6;
+    const height = data.length * (rowH + gap) + 40;
+    const ctx = setupCanvas(canvasId, height);
+    const W = ctx.canvas.width;
+    const PAD = { top:20, bottom:20, left:44, right:44 };
+    const drawW = W - PAD.left - PAD.right;
+    const maxReps = Math.max(...data.map(d=>d[dataKey].total), target);
+
+    ctx.clearRect(0, 0, W, height);
+
+    // Target line
+    const tx = PAD.left + (target / maxReps) * drawW;
+    ctx.save();
+    ctx.setLineDash([4,4]);
+    ctx.strokeStyle = dataKey === 'push' ? C.orange : C.blue;
+    ctx.globalAlpha = 0.5;
+    ctx.beginPath(); ctx.moveTo(tx, PAD.top); ctx.lineTo(tx, height - PAD.bottom); ctx.stroke();
+    ctx.restore();
+
+    // Target label
+    ctx.fillStyle = dataKey === 'push' ? C.orange : C.blue;
+    ctx.font = '10px DM Mono';
+    ctx.textAlign = 'center';
+    ctx.fillText(target + ' target', tx, PAD.top - 6);
+
+    data.forEach((d, i) => {
+        const y = PAD.top + i * (rowH + gap);
+
+        // Date label
+        ctx.fillStyle = C.muted;
+        ctx.font = '11px DM Mono';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(shortDate(d.dateStr), PAD.left - 4, y + rowH/2);
+
+        // Total label
+        ctx.textAlign = 'left';
+        ctx.fillText(d[dataKey].total, PAD.left + drawW + 4, y + rowH/2);
+
+        // Segments
+        let cx = PAD.left;
+        const scale = drawW / maxReps;
+
+        d[dataKey].parts.forEach((reps, si) => {
+            const segW = reps * scale;
+            const drawSegW = Math.max(1, si < d[dataKey].parts.length-1 ? segW - 4 : segW);
+            ctx.fillStyle = colors[Math.min(si, colors.length-1)];
+            roundRect(ctx, cx, y, drawSegW, rowH, 4); // FIX BUG 10: polyfill
+
+            // Rep count inside segment
+            if (drawSegW > 18) {
+                ctx.fillStyle = 'rgba(255,255,255,0.9)';
+                ctx.font = '10px DM Mono';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(reps, cx + drawSegW/2, y + rowH/2);
+            }
+            cx += segW;
+        });
+    });
+}
+
+// ══════════════════════════════════════════════════════
+//  CHART: PLANK
+// ══════════════════════════════════════════════════════
+function drawPlank() {
+    const data = getView(views.plank).filter(d => d.plank > 0);
+
+    if (!data.length) {
+        showEmpty('cont-plank', 'No plank data yet');
+        return;
+    }
+    clearEmpty('cont-plank');
+
+    const allTime = combinedData.filter(d => d.plank > 0);
+    const best    = allTime.reduce((m,d) => Math.max(m,d.plank), 0);
+    const last7   = getView(7).filter(d => d.plank > 0);
+    // FIX BUG 6: divide by last7.length, not 7
+    const avg7    = last7.length ? Math.round(last7.reduce((s,d)=>s+d.plank,0)/last7.length) : 0;
+    const hit60   = allTime.filter(d => d.plank >= 60).length;
+
+    // FIX BUG 13: streak = consecutive days where plank > 0 (any plank done, not just >=60)
+    let streak = 0;
+    for (let i = combinedData.length-1; i >= 0; i--) {
+        if (combinedData[i].plank > 0) streak++;
+        else break;
+    }
+
+    document.getElementById('kpi-plank-best').textContent   = best + 's';
+    document.getElementById('kpi-plank-avg').textContent    = avg7 + 's';
+    document.getElementById('kpi-plank-streak').textContent = streak;
+    document.getElementById('kpi-plank-target').textContent = hit60 + 'd';
+
+    const rowH = 28, gap = 6;
+    const height = data.length * (rowH + gap) + 40;
+    const ctx = setupCanvas('canvas-plank', height);
+    const W = ctx.canvas.width;
+    const PAD = { top:20, bottom:20, left:44, right:44 };
+    const drawW = W - PAD.left - PAD.right;
+    const target = 60;
+    const maxVal = Math.max(...data.map(d=>d.plank), target * 1.2);
+
+    ctx.clearRect(0, 0, W, height);
+
+    const tx = PAD.left + (target/maxVal)*drawW;
+    ctx.save();
+    ctx.setLineDash([4,4]);
+    ctx.strokeStyle = C.green;
+    ctx.globalAlpha = 0.5;
+    ctx.beginPath(); ctx.moveTo(tx, PAD.top); ctx.lineTo(tx, height-PAD.bottom); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle = C.green; ctx.font='10px DM Mono'; ctx.textAlign='center';
+    ctx.fillText('60s target', tx, PAD.top-6);
+
+    data.forEach((d, i) => {
+        const y = PAD.top + i * (rowH + gap);
+        ctx.fillStyle = C.muted; ctx.font='11px DM Mono';
+        ctx.textAlign='right'; ctx.textBaseline='middle';
+        ctx.fillText(shortDate(d.dateStr), PAD.left-4, y+rowH/2);
+        ctx.textAlign='left';
+        ctx.fillText(d.plank+'s', PAD.left+drawW+4, y+rowH/2);
+
+        const w = (d.plank/maxVal)*drawW;
+        ctx.fillStyle = d.plank >= target ? C.green : '#047857';
+        if (d.plank < target) ctx.globalAlpha = 0.6;
+        roundRect(ctx, PAD.left, y, w, rowH, 4);
+        ctx.globalAlpha = 1;
+    });
+}
+
+// ══════════════════════════════════════════════════════
+//  CHART: WATER
+// ══════════════════════════════════════════════════════
+function drawWater() {
+    const data = getView(views.water).filter(d => d.water > 0);
+
+    if (!data.length) {
+        showEmpty('cont-water', 'No water data yet');
+        return;
+    }
+    clearEmpty('cont-water');
+
+    const allTime  = combinedData.filter(d => d.water > 0);
+    const best     = allTime.reduce((m,d)=>Math.max(m,d.water),0);
+    const last7    = getView(7).filter(d=>d.water>0);
+    // FIX BUG 6: divide by actual count
+    const avg7     = last7.length ? (last7.reduce((s,d)=>s+d.water,0)/last7.length).toFixed(1) : 0;
+    const hit3     = allTime.filter(d=>d.water>=3).length; // FIX BUG 12: Days Hit 3L
+    const now      = new Date();
+    const monthData = combinedData.filter(d =>
+        d.dateObj.getMonth()===now.getMonth() && d.dateObj.getFullYear()===now.getFullYear()
+    );
+    const monthTotal = monthData.reduce((s,d)=>s+(d.water||0),0);
+
+    document.getElementById('kpi-water-avg').textContent   = avg7 + 'L';
+    document.getElementById('kpi-water-best').textContent  = best.toFixed(1) + 'L';
+    document.getElementById('kpi-water-hit').textContent   = hit3 + 'd';  // FIX BUG 12
+    document.getElementById('kpi-water-month').textContent = monthTotal.toFixed(1) + 'L';
+
+    const rowH = 28, gap = 6;
+    const height = data.length*(rowH+gap)+40;
+    const ctx = setupCanvas('canvas-water', height);
+    const W = ctx.canvas.width;
+    const PAD = {top:20,bottom:20,left:44,right:44};
+    const drawW = W-PAD.left-PAD.right;
+    const target = 3.0;
+    const maxVal = Math.max(...data.map(d=>d.water), target*1.2);
+
+    ctx.clearRect(0,0,W,height);
+
+    const tx = PAD.left+(target/maxVal)*drawW;
+    ctx.save(); ctx.setLineDash([4,4]); ctx.strokeStyle=C.muted; ctx.globalAlpha=0.5;
+    ctx.beginPath(); ctx.moveTo(tx,PAD.top); ctx.lineTo(tx,height-PAD.bottom); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle=C.muted; ctx.font='10px DM Mono'; ctx.textAlign='center';
+    ctx.fillText('3L target', tx, PAD.top-6);
+
+    data.forEach((d,i) => {
+        const y = PAD.top+i*(rowH+gap);
+        ctx.fillStyle=C.muted; ctx.font='11px DM Mono';
+        ctx.textAlign='right'; ctx.textBaseline='middle';
+        ctx.fillText(shortDate(d.dateStr), PAD.left-4, y+rowH/2);
+        ctx.textAlign='left';
+        ctx.fillText(d.water.toFixed(1)+'L', PAD.left+drawW+4, y+rowH/2);
+
+        const w = (d.water/maxVal)*drawW;
+        ctx.fillStyle = d.water>=3?C.green : d.water>=2?C.blue:'#1e3a5f';
+        roundRect(ctx, PAD.left, y, w, rowH, 4);
+    });
+}
+
+// ══════════════════════════════════════════════════════
+//  CHART: WEIGHT TREND (line chart)
+// ══════════════════════════════════════════════════════
+function drawWeight() {
+    const data = getView(views.weight).filter(d=>d.weight>0);
+
+    if (data.length < 2) {
+        showEmpty('cont-weight', data.length===1?'Need more weight entries':'No weight data yet');
+        return;
+    }
+    clearEmpty('cont-weight');
+
+    const weights = data.map(d=>d.weight);
+    const minW = Math.min(...weights), maxW = Math.max(...weights);
+    const curW = weights[weights.length-1], startW = weights[0];
+    const diff = (curW-startW).toFixed(1);
+
+    document.getElementById('kpi-weight-cur').textContent = parseFloat(curW).toFixed(1)+'kg';
+    document.getElementById('kpi-weight-min').textContent = parseFloat(minW).toFixed(1)+'kg';
+    document.getElementById('kpi-weight-max').textContent = parseFloat(maxW).toFixed(1)+'kg';
+    // FIX BUG 9: colour the change value
+    const chgEl = document.getElementById('kpi-weight-chg');
+    chgEl.textContent = (diff>0?'+':'')+diff+'kg';
+    chgEl.style.color = diff<0 ? '#059669' : diff>0 ? '#ff6b2b' : '#a0a0ab';
+
+    const ctx = setupCanvas('canvas-weight', 260);
+    const W = ctx.canvas.width;
+    const PAD = {top:30,bottom:30,left:44,right:20};
+    const drawW = W-PAD.left-PAD.right, drawH = 260-PAD.top-PAD.bottom;
+    const scaleMin=minW-2, scaleMax=maxW+2, rangeY=scaleMax-scaleMin;
+
+    ctx.clearRect(0,0,W,260);
+
+    // Grid lines
+    [0,.25,.5,.75,1].forEach(f=>{
+        const y = PAD.top+drawH-f*drawH;
+        ctx.strokeStyle=C.border; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.moveTo(PAD.left,y); ctx.lineTo(W-PAD.right,y); ctx.stroke();
+        ctx.fillStyle=C.muted; ctx.font='10px DM Mono'; ctx.textAlign='right'; ctx.textBaseline='middle';
+        ctx.fillText((scaleMin+f*rangeY).toFixed(1), PAD.left-6, y);
+    });
+
+    const pts = data.map((d,i)=>({
+        x: PAD.left+(data.length>1?(i/(data.length-1))*drawW:drawW/2),
+        y: PAD.top+drawH-((d.weight-scaleMin)/rangeY)*drawH,
+        d
+    }));
+
+    // Area fill
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, PAD.top+drawH);
+    pts.forEach(p=>ctx.lineTo(p.x,p.y));
+    ctx.lineTo(pts[pts.length-1].x, PAD.top+drawH);
+    ctx.fillStyle='rgba(217,119,6,0.08)'; ctx.fill();
+
+    // Line
+    ctx.beginPath(); ctx.moveTo(pts[0].x,pts[0].y);
+    pts.forEach(p=>ctx.lineTo(p.x,p.y));
+    ctx.strokeStyle=C.gold; ctx.lineWidth=2; ctx.stroke();
+
+    // 7D rolling avg
+    if (data.length>7) {
+        const avgPts=[];
+        for(let i=6;i<data.length;i++){
+            const sl=data.slice(i-6,i+1);
+            const av=sl.reduce((s,d)=>s+d.weight,0)/7;
+            avgPts.push({x:pts[i].x, y:PAD.top+drawH-((av-scaleMin)/rangeY)*drawH});
+        }
+        ctx.beginPath(); ctx.moveTo(avgPts[0].x,avgPts[0].y);
+        avgPts.forEach(p=>ctx.lineTo(p.x,p.y));
+        ctx.strokeStyle=C.muted; ctx.lineWidth=1;
+        ctx.save(); ctx.setLineDash([4,4]); ctx.stroke(); ctx.restore();
+    }
+
+    // Dots
+    pts.forEach(p=>{
+        ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2);
+        ctx.fillStyle=C.gold; ctx.fill();
+        ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2);
+        ctx.fillStyle=C.card; ctx.fill();
+    });
+
+    // X labels
+    ctx.fillStyle=C.muted; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.font='10px DM Mono';
+    pts.forEach((p,i)=>{
+        if(i===0||i===pts.length-1||i%7===0)
+            ctx.fillText(shortDate(p.d.dateStr),p.x,260-PAD.bottom+6);
+    });
+}
+
+// ══════════════════════════════════════════════════════
+//  CHART: WORKOUT HEATMAP
+// ══════════════════════════════════════════════════════
+function drawHeatmap() {
+    if (!combinedData.length) {
+        showEmpty('cont-heatmap','No data yet');
+        return;
+    }
+    clearEmpty('cont-heatmap');
+
+    const actMap={};
+    let total=0, monthTot=0, bestStreak=0, curStreak=0, tempStreak=0;
+    const now=new Date();
+
+    combinedData.forEach(d=>{
+        const active=d.workout||d.workoutFlag||d.cardio;
+        actMap[d.dateStr] = d.workout||d.workoutFlag ? 'workout' : d.cardio ? 'cardio' : 'rest';
+        if(active){
+            total++;
+            if(d.dateObj.getMonth()===now.getMonth()&&d.dateObj.getFullYear()===now.getFullYear()) monthTot++;
+        }
+    });
+
+    // Calculate streaks
+    for(let i=combinedData.length-1;i>=0;i--){
+        const d=combinedData[i];
+        if(d.workout||d.workoutFlag||d.cardio) curStreak++;
+        else break;
+    }
+    for(let i=0;i<combinedData.length;i++){
+        const d=combinedData[i];
+        if(d.workout||d.workoutFlag||d.cardio){ tempStreak++; bestStreak=Math.max(bestStreak,tempStreak); }
+        else tempStreak=0;
+    }
+
+    document.getElementById('kpi-heat-total').textContent  = total;
+    document.getElementById('kpi-heat-month').textContent  = monthTot;
+    document.getElementById('kpi-heat-streak').textContent = curStreak;
+    document.getElementById('kpi-heat-best').textContent   = bestStreak;
+
+    const cellS=14, cellGap=3;
+    const PAD={left:24,top:22,right:12};
+
+    // Start from first data date, Monday-aligned
+    let start=new Date(combinedData[0].dateObj);
+    while(start.getDay()!==1) start.setDate(start.getDate()-1);
+
+    const daysDiff=Math.ceil((now-start)/86400000);
+    const totalCols=Math.ceil(daysDiff/7)+1;
+    const requiredW=PAD.left+totalCols*(cellS+cellGap)+PAD.right;
+    const containerW=document.getElementById('cont-heatmap').clientWidth||800;
+    const canvasW=Math.max(containerW,requiredW);
+    const canvasH=PAD.top+7*(cellS+cellGap)+10;
+
+    const canvas=document.getElementById('canvas-heatmap');
+    canvas.width=canvasW; canvas.height=canvasH;
+    canvas.style.width=canvasW+'px'; canvas.style.height=canvasH+'px';
+    const ctx=canvas.getContext('2d');
+    ctx.clearRect(0,0,canvasW,canvasH);
+
+    // Day labels
+    ['M','','W','','F','',''].forEach((lbl,di)=>{
+        if(!lbl)return;
+        ctx.fillStyle=C.muted; ctx.font='9px DM Mono'; ctx.textAlign='right'; ctx.textBaseline='middle';
+        ctx.fillText(lbl, PAD.left-4, PAD.top+di*(cellS+cellGap)+cellS/2);
+    });
+
+    let cur=new Date(start), col=0;
+    while(cur<=now){
+        const dow=cur.getDay()===0?6:cur.getDay()-1;
+        const dStr=formatDate(cur);
+        const x=PAD.left+col*(cellS+cellGap);
+        const y=PAD.top+dow*(cellS+cellGap);
+
+        // Month label above first week of month
+        if(cur.getDate()<=7&&dow===0){
+            ctx.fillStyle=C.muted; ctx.font='9px DM Mono'; ctx.textAlign='left';
+            ctx.fillText(cur.toLocaleString('default',{month:'short'}),x,PAD.top-8);
+        }
+
+        const st=actMap[dStr]||'empty';
+        ctx.fillStyle=st==='workout'?C.green:st==='cardio'?C.blue:st==='rest'?'#1c1c26':'#12121a';
+        roundRect(ctx,x,y,cellS,cellS,2);
+
+        cur.setDate(cur.getDate()+1);
+        if(cur.getDay()===1) col++;
+    }
+
+    // FIX BUG 7: only auto-scroll on first render
+    if(!heatmapScrolled){
+        document.getElementById('cont-heatmap').scrollLeft=canvasW;
+        heatmapScrolled=true;
+    }
+}
+
+// ══════════════════════════════════════════════════════
+//  🧪 TEST DATA
+// ══════════════════════════════════════════════════════
+function injectTestData() {
+    rawDaily=[]; rawWorkouts=[];
+    heatmapScrolled=false;
+    const today=new Date();
+    let weight=74.0;
+
+    for(let i=30;i>=0;i--){
+        const d=new Date(today); d.setDate(today.getDate()-i);
+        const dStr=formatDate(d);
+        weight+=(Math.random()*0.2-0.1);
+
+        const isWorkout=Math.random()>0.3;
+        const water=(1.5+Math.random()*2.5).toFixed(1);
+
+        rawDaily.push({
+            'Date':    dStr,
+            'Water':   water,
+            'Weight':  weight.toFixed(1),
+            'Workout': isWorkout?'Yes':'No',
+        });
+
+        if(isWorkout){
+            const p1=15+Math.floor(Math.random()*10);
+            const p2=15+Math.floor(Math.random()*10);
+            const p3=10+Math.floor(Math.random()*7);
+            const p4=8+Math.floor(Math.random()*7);
+            rawWorkouts.push({
+                'Date':         dStr,
+                'Push Ups':     `${p1}+${p2}+${p3}+${p4}`,
+                'Pull Ups':     `${10+Math.floor(Math.random()*5)}+${8+Math.floor(Math.random()*5)}+${5+Math.floor(Math.random()*5)}`,
+                'Plank Secs':   String(Math.floor(Math.random()*60+30)),
+                'Workout Type': ['gym','home','run'][Math.floor(Math.random()*3)],
+                'Duration':     String(Math.floor(Math.random()*30+30)),
+                'Cardio':       Math.random()>0.6?'Yes':'No',
+            });
+        } else if(Math.random()>0.6){
+            rawWorkouts.push({
+                'Date':'', 'Push Ups':'', 'Pull Ups':'',
+                'Plank Secs':String(Math.floor(Math.random()*30+20)),
+                'Workout Type':'','Duration':'30','Cardio':'Yes',
+            });
+            // Fix date for cardio-only days
+            rawWorkouts[rawWorkouts.length-1]['Date']=dStr;
+        }
+    }
+    processData();
+    renderAll();
+}
+
+// ══════════════════════════════════════════════════════
+//  SAGE (AI) — BUG 11 NOTE: requires API key injection
+// ══════════════════════════════════════════════════════
+async function consultSage() {
+    const modal=document.getElementById('sage-modal');
+    const content=document.getElementById('sage-content');
+    modal.classList.remove('hidden');
+
+    if(!combinedData.length){
+        content.innerHTML='<em>The Sage needs data to see your path. Log some workouts first.</em>';
+        return;
+    }
+    content.innerHTML='<em>The Sage is meditating on your data…</em>';
+
+    const recent=getView(14).map(d=>({
+        date:shortDate(d.dateStr),
+        push:d.push?.total||0, pull:d.pull?.total||0,
+        plank:(d.plank||0)+'s', water:(d.water||0).toFixed(1)+'L',
+        workout:d.workout||d.workoutFlag?'Yes':'No'
+    }));
+
+    const prompt=`My last 14 days of fitness: ${JSON.stringify(recent)}.
+Write 2 short paragraphs:
+1. A philosophical observation on my discipline pattern.
+2. A specific actionable recommendation for my next session.
+Use HTML tags for formatting. No markdown symbols.`;
+
+    try {
+        const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=`;
+        const res=await fetch(url,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({
+                contents:[{parts:[{text:prompt}]}],
+                systemInstruction:{parts:[{text:'You are a monk-like fitness guide for Brahma Yantra. Be intense, philosophical, and actionable. No fluff.'}]}
+            })
+        });
+        const json=await res.json();
+        const text=json.candidates?.[0]?.content?.parts?.[0]?.text;
+        content.innerHTML=text||'<em>The Sage remains silent. (API key not configured)</em>';
+    } catch(e) {
+        content.innerHTML='<em>The Sage is unreachable. (API key not configured)</em>';
+    }
+}
+
+function closeSageModal(){
+    document.getElementById('sage-modal').classList.add('hidden');
+}
+
+// ══════════════════════════════════════════════════════
+//  BOOT
+// ══════════════════════════════════════════════════════
+fetchData();
+</script>
+</body>
+</html>
